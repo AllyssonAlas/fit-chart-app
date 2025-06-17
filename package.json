@@ -10,7 +10,10 @@
     "lint": "npx @biomejs/biome check",
     "lint:fix": "npm run lint -- --write",
     "prepare": "husky",
-    "test": "jest"
+    "test": "jest ",
+    "test:watch": "npm test -- --watch",
+    "test:staged": "npm test -- --findRelatedTests",
+    "test:ci": "npm test -- --coverage"
   },
   "dependencies": {
     "expo": "~53.0.10",
