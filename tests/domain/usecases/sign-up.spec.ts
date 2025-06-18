@@ -1,7 +1,7 @@
 import { type MockProxy, mock } from 'jest-mock-extended';
 
 import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
-import { EmailInUseError } from '@/domain/errors';
+import { EmailInUseError, UnexpectedError } from '@/domain/errors';
 import { type SignUp, setupSignUp } from '@/domain/usecases';
 
 describe('SignUp', () => {
@@ -58,5 +58,15 @@ describe('SignUp', () => {
     const promise = sut(input);
 
     await expect(promise).rejects.toThrow(new EmailInUseError());
+  });
+
+  it('Should throw UnexpectedError if HttpClient returns 500', async () => {
+    httpClient.request.mockResolvedValueOnce({
+      statusCode: HttpStatusCode.serverError,
+    });
+
+    const promise = sut(input);
+
+    await expect(promise).rejects.toThrow(new UnexpectedError());
   });
 });
