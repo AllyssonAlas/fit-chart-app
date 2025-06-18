@@ -1,4 +1,5 @@
-import type { HttpClient } from '@/domain/contracts/gateways';
+import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
+import { EmailInUseError } from '@/domain/errors';
 
 type Input = {
   name: string;
@@ -22,6 +23,17 @@ type Setup = (url: string, httpClient: HttpClient) => SignUp;
 
 export const setupSignUp: Setup = (url, httpClient) => {
   return async (input) => {
-    await httpClient.request({ url, method: 'post', params: input });
+    const { statusCode } = await httpClient.request({
+      url,
+      method: 'post',
+      params: input,
+    });
+
+    switch (statusCode) {
+      case HttpStatusCode.forbidden:
+        throw new EmailInUseError();
+      default:
+        return null;
+    }
   };
 };
