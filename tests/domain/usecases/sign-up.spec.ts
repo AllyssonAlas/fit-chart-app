@@ -1,5 +1,7 @@
 import { type MockProxy, mock } from 'jest-mock-extended';
-import type { HttpClient } from '@/domain/contracts/gateways';
+
+import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
+import { EmailInUseError } from '@/domain/errors';
 import { type SignUp, setupSignUp } from '@/domain/usecases';
 
 describe('SignUp', () => {
@@ -28,6 +30,9 @@ describe('SignUp', () => {
 
   beforeAll(() => {
     httpClient = mock();
+    httpClient.request.mockResolvedValue({
+      statusCode: HttpStatusCode.ok,
+    });
   });
 
   beforeEach(() => {
@@ -43,5 +48,15 @@ describe('SignUp', () => {
       params: input,
     });
     expect(httpClient.request).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should throw EmailInUseError if HttpClient returns 401', async () => {
+    httpClient.request.mockResolvedValueOnce({
+      statusCode: HttpStatusCode.forbidden,
+    });
+
+    const promise = sut(input);
+
+    await expect(promise).rejects.toThrow(new EmailInUseError());
   });
 });
