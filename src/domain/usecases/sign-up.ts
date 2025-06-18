@@ -1,5 +1,5 @@
 import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
-import { EmailInUseError } from '@/domain/errors';
+import { EmailInUseError, UnexpectedError } from '@/domain/errors';
 
 type Input = {
   name: string;
@@ -17,7 +17,7 @@ type Input = {
     complement?: string;
   };
 };
-type Output = void;
+type Output = any;
 export type SignUp = (input: Input) => Promise<Output>;
 type Setup = (url: string, httpClient: HttpClient) => SignUp;
 
@@ -30,10 +30,12 @@ export const setupSignUp: Setup = (url, httpClient) => {
     });
 
     switch (statusCode) {
+      case HttpStatusCode.ok:
+        return null;
       case HttpStatusCode.forbidden:
         throw new EmailInUseError();
       default:
-        return null;
+        throw new UnexpectedError();
     }
   };
 };

@@ -1,6 +1,7 @@
 export enum HttpStatusCode {
   ok = 200,
   forbidden = 403,
+  serverError = 500,
 }
 
 export interface HttpClient {
