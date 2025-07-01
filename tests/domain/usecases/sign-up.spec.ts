@@ -32,6 +32,11 @@ describe('SignUp', () => {
     httpClient = mock();
     httpClient.request.mockResolvedValue({
       statusCode: HttpStatusCode.ok,
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        authToken: 'any_token',
+      },
     });
   });
 
@@ -68,5 +73,15 @@ describe('SignUp', () => {
     const promise = sut(input);
 
     await expect(promise).rejects.toThrow(new UnexpectedError());
+  });
+
+  it('Should return correct output on success', async () => {
+    const result = await sut(input);
+
+    expect(result).toEqual({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      authToken: 'any_token',
+    });
   });
 });
