@@ -60,4 +60,13 @@ describe('AxiosHttpClient', () => {
 
     expect(output).toEqual({ body: 'any_data', statusCode: 403 });
   });
+
+  it('Should rethrow error if axios throw', async () => {
+    const error = new Error('axios_client_error');
+    fakeAxios.request.mockRejectedValueOnce(error);
+
+    const promise = sut.request(input);
+
+    await expect(promise).rejects.toThrow(error);
+  });
 });
