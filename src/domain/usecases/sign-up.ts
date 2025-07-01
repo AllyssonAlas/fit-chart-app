@@ -26,7 +26,7 @@ export const setupSignUp: Setup = (url, httpClient) => {
     const { statusCode, body } = await httpClient.request({
       url,
       method: 'post',
-      params: input,
+      body: input,
     });
     switch (statusCode) {
       case HttpStatusCode.ok:

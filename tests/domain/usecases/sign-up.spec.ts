@@ -50,7 +50,7 @@ describe('SignUp', () => {
     expect(httpClient.request).toHaveBeenCalledWith({
       url,
       method: 'post',
-      params: input,
+      body: input,
     });
     expect(httpClient.request).toHaveBeenCalledTimes(1);
   });

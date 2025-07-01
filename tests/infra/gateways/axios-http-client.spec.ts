@@ -8,7 +8,7 @@ describe('AxiosHttpClient', () => {
   const input = {
     url: 'any_url',
     method: 'post',
-    params: { any: 'any' },
+    body: { any: 'any' },
   };
 
   let sut: AxiosHttpClient;
@@ -28,7 +28,7 @@ describe('AxiosHttpClient', () => {
     expect(fakeAxios.request).toHaveBeenCalledWith({
       url: 'any_url',
       method: 'post',
-      params: { any: 'any' },
+      body: { any: 'any' },
     });
     expect(fakeAxios.request).toHaveBeenCalledTimes(1);
   });
