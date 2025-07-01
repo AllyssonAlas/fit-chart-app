@@ -50,4 +50,14 @@ describe('AxiosHttpClient', () => {
       body: { any: 'any' },
     });
   });
+
+  it('Should return correct output on http error', async () => {
+    fakeAxios.request.mockRejectedValueOnce({
+      response: { data: 'any_data', status: HttpStatusCode.forbidden },
+    });
+
+    const output = await sut.request(input);
+
+    expect(output).toEqual({ body: 'any_data', statusCode: 403 });
+  });
 });
