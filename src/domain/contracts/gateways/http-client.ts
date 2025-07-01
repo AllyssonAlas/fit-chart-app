@@ -11,7 +11,7 @@ export interface HttpClient {
 export namespace HttpClient {
   export type Input = {
     url: string;
-    method: 'post';
+    method: string;
     params: any;
   };
 
