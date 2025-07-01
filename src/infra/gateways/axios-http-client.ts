@@ -8,7 +8,8 @@ export class AxiosHttpClient implements HttpClient {
     try {
       response = await axios.request(input);
     } catch (error) {
-      response = error.response;
+      if (error.response) response = error.response;
+      else throw error;
     }
     return {
       body: response.data,
