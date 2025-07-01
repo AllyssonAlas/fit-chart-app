@@ -17,21 +17,20 @@ type Input = {
     complement?: string;
   };
 };
-type Output = any;
+type Output = { name: string; email: string; authToken: string };
 export type SignUp = (input: Input) => Promise<Output>;
 type Setup = (url: string, httpClient: HttpClient) => SignUp;
 
 export const setupSignUp: Setup = (url, httpClient) => {
   return async (input) => {
-    const { statusCode } = await httpClient.request({
+    const { statusCode, body } = await httpClient.request({
       url,
       method: 'post',
       params: input,
     });
-
     switch (statusCode) {
       case HttpStatusCode.ok:
-        return null;
+        return body;
       case HttpStatusCode.forbidden:
         throw new EmailInUseError();
       default:
