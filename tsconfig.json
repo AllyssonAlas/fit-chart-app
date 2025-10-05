@@ -8,16 +8,27 @@
     ],
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
     "jsx": "react",
-    "rootDirs": ["src", "tests"],
+    "rootDirs": [
+      "src",
+      "tests"
+    ],
     "baseUrl": "src",
     "paths": {
-      "@/*": ["*"],
-      "@/tests/*": ["../tests/*"]
+      "@/*": [
+        "*"
+      ],
+      "@/tests/*": [
+        "../tests/*"
+      ]
     },
     "allowJs": true,
     "resolveJsonModule": true
   },
-  "include": ["src", "index", "tests"],
+  "include": [
+    "src",
+    "index",
+    "tests"
+  ],
+  "extends": "expo/tsconfig.base"
 }
