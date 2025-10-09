@@ -16,6 +16,7 @@
     "test:ci": "npm test -- --coverage"
   },
   "dependencies": {
+    "@react-native-vector-icons/material-design-icons": "^12.3.0",
     "axios": "^1.10.0",
     "expo": "~53.0.10",
     "expo-status-bar": "~2.2.3",
