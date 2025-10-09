@@ -1,21 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
+// biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-unistyles';
+
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SignUp } from './presentation/screens/SignUp';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <SignUp />
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
