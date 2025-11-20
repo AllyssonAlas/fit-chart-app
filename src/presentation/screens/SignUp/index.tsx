@@ -1,9 +1,9 @@
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Input } from '@/presentation/components';
+import { Button, Input } from '@/presentation/components';
 
 import { styles } from './styles';
 
@@ -48,9 +48,7 @@ export const SignUp = () => {
               secureTextEntry
             />
           </View>
-          <TouchableOpacity style={styles.continueButton}>
-            <Text style={styles.continueButtonText}>Continue</Text>
-          </TouchableOpacity>
+          <Button title={'Continue'} />
         </View>
       </View>
     </SafeAreaView>

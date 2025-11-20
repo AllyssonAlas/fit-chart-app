@@ -37,18 +37,4 @@ export const styles = StyleSheet.create(() => ({
   formSection: {
     marginBottom: 32,
   },
-  continueButton: {
-    alignItems: 'center',
-    backgroundColor: 'rgba(215, 4, 4, 1)',
-    borderRadius: 16,
-    height: 56,
-    justifyContent: 'center',
-    marginBottom: 32,
-  },
-  continueButtonText: {
-    color: 'rgba(255, 255, 255, 1)',
-    fontSize: 16,
-    fontWeight: '600',
-    letterSpacing: 0.32,
-  },
 }));
