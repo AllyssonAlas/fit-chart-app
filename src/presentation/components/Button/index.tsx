@@ -21,8 +21,9 @@ export const Button = ({
 }: ButtonProps) => {
   return (
     <TouchableOpacity
-      style={[styles.button, disabled && styles.buttonDisabled, style]}
       disabled={disabled}
+      style={[styles.button, disabled && styles.buttonDisabled, style]}
+      testID={'submit-button'}
       {...touchableOpacityProps}
     >
       <Text style={[styles.buttonText, disabled && styles.buttonTextDisabled]}>

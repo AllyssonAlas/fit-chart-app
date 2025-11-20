@@ -67,7 +67,11 @@ export const Input = ({
           </TouchableOpacity>
         )}
       </View>
-      {!!error && <Text style={styles.errorText}>{error}</Text>}
+      {!!error && (
+        <Text style={styles.errorText} testID={`${name}-input-error`}>
+          {error}
+        </Text>
+      )}
     </View>
   );
 };

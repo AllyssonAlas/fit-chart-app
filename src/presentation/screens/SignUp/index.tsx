@@ -1,5 +1,5 @@
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -8,6 +8,13 @@ import { Button, Input } from '@/presentation/components';
 import { styles } from './styles';
 
 export const SignUp = () => {
+  const [state] = useState({
+    nameError: '',
+    emailError: '',
+    passwordError: '',
+    confirmPasswordError: '',
+  });
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -20,35 +27,47 @@ export const SignUp = () => {
           </View>
           <View style={styles.formSection}>
             <Input
-              label={'Name'}
-              icon={'account-circle'}
-              placeholder={'Name'}
               autoCapitalize={'words'}
+              error={state.nameError}
+              icon={'account-circle'}
+              label={'Name'}
+              name={'name'}
+              placeholder={'Name'}
             />
             <Input
-              label={'Email'}
-              icon={'email'}
-              placeholder={'Email'}
-              keyboardType={'email-address'}
               autoCapitalize={'none'}
               autoCorrect={false}
+              error={state.emailError}
+              icon={'email'}
+              keyboardType={'email-address'}
+              label={'Email'}
+              name={'email'}
+              placeholder={'Email'}
             />
             <Input
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              error={state.passwordError}
+              icon={'lock'}
+              isPasswordInput
+              keyboardType={'visible-password'}
               label={'Password'}
-              icon={'lock'}
-              isPasswordInput
+              name={'password'}
               placeholder={'Enter your password'}
-              secureTextEntry
             />
             <Input
-              label={'Confirm Password'}
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              error={state.confirmPasswordError}
               icon={'lock'}
               isPasswordInput
+              keyboardType={'visible-password'}
+              label={'Confirm Password'}
+              name={'confirm-password'}
               placeholder={'Confirm Password'}
-              secureTextEntry
             />
           </View>
-          <Button title={'Continue'} />
+          <Button title={'Continue'} disabled />
         </View>
       </View>
     </SafeAreaView>
