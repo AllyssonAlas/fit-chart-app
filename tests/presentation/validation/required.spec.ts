@@ -1,5 +1,5 @@
-import { RequiredFieldError } from '@/presentation/errors';
-import { Required } from '@/presentation/validation';
+import { RequiredEmailError, RequiredFieldError } from '@/presentation/errors';
+import { Required, RequiredEmail } from '@/presentation/validation';
 
 describe('Required', () => {
   it('Should return error if field value is empty', () => {
@@ -41,5 +41,18 @@ describe('Required', () => {
     const error = sut.validate({ any_field: 'any_value' });
 
     expect(error).toBeUndefined();
+  });
+});
+
+describe('RequiredEmail ', () => {
+  it('Should return error if field value is not a valid email', () => {
+    const sut = new RequiredEmail('any_field');
+
+    const error = sut.validate({ any_field: 'invalid_email' });
+
+    expect(error).toEqual({
+      field: 'any_field',
+      error: new RequiredEmailError(),
+    });
   });
 });
