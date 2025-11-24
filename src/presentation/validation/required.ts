@@ -11,10 +11,13 @@ export class Required implements Validation {
   }
 }
 
-export class RequiredEmail {
+export class RequiredEmail implements Validation {
   constructor(readonly field: string) {}
 
-  validate(input: object): { field: string; error: Error } {
-    return { field: this.field, error: new RequiredEmailError() };
+  validate(input: object): { field: string; error: Error } | undefined {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regex.test(input[this.field])) {
+      return { field: this.field, error: new RequiredEmailError() };
+    }
   }
 }
