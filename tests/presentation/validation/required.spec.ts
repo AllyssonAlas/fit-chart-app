@@ -34,4 +34,12 @@ describe('Required', () => {
       error: new RequiredFieldError('any_field'),
     });
   });
+
+  it('Should return undefined if valid value is provided', () => {
+    const sut = new Required('any_field');
+
+    const error = sut.validate({ any_field: 'any_value' });
+
+    expect(error).toBeUndefined();
+  });
 });
