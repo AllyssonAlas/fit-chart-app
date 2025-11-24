@@ -44,7 +44,7 @@ describe('Required', () => {
   });
 });
 
-describe('RequiredEmail ', () => {
+describe('RequiredEmail', () => {
   it('Should return error if field value is not a valid email', () => {
     const sut = new RequiredEmail('any_field');
 
@@ -54,5 +54,13 @@ describe('RequiredEmail ', () => {
       field: 'any_field',
       error: new RequiredEmailError(),
     });
+  });
+
+  it('Should return undefined if valid value is provided', () => {
+    const sut = new RequiredEmail('any_field');
+
+    const error = sut.validate({ any_field: 'valid_email@example.com' });
+
+    expect(error).toBeUndefined();
   });
 });
