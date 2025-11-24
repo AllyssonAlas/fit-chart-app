@@ -4,3 +4,10 @@ export class RequiredFieldError extends Error {
     this.name = 'FieldError';
   }
 }
+
+export class RequiredEmailError extends Error {
+  constructor() {
+    super('O campo precisa ser um email válido');
+    this.name = 'RequiredEmailError';
+  }
+}
