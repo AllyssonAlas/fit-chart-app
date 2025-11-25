@@ -84,4 +84,12 @@ describe('RequiredMinLength', () => {
       error: new RequiredMinLengthError(5),
     });
   });
+
+  it('Should return undefined if valid value is provided', () => {
+    const sut = new RequiredMinLength('any_field', 5);
+
+    const error = sut.validate({ any_field: '12345' });
+
+    expect(error).toBeUndefined();
+  });
 });
