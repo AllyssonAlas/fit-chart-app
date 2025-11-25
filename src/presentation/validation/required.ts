@@ -46,16 +46,21 @@ export class RequiredMinLength implements Validation {
   }
 }
 
-export class RequiredEqualFields {
+export class RequiredEqualFields implements Validation {
   constructor(
     readonly field: string,
     readonly fieldToCompare: string,
   ) {}
 
-  validate(input: object): { field: string; error: Error } {
-    return {
-      field: this.field,
-      error: new RequiredEqualFieldsError(this.fieldToCompare),
-    };
+  validate(input: object): { field: string; error: Error } | undefined {
+    if (
+      input[this.field as keyof typeof input] !==
+      input[this.fieldToCompare as keyof typeof input]
+    ) {
+      return {
+        field: this.field,
+        error: new RequiredEqualFieldsError(this.fieldToCompare),
+      };
+    }
   }
 }
