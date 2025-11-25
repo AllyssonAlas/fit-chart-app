@@ -107,4 +107,12 @@ describe('RequiredEqualFields', () => {
       error: new RequiredEqualFieldsError('any_field_2'),
     });
   });
+
+  it('Should return undefined if fields are equal', () => {
+    const sut = new RequiredEqualFields('any_field', 'any_field_2');
+
+    const error = sut.validate({ any_field: '12345', any_field_2: '12345' });
+
+    expect(error).toBeUndefined();
+  });
 });
