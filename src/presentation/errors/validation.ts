@@ -11,3 +11,10 @@ export class RequiredEmailError extends Error {
     this.name = 'RequiredEmailError';
   }
 }
+
+export class RequiredMinLengthError extends Error {
+  constructor(minLength: number) {
+    super(`O campo precisa ter no mínimo ${minLength} caracteres`);
+    this.name = 'RequiredMinLengthError';
+  }
+}

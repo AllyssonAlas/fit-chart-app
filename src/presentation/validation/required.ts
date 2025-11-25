@@ -1,4 +1,8 @@
-import { RequiredEmailError, RequiredFieldError } from '@/presentation/errors';
+import {
+  RequiredEmailError,
+  RequiredFieldError,
+  RequiredMinLengthError,
+} from '@/presentation/errors';
 import type { Validation } from '@/presentation/protocols';
 
 export class Required implements Validation {
@@ -19,5 +23,19 @@ export class RequiredEmail implements Validation {
     if (!regex.test(input[this.field as keyof typeof input])) {
       return { field: this.field, error: new RequiredEmailError() };
     }
+  }
+}
+
+export class RequiredMinLength {
+  constructor(
+    readonly field: string,
+    readonly minLength: number,
+  ) {}
+
+  validate(input: object): { field: string; error: Error } {
+    return {
+      field: this.field,
+      error: new RequiredMinLengthError(this.minLength),
+    };
   }
 }
