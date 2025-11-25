@@ -16,27 +16,35 @@ export class Required implements Validation {
   }
 }
 
-export class RequiredEmail implements Validation {
-  constructor(readonly field: string) {}
+export class RequiredEmail extends Required {
+  constructor(override readonly field: string) {
+    super(field);
+  }
 
   validate(input: object): { field: string; error: Error } | undefined {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!regex.test(input[this.field as keyof typeof input])) {
+    if (
+      super.validate(input[this.field as keyof typeof input]) &&
+      !regex.test(input[this.field as keyof typeof input])
+    ) {
       return { field: this.field, error: new RequiredEmailError() };
     }
   }
 }
 
-export class RequiredMinLength implements Validation {
+export class RequiredMinLength extends Required {
   constructor(
-    readonly field: string,
+    override readonly field: string,
     readonly minLength: number,
-  ) {}
+  ) {
+    super(field);
+  }
 
   validate(input: object): { field: string; error: Error } | undefined {
     if (
+      super.validate(input[this.field as keyof typeof input]) &&
       (input[this.field as keyof typeof input] as string).length <
-      this.minLength
+        this.minLength
     ) {
       return {
         field: this.field,
@@ -46,16 +54,19 @@ export class RequiredMinLength implements Validation {
   }
 }
 
-export class RequiredEqualFields implements Validation {
+export class RequiredEqualFields extends Required {
   constructor(
-    readonly field: string,
+    override readonly field: string,
     readonly fieldToCompare: string,
-  ) {}
+  ) {
+    super(field);
+  }
 
   validate(input: object): { field: string; error: Error } | undefined {
     if (
+      super.validate(input[this.field as keyof typeof input]) &&
       input[this.field as keyof typeof input] !==
-      input[this.fieldToCompare as keyof typeof input]
+        input[this.fieldToCompare as keyof typeof input]
     ) {
       return {
         field: this.field,
