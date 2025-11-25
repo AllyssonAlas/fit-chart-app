@@ -1,5 +1,6 @@
 import {
   RequiredEmailError,
+  RequiredEqualFieldsError,
   RequiredFieldError,
   RequiredMinLengthError,
 } from '@/presentation/errors';
@@ -42,5 +43,19 @@ export class RequiredMinLength implements Validation {
         error: new RequiredMinLengthError(this.minLength),
       };
     }
+  }
+}
+
+export class RequiredEqualFields {
+  constructor(
+    readonly field: string,
+    readonly fieldToCompare: string,
+  ) {}
+
+  validate(input: object): { field: string; error: Error } {
+    return {
+      field: this.field,
+      error: new RequiredEqualFieldsError(this.fieldToCompare),
+    };
   }
 }

@@ -18,3 +18,10 @@ export class RequiredMinLengthError extends Error {
     this.name = 'RequiredMinLengthError';
   }
 }
+
+export class RequiredEqualFieldsError extends Error {
+  constructor(field: string) {
+    super(`Este campo deve ser igual ao campo ${field}`);
+    this.name = 'RequiredEqualFieldsError';
+  }
+}
