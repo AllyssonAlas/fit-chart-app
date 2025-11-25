@@ -1,4 +1,4 @@
-import axios, { type AxiosResponse } from 'axios';
+import axios, { AxiosError, type AxiosResponse } from 'axios';
 
 import type { HttpClient } from '@/domain/contracts/gateways';
 
@@ -8,7 +8,8 @@ export class AxiosHttpClient implements HttpClient {
     try {
       response = await axios.request(input);
     } catch (error) {
-      if (error.response) response = error.response;
+      if (error instanceof AxiosError && error.response)
+        response = error.response;
       else throw error;
     }
     return {

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError, AxiosHeaders } from 'axios';
 
 import { HttpStatusCode } from '@/domain/contracts/gateways';
 import { AxiosHttpClient } from '@/infra/gateways';
@@ -11,7 +11,6 @@ describe('AxiosHttpClient', () => {
     method: 'post',
     body: { any: 'any' },
   };
-  1;
 
   let sut: AxiosHttpClient;
   let fakeAxios: jest.Mocked<typeof axios>;
@@ -52,9 +51,22 @@ describe('AxiosHttpClient', () => {
   });
 
   it('Should return correct output on http error', async () => {
-    fakeAxios.request.mockRejectedValueOnce({
-      response: { data: 'any_data', status: HttpStatusCode.forbidden },
-    });
+    const headers = new AxiosHeaders();
+    const config = { url: 'any_url', headers };
+    const error = new AxiosError(
+      'error_message',
+      HttpStatusCode.forbidden.toString(),
+      config,
+      null,
+    );
+    error.response = {
+      status: 403,
+      data: 'any_data',
+      statusText: 'forbidden',
+      headers,
+      config,
+    };
+    fakeAxios.request.mockRejectedValueOnce(error);
 
     const output = await sut.request(input);
 

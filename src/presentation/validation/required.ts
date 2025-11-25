@@ -5,7 +5,7 @@ export class Required implements Validation {
   constructor(readonly field: string) {}
 
   validate(input: object): { field: string; error: Error } | undefined {
-    if (!input[this.field]) {
+    if (!input[this.field as keyof typeof input]) {
       return { field: this.field, error: new RequiredFieldError(this.field) };
     }
   }
@@ -16,7 +16,7 @@ export class RequiredEmail implements Validation {
 
   validate(input: object): { field: string; error: Error } | undefined {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!regex.test(input[this.field])) {
+    if (!regex.test(input[this.field as keyof typeof input])) {
       return { field: this.field, error: new RequiredEmailError() };
     }
   }
