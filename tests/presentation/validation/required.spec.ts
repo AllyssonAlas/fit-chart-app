@@ -55,6 +55,12 @@ describe('Required', () => {
 });
 
 describe('RequiredEmail', () => {
+  it('Should be instance of Required', () => {
+    const sut = new RequiredEmail('any_field');
+
+    expect(sut).toBeInstanceOf(Required);
+  });
+
   it('Should return error if field value is not a valid email', () => {
     const sut = new RequiredEmail('any_field');
 
@@ -76,6 +82,12 @@ describe('RequiredEmail', () => {
 });
 
 describe('RequiredMinLength', () => {
+  it('Should be instance of Required', () => {
+    const sut = new RequiredMinLength('any_field', 5);
+
+    expect(sut).toBeInstanceOf(Required);
+  });
+
   it('Should return error if field value is not a valid email', () => {
     const sut = new RequiredMinLength('any_field', 5);
 
@@ -97,6 +109,12 @@ describe('RequiredMinLength', () => {
 });
 
 describe('RequiredEqualFields', () => {
+  it('Should be instance of Required', () => {
+    const sut = new RequiredEqualFields('any_field', 'any_field_2');
+
+    expect(sut).toBeInstanceOf(Required);
+  });
+
   it('Should return error if fields are not equal', () => {
     const sut = new RequiredEqualFields('any_field', 'any_field_2');
 
