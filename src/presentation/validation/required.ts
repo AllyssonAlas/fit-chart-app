@@ -26,16 +26,21 @@ export class RequiredEmail implements Validation {
   }
 }
 
-export class RequiredMinLength {
+export class RequiredMinLength implements Validation {
   constructor(
     readonly field: string,
     readonly minLength: number,
   ) {}
 
-  validate(input: object): { field: string; error: Error } {
-    return {
-      field: this.field,
-      error: new RequiredMinLengthError(this.minLength),
-    };
+  validate(input: object): { field: string; error: Error } | undefined {
+    if (
+      (input[this.field as keyof typeof input] as string).length <
+      this.minLength
+    ) {
+      return {
+        field: this.field,
+        error: new RequiredMinLengthError(this.minLength),
+      };
+    }
   }
 }
