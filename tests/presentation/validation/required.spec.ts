@@ -1,5 +1,13 @@
-import { RequiredEmailError, RequiredFieldError } from '@/presentation/errors';
-import { Required, RequiredEmail } from '@/presentation/validation';
+import {
+  RequiredEmailError,
+  RequiredFieldError,
+  RequiredMinLengthError,
+} from '@/presentation/errors';
+import {
+  Required,
+  RequiredEmail,
+  RequiredMinLength,
+} from '@/presentation/validation';
 
 describe('Required', () => {
   it('Should return error if field value is empty', () => {
@@ -62,5 +70,18 @@ describe('RequiredEmail', () => {
     const error = sut.validate({ any_field: 'valid_email@example.com' });
 
     expect(error).toBeUndefined();
+  });
+});
+
+describe('RequiredMinLength', () => {
+  it('Should return error if field value is not a valid email', () => {
+    const sut = new RequiredMinLength('any_field', 5);
+
+    const error = sut.validate({ any_field: '1234' });
+
+    expect(error).toEqual({
+      field: 'any_field',
+      error: new RequiredMinLengthError(5),
+    });
   });
 });
