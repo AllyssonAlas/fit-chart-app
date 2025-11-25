@@ -1,11 +1,13 @@
 import {
   RequiredEmailError,
+  RequiredEqualFieldsError,
   RequiredFieldError,
   RequiredMinLengthError,
 } from '@/presentation/errors';
 import {
   Required,
   RequiredEmail,
+  RequiredEqualFields,
   RequiredMinLength,
 } from '@/presentation/validation';
 
@@ -91,5 +93,18 @@ describe('RequiredMinLength', () => {
     const error = sut.validate({ any_field: '12345' });
 
     expect(error).toBeUndefined();
+  });
+});
+
+describe('RequiredEqualFields', () => {
+  it('Should return error if fields are not equal', () => {
+    const sut = new RequiredEqualFields('any_field', 'any_field_2');
+
+    const error = sut.validate({ any_field: '12345', any_field_2: '123456' });
+
+    expect(error).toEqual({
+      field: 'any_field',
+      error: new RequiredEqualFieldsError('any_field_2'),
+    });
   });
 });
