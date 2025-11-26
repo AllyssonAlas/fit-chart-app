@@ -1,4 +1,9 @@
-export interface Validation {
+export type ValidatorError = {
   field: string;
-  validate(input: object): { field: string; error: Error } | undefined;
+  error: Error;
+};
+
+export interface Validator {
+  field: string;
+  validate(input: object): ValidatorError | undefined;
 }

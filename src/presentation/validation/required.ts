@@ -4,12 +4,12 @@ import {
   RequiredFieldError,
   RequiredMinLengthError,
 } from '@/presentation/errors';
-import type { Validation } from '@/presentation/protocols';
+import type { Validator } from '@/presentation/protocols';
 
-export class Required implements Validation {
+export class Required implements Validator {
   constructor(readonly field: string) {}
 
-  validate(input: object): { field: string; error: Error } | undefined {
+  validate(input: object) {
     if (!input[this.field as keyof typeof input]) {
       return { field: this.field, error: new RequiredFieldError(this.field) };
     }
@@ -21,7 +21,7 @@ export class RequiredEmail extends Required {
     super(field);
   }
 
-  validate(input: object): { field: string; error: Error } | undefined {
+  validate(input: object) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (
       super.validate(input[this.field as keyof typeof input]) &&
@@ -40,7 +40,7 @@ export class RequiredMinLength extends Required {
     super(field);
   }
 
-  validate(input: object): { field: string; error: Error } | undefined {
+  validate(input: object) {
     if (
       super.validate(input[this.field as keyof typeof input]) &&
       (input[this.field as keyof typeof input] as string).length <
@@ -62,7 +62,7 @@ export class RequiredEqualFields extends Required {
     super(field);
   }
 
-  validate(input: object): { field: string; error: Error } | undefined {
+  validate(input: object) {
     if (
       super.validate(input[this.field as keyof typeof input]) &&
       input[this.field as keyof typeof input] !==
