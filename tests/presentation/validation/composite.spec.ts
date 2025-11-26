@@ -38,4 +38,10 @@ describe('ValidationComposite', () => {
 
     expect(error).toEqual({ field: 'any_field', error: mockedError });
   });
+
+  it('Should return undefined if all validations succeed', () => {
+    const error = sut.validate({ any_field: 'any_value' });
+
+    expect(error).toBeUndefined();
+  });
 });
