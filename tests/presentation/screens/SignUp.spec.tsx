@@ -13,12 +13,14 @@ describe('SignUp', () => {
     const confirmPasswordInputError = screen.queryByTestId(
       'confirm-password-input-error',
     );
+    const rolePickerError = screen.queryByTestId('role-picker-error');
     const submitButton = screen.getByTestId('submit-button');
 
     expect(nameInputError).toBeNull();
     expect(emailInputError).toBeNull();
     expect(passwordInputError).toBeNull();
     expect(confirmPasswordInputError).toBeNull();
+    expect(rolePickerError).toBeNull();
     expect(submitButton).toBeDisabled();
   });
 });

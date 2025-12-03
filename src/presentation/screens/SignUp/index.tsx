@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Button, Input } from '@/presentation/components';
+import { Button, Input, Picker } from '@/presentation/components';
 
 import { styles } from './styles';
 
@@ -13,6 +13,7 @@ export const SignUp = () => {
     emailError: '',
     passwordError: '',
     confirmPasswordError: '',
+    roleError: '',
   });
 
   return (
@@ -65,6 +66,13 @@ export const SignUp = () => {
               label={'Confirm Password'}
               name={'confirm-password'}
               placeholder={'Confirm Password'}
+            />
+            <Picker
+              icon={'account-question'}
+              label={'Role'}
+              name={'role'}
+              items={[{ label: 'Instrutor', value: 'instructor' }]}
+              error={state.roleError}
             />
           </View>
           <Button title={'Continue'} disabled />
