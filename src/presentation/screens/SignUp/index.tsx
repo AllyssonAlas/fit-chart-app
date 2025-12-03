@@ -21,9 +21,9 @@ export const SignUp = () => {
       <View style={styles.container}>
         <View style={styles.mainContent}>
           <View style={styles.welcomeSection}>
-            <Text style={styles.welcomeTitle}>Create your account</Text>
+            <Text style={styles.welcomeTitle}>Crie sua conta</Text>
             <Text style={styles.welcomeSubtitle}>
-              Create account for exploring news
+              Crie sua conta para entrar no mundo fitness
             </Text>
           </View>
           <View style={styles.formSection}>
@@ -31,9 +31,9 @@ export const SignUp = () => {
               autoCapitalize={'words'}
               error={state.nameError}
               icon={'account-circle'}
-              label={'Name'}
+              label={'Nome'}
               name={'name'}
-              placeholder={'Name'}
+              placeholder={'Digite seu nome'}
             />
             <Input
               autoCapitalize={'none'}
@@ -43,7 +43,7 @@ export const SignUp = () => {
               keyboardType={'email-address'}
               label={'Email'}
               name={'email'}
-              placeholder={'Email'}
+              placeholder={'Digite seu email'}
             />
             <Input
               autoCapitalize={'none'}
@@ -52,9 +52,9 @@ export const SignUp = () => {
               icon={'lock'}
               isPasswordInput
               keyboardType={'visible-password'}
-              label={'Password'}
+              label={'Senha'}
               name={'password'}
-              placeholder={'Enter your password'}
+              placeholder={'Digite sua senha'}
             />
             <Input
               autoCapitalize={'none'}
@@ -63,19 +63,19 @@ export const SignUp = () => {
               icon={'lock'}
               isPasswordInput
               keyboardType={'visible-password'}
-              label={'Confirm Password'}
+              label={'Confirmar senha'}
               name={'confirm-password'}
-              placeholder={'Confirm Password'}
+              placeholder={'Confirme sua senha'}
             />
             <Picker
               icon={'account-question'}
-              label={'Role'}
+              label={'Você é'}
               name={'role'}
               items={[{ label: 'Instrutor', value: 'instructor' }]}
               error={state.roleError}
             />
           </View>
-          <Button title={'Continue'} disabled />
+          <Button title={'Continuar'} disabled />
         </View>
       </View>
     </SafeAreaView>
