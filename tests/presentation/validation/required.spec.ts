@@ -19,7 +19,7 @@ describe('Required', () => {
 
     expect(error).toEqual({
       field: 'any_field',
-      error: new RequiredFieldError('any_field'),
+      error: new RequiredFieldError('any_field').message,
     });
   });
 
@@ -30,7 +30,7 @@ describe('Required', () => {
 
     expect(error).toEqual({
       field: 'any_field',
-      error: new RequiredFieldError('any_field'),
+      error: new RequiredFieldError('any_field').message,
     });
   });
 
@@ -41,7 +41,7 @@ describe('Required', () => {
 
     expect(error).toEqual({
       field: 'any_field',
-      error: new RequiredFieldError('any_field'),
+      error: new RequiredFieldError('any_field').message,
     });
   });
 
@@ -68,7 +68,7 @@ describe('RequiredEmail', () => {
 
     expect(error).toEqual({
       field: 'any_field',
-      error: new RequiredEmailError(),
+      error: new RequiredEmailError().message,
     });
   });
 
@@ -95,7 +95,7 @@ describe('RequiredMinLength', () => {
 
     expect(error).toEqual({
       field: 'any_field',
-      error: new RequiredMinLengthError(5),
+      error: new RequiredMinLengthError(5).message,
     });
   });
 
@@ -122,7 +122,7 @@ describe('RequiredEqualFields', () => {
 
     expect(error).toEqual({
       field: 'any_field',
-      error: new RequiredEqualFieldsError('any_field_2'),
+      error: new RequiredEqualFieldsError('any_field_2').message,
     });
   });
 

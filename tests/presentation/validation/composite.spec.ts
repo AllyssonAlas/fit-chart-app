@@ -28,9 +28,9 @@ describe('ValidationComposite', () => {
   });
 
   it('Should return the first error of each validation failed', () => {
-    const mockedError = new Error('any_error');
-    const mockedError2 = new Error('any_error_2');
-    const mockedError3 = new Error('any_error_3');
+    const mockedError = new Error('any_error').message;
+    const mockedError2 = new Error('any_error_2').message;
+    const mockedError3 = new Error('any_error_3').message;
     validators[1].validate.mockReturnValueOnce({
       field: 'any_field',
       error: mockedError,

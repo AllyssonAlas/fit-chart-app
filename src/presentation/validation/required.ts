@@ -11,7 +11,10 @@ export class Required implements Validator {
 
   validate(input: object) {
     if (!input[this.field as keyof typeof input]) {
-      return { field: this.field, error: new RequiredFieldError(this.field) };
+      return {
+        field: this.field,
+        error: new RequiredFieldError(this.field).message,
+      };
     }
   }
 }
@@ -27,7 +30,7 @@ export class RequiredEmail extends Required {
       super.validate(input[this.field as keyof typeof input]) &&
       !regex.test(input[this.field as keyof typeof input])
     ) {
-      return { field: this.field, error: new RequiredEmailError() };
+      return { field: this.field, error: new RequiredEmailError().message };
     }
   }
 }
@@ -48,7 +51,7 @@ export class RequiredMinLength extends Required {
     ) {
       return {
         field: this.field,
-        error: new RequiredMinLengthError(this.minLength),
+        error: new RequiredMinLengthError(this.minLength).message,
       };
     }
   }
@@ -70,7 +73,7 @@ export class RequiredEqualFields extends Required {
     ) {
       return {
         field: this.field,
-        error: new RequiredEqualFieldsError(this.fieldToCompare),
+        error: new RequiredEqualFieldsError(this.fieldToCompare).message,
       };
     }
   }

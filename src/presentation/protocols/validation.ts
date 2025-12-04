@@ -1,6 +1,6 @@
 export type ValidatorError = {
   field: string;
-  error: Error;
+  error: string;
 };
 
 export interface Validator {
