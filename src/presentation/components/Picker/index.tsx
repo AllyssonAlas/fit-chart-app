@@ -68,6 +68,7 @@ export const Picker = ({
             placeholder: styles.pickerPlaceholder,
             viewContainer: styles.pickerViewContainer,
           }}
+          touchableWrapperProps={{ testID: `${name}-picker` }}
           {...pickerProps}
         />
       </View>
