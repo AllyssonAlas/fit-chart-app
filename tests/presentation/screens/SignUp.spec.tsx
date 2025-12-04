@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { type MockProxy, mock } from 'jest-mock-extended';
+// biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
 
 import type { Validation } from '@/presentation/protocols';
@@ -12,6 +13,7 @@ import {
 const simulateSubmitForm = () => {
   populateInput('name');
   populateInput('email');
+  populateInput('contact');
   populateInput('password');
   populateInput('confirm-password');
   const rolePicker = screen.getByTestId('role-picker');
@@ -37,6 +39,7 @@ describe('SignUp', () => {
 
     checkInputError('name-input', '', false);
     checkInputError('email-input', '', false);
+    checkInputError('contact-input', '', false);
     checkInputError('password-input', '', false);
     checkInputError('confirm-password-input', '', false);
     checkInputError('role-picker', '', false);
@@ -47,6 +50,7 @@ describe('SignUp', () => {
     validation.validate.mockReturnValueOnce([
       { field: 'name', error: 'any_name_error' },
       { field: 'email', error: 'any_email_error' },
+      { field: 'contact', error: 'any_contact_error' },
       { field: 'password', error: 'any_password_error' },
       { field: 'confirmPassword', error: 'any_confirm_password_error' },
       { field: 'role', error: 'any_role_error' },
@@ -56,6 +60,7 @@ describe('SignUp', () => {
 
     checkInputError('name-input', 'any_name_error');
     checkInputError('email-input', 'any_email_error');
+    checkInputError('contact-input', 'any_contact_error');
     checkInputError('password-input', 'any_password_error');
     checkInputError('confirm-password-input', 'any_confirm_password_error');
     checkInputError('role-picker', 'any_role_error');
