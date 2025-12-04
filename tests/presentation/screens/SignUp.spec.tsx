@@ -11,13 +11,13 @@ import {
 } from '@/tests/presentation/utils/test-helpers';
 
 const simulateSubmitForm = () => {
-  populateInput('name');
-  populateInput('email');
-  populateInput('contact');
-  populateInput('password');
-  populateInput('confirm-password');
+  populateInput('name', 'any_name');
+  populateInput('email', 'any_email');
+  populateInput('contact', 'any_contact');
+  populateInput('password', 'any_password');
+  populateInput('confirm-password', 'any_password');
   const rolePicker = screen.getByTestId('role-picker');
-  fireEvent(rolePicker, 'onValueChange', 'any_value');
+  fireEvent(rolePicker, 'onValueChange', 'any_role');
   const submitButton = screen.getByTestId('submit-button');
   fireEvent.press(submitButton);
 };
@@ -28,6 +28,7 @@ describe('SignUp', () => {
 
   beforeEach(() => {
     validation = mock();
+    validation.validate.mockReturnValue([]);
     signUpUsecase = jest.fn();
     render(
       <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />,
@@ -74,5 +75,18 @@ describe('SignUp', () => {
     simulateSubmitForm();
 
     expect(signUpUsecase).toHaveBeenCalledTimes(0);
+  });
+
+  it('Should call SignUp usecase with correct input', () => {
+    simulateSubmitForm();
+
+    expect(signUpUsecase).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email',
+      contact: 'any_contact',
+      password: 'any_password',
+      role: 'any_role',
+    });
+    expect(signUpUsecase).toHaveBeenCalledTimes(1);
   });
 });
