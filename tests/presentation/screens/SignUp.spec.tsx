@@ -9,6 +9,17 @@ import {
   populateInput,
 } from '@/tests/presentation/utils/test-helpers';
 
+const simulateSubmitForm = () => {
+  populateInput('name');
+  populateInput('email');
+  populateInput('password');
+  populateInput('confirm-password');
+  const rolePicker = screen.getByTestId('role-picker');
+  fireEvent(rolePicker, 'onValueChange', 'any_value');
+  const submitButton = screen.getByTestId('submit-button');
+  fireEvent.press(submitButton);
+};
+
 describe('SignUp', () => {
   let validation: MockProxy<Validation>;
   let signUpUsecase: jest.Mock;
@@ -40,15 +51,8 @@ describe('SignUp', () => {
       { field: 'confirmPassword', error: 'any_confirm_password_error' },
       { field: 'role', error: 'any_role_error' },
     ]);
-    populateInput('name');
-    populateInput('email');
-    populateInput('password');
-    populateInput('confirm-password');
 
-    const rolePicker = screen.getByTestId('role-picker');
-    fireEvent(rolePicker, 'onValueChange', 'any_value');
-    const submitButton = screen.getByTestId('submit-button');
-    fireEvent.press(submitButton);
+    simulateSubmitForm();
 
     checkInputError('name-input', 'any_name_error');
     checkInputError('email-input', 'any_email_error');
@@ -62,14 +66,7 @@ describe('SignUp', () => {
       { field: 'name', error: 'any_error' },
     ]);
 
-    populateInput('name');
-    populateInput('email');
-    populateInput('password');
-    populateInput('confirm-password');
-    const rolePicker = screen.getByTestId('role-picker');
-    fireEvent(rolePicker, 'onValueChange', 'any_value');
-    const submitButton = screen.getByTestId('submit-button');
-    fireEvent.press(submitButton);
+    simulateSubmitForm();
 
     expect(signUpUsecase).toHaveBeenCalledTimes(0);
   });
