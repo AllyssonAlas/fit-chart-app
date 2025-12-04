@@ -3,7 +3,7 @@ import { type MockProxy, mock } from 'jest-mock-extended';
 import React from 'react';
 
 import type { Validation } from '@/presentation/protocols';
-import { SignUp } from '@/presentation/screens/SignUp';
+import { SignUp as SignUpScreen } from '@/presentation/screens/SignUp';
 import {
   checkInputError,
   populateInput,
@@ -11,10 +11,14 @@ import {
 
 describe('SignUp', () => {
   let validation: MockProxy<Validation>;
+  let signUpUsecase: jest.Mock;
 
   beforeEach(() => {
     validation = mock();
-    render(<SignUp validation={validation} />);
+    signUpUsecase = jest.fn();
+    render(
+      <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />,
+    );
   });
 
   it('Should start with correct initial state', () => {
@@ -51,5 +55,22 @@ describe('SignUp', () => {
     checkInputError('password-input', 'any_password_error');
     checkInputError('confirm-password-input', 'any_confirm_password_error');
     checkInputError('role-picker', 'any_role_error');
+  });
+
+  it('Should not call SignUp usecase if validation fails', () => {
+    validation.validate.mockReturnValueOnce([
+      { field: 'name', error: 'any_error' },
+    ]);
+
+    populateInput('name');
+    populateInput('email');
+    populateInput('password');
+    populateInput('confirm-password');
+    const rolePicker = screen.getByTestId('role-picker');
+    fireEvent(rolePicker, 'onValueChange', 'any_value');
+    const submitButton = screen.getByTestId('submit-button');
+    fireEvent.press(submitButton);
+
+    expect(signUpUsecase).toHaveBeenCalledTimes(0);
   });
 });
