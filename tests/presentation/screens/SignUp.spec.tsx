@@ -1,14 +1,19 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import { mock } from 'jest-mock-extended';
+import { type MockProxy, mock } from 'jest-mock-extended';
 import React from 'react';
+
 import type { Validation } from '@/presentation/protocols';
 import { SignUp } from '@/presentation/screens/SignUp';
 
 describe('SignUp', () => {
-  it('Should start with correct initial state', () => {
-    const validationMock = mock<Validation>();
-    render(<SignUp validation={validationMock} />);
+  let validation: MockProxy<Validation>;
 
+  beforeEach(() => {
+    validation = mock();
+    render(<SignUp validation={validation} />);
+  });
+
+  it('Should start with correct initial state', () => {
     const nameInputError = screen.queryByTestId('name-input-error');
     const emailInputError = screen.queryByTestId('email-input-error');
     const passwordInputError = screen.queryByTestId('password-input-error');
@@ -27,15 +32,13 @@ describe('SignUp', () => {
   });
 
   it('Should present validation errors if validation fails', () => {
-    const validationMock = mock<Validation>();
-    validationMock.validate.mockReturnValue([
+    validation.validate.mockReturnValueOnce([
       { field: 'name', error: 'any_name_error' },
       { field: 'email', error: 'any_email_error' },
       { field: 'password', error: 'any_password_error' },
       { field: 'confirmPassword', error: 'any_confirm-password_error' },
       { field: 'role', error: 'any_role_error' },
     ]);
-    render(<SignUp validation={validationMock} />);
 
     const nameInput = screen.queryByTestId('name-input');
     fireEvent.changeText(nameInput, '123');
