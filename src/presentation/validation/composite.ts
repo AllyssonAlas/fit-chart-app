@@ -1,6 +1,10 @@
-import type { Validator, ValidatorError } from '@/presentation/protocols';
+import type {
+  Validation,
+  Validator,
+  ValidatorError,
+} from '@/presentation/protocols';
 
-export class ValidationComposite {
+export class ValidationComposite implements Validation {
   constructor(readonly validators: Validator[]) {}
 
   validate(input: object): ValidatorError[] {
@@ -9,9 +13,7 @@ export class ValidationComposite {
       const error = validator.validate(input);
       if (error) {
         const existingError = errors.find((e) => e.field === error.field);
-        if (!existingError) {
-          errors.push(error);
-        }
+        if (!existingError) errors.push(error);
       }
     }
     return errors;
