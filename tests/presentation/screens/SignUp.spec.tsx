@@ -4,6 +4,10 @@ import React from 'react';
 
 import type { Validation } from '@/presentation/protocols';
 import { SignUp } from '@/presentation/screens/SignUp';
+import {
+  checkInputError,
+  populateInput,
+} from '@/tests/presentation/utils/test-helpers';
 
 describe('SignUp', () => {
   let validation: MockProxy<Validation>;
@@ -14,20 +18,13 @@ describe('SignUp', () => {
   });
 
   it('Should start with correct initial state', () => {
-    const nameInputError = screen.queryByTestId('name-input-error');
-    const emailInputError = screen.queryByTestId('email-input-error');
-    const passwordInputError = screen.queryByTestId('password-input-error');
-    const confirmPasswordInputError = screen.queryByTestId(
-      'confirm-password-input-error',
-    );
-    const rolePickerError = screen.queryByTestId('role-picker-error');
     const submitButton = screen.getByTestId('submit-button');
 
-    expect(nameInputError).toBeNull();
-    expect(emailInputError).toBeNull();
-    expect(passwordInputError).toBeNull();
-    expect(confirmPasswordInputError).toBeNull();
-    expect(rolePickerError).toBeNull();
+    checkInputError('name-input', '', false);
+    checkInputError('email-input', '', false);
+    checkInputError('password-input', '', false);
+    checkInputError('confirm-password-input', '', false);
+    checkInputError('role-picker', '', false);
     expect(submitButton).toBeDisabled();
   });
 
@@ -36,39 +33,23 @@ describe('SignUp', () => {
       { field: 'name', error: 'any_name_error' },
       { field: 'email', error: 'any_email_error' },
       { field: 'password', error: 'any_password_error' },
-      { field: 'confirmPassword', error: 'any_confirm-password_error' },
+      { field: 'confirmPassword', error: 'any_confirm_password_error' },
       { field: 'role', error: 'any_role_error' },
     ]);
+    populateInput('name');
+    populateInput('email');
+    populateInput('password');
+    populateInput('confirm-password');
 
-    const nameInput = screen.queryByTestId('name-input');
-    fireEvent.changeText(nameInput, '123');
-    const emailInput = screen.queryByTestId('email-input');
-    fireEvent.changeText(emailInput, '123');
-    const passwordInput = screen.queryByTestId('password-input');
-    fireEvent.changeText(passwordInput, '123');
-    const confirmPasswordInput = screen.queryByTestId('confirm-password-input');
-    fireEvent.changeText(confirmPasswordInput, '123');
-    fireEvent(
-      screen.queryByTestId('role-picker'),
-      'onValueChange',
-      'any_value',
-    );
+    const rolePicker = screen.getByTestId('role-picker');
+    fireEvent(rolePicker, 'onValueChange', 'any_value');
     const submitButton = screen.getByTestId('submit-button');
     fireEvent.press(submitButton);
-    const nameInputError = screen.queryByTestId('name-input-error');
-    const emailInputError = screen.queryByTestId('email-input-error');
-    const passwordInputError = screen.queryByTestId('password-input-error');
-    const confirmPasswordInputError = screen.queryByTestId(
-      'confirm-password-input-error',
-    );
-    const rolePickerError = screen.queryByTestId('role-picker-error');
 
-    expect(nameInputError).toHaveTextContent('any_name_error');
-    expect(emailInputError).toHaveTextContent('any_email_error');
-    expect(passwordInputError).toHaveTextContent('any_password_error');
-    expect(confirmPasswordInputError).toHaveTextContent(
-      'any_confirm-password_error',
-    );
-    expect(rolePickerError).toHaveTextContent('any_role_error');
+    checkInputError('name-input', 'any_name_error');
+    checkInputError('email-input', 'any_email_error');
+    checkInputError('password-input', 'any_password_error');
+    checkInputError('confirm-password-input', 'any_confirm_password_error');
+    checkInputError('role-picker', 'any_role_error');
   });
 });
