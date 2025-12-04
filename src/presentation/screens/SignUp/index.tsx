@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import type { SignUp as SignUpUsecase } from '@/domain/usecases';
 import { Button, Input, Picker } from '@/presentation/components';
 import type { Validation } from '@/presentation/protocols';
 
@@ -10,9 +11,10 @@ import { styles } from './styles';
 
 type Props = {
   validation: Validation;
+  signUpUsecase: SignUpUsecase;
 };
 
-export const SignUp = ({ validation }: Props) => {
+export const SignUp = ({ validation, signUpUsecase }: Props) => {
   const [state, setState] = useState({
     name: '',
     email: '',
