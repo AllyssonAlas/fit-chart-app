@@ -1,6 +1,6 @@
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React, { useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Alert, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { SignUp as SignUpUsecase } from '@/domain/usecases';
@@ -51,13 +51,19 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
       setState(newStateWithErrors);
       return null;
     }
-    await signUpUsecase({
-      name: state.name,
-      email: state.email,
-      contact: state.contact,
-      password: state.password,
-      role: state.role,
-    });
+    try {
+      await signUpUsecase({
+        name: state.name,
+        email: state.email,
+        contact: state.contact,
+        password: state.password,
+        role: state.role,
+      });
+    } catch (error) {
+      Alert.alert('Erro ao criar conta', (error as Error).message, [
+        { text: 'OK' },
+      ]);
+    }
   };
 
   return (
