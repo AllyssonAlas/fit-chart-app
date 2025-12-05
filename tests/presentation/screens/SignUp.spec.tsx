@@ -1,8 +1,14 @@
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react-native';
 import { type MockProxy, mock } from 'jest-mock-extended';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
-
+import { Alert } from 'react-native';
+import { UnexpectedError } from '@/domain/errors';
 import type { Validation } from '@/presentation/protocols';
 import { SignUp as SignUpScreen } from '@/presentation/screens/SignUp';
 import {
@@ -10,7 +16,7 @@ import {
   populateInput,
 } from '@/tests/presentation/utils/test-helpers';
 
-const simulateSubmitForm = () => {
+const simulateSubmitForm = async () => {
   populateInput('name', 'any_name');
   populateInput('email', 'any_email');
   populateInput('contact', 'any_contact');
@@ -19,7 +25,7 @@ const simulateSubmitForm = () => {
   const rolePicker = screen.getByTestId('role-picker');
   fireEvent(rolePicker, 'onValueChange', 'any_role');
   const submitButton = screen.getByTestId('submit-button');
-  fireEvent.press(submitButton);
+  await fireEvent.press(submitButton);
 };
 
 describe('SignUp', () => {
@@ -88,5 +94,22 @@ describe('SignUp', () => {
       role: 'any_role',
     });
     expect(signUpUsecase).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should show Alert if SignUp usecase throws with correct error', async () => {
+    const error = new UnexpectedError();
+    signUpUsecase.mockRejectedValueOnce(error);
+    const alertSpy = jest.spyOn(Alert, 'alert');
+
+    simulateSubmitForm();
+
+    await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledWith(
+        'Erro ao criar conta',
+        error.message,
+        [{ text: 'OK' }],
+      );
+      expect(alertSpy).toHaveBeenCalledTimes(1);
+    });
   });
 });
