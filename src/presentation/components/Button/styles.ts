@@ -14,6 +14,9 @@ export const styles = StyleSheet.create(() => ({
     backgroundColor: 'rgba(200, 200, 200, 1)',
     opacity: 0.6,
   },
+  buttonLoading: {
+    opacity: 0.5,
+  },
   buttonIcon: {
     marginRight: 8,
   },
