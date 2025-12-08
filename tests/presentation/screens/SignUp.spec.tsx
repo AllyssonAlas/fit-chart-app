@@ -108,6 +108,20 @@ describe('SignUp', () => {
     expect(buttonLoadingIndicator).toBeTruthy();
   });
 
+  it('Should disable Button when submitting form', () => {
+    simulateSubmitForm();
+
+    const buttonLoadingIndicator = screen.getByTestId(
+      'button-loading-indicator',
+    );
+    const submitButton = screen.getByTestId('submit-button');
+    fireEvent.press(submitButton);
+
+    expect(buttonLoadingIndicator).toBeTruthy();
+    expect(submitButton).toBeDisabled();
+    expect(signUpUsecase).toHaveBeenCalledTimes(1);
+  });
+
   it('Should show Alert if SignUp usecase throws with correct error', async () => {
     const error = new UnexpectedError();
     signUpUsecase.mockRejectedValueOnce(error);
