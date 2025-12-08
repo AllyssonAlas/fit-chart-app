@@ -47,6 +47,8 @@ export const Input = ({
           />
         )}
         <TextInput
+          autoCorrect={false}
+          autoCapitalize={'none'}
           style={styles.inputText}
           placeholder={placeholder}
           placeholderTextColor={'rgba(127, 144, 159, 1)'}

@@ -84,6 +84,7 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
             <View style={styles.formSection}>
               <Input
                 autoCapitalize={'words'}
+                autoCorrect
                 error={state.nameError}
                 icon={'account-circle'}
                 label={'Nome'}
@@ -93,8 +94,6 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
                 value={state.name}
               />
               <Input
-                autoCapitalize={'none'}
-                autoCorrect={false}
                 error={state.emailError}
                 icon={'email'}
                 keyboardType={'email-address'}
@@ -105,8 +104,6 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
                 value={state.email}
               />
               <Input
-                autoCapitalize={'none'}
-                autoCorrect={false}
                 error={state.contactError}
                 icon={'phone'}
                 keyboardType={'phone-pad'}
@@ -117,8 +114,6 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
                 value={state.contact}
               />
               <Input
-                autoCapitalize={'none'}
-                autoCorrect={false}
                 error={state.passwordError}
                 icon={'lock'}
                 isPasswordInput
@@ -130,8 +125,6 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
                 value={state.password}
               />
               <Input
-                autoCapitalize={'none'}
-                autoCorrect={false}
                 error={state.confirmPasswordError}
                 icon={'lock'}
                 isPasswordInput
