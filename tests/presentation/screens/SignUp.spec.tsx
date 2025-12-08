@@ -16,7 +16,7 @@ import {
   populateInput,
 } from '@/tests/presentation/utils/test-helpers';
 
-const simulateSubmitForm = async () => {
+const simulateSubmitForm = () => {
   populateInput('name', 'any_name');
   populateInput('email', 'any_email');
   populateInput('contact', 'any_contact');
@@ -25,7 +25,9 @@ const simulateSubmitForm = async () => {
   const rolePicker = screen.getByTestId('role-picker');
   fireEvent(rolePicker, 'onValueChange', 'any_role');
   const submitButton = screen.getByTestId('submit-button');
-  await fireEvent.press(submitButton);
+  waitFor(() => {
+    fireEvent.press(submitButton);
+  });
 };
 
 describe('SignUp', () => {
@@ -94,6 +96,16 @@ describe('SignUp', () => {
       role: 'any_role',
     });
     expect(signUpUsecase).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should show a ActivityIndicator when submitting form', () => {
+    simulateSubmitForm();
+
+    const buttonLoadingIndicator = screen.getByTestId(
+      'button-loading-indicator',
+    );
+
+    expect(buttonLoadingIndicator).toBeTruthy();
   });
 
   it('Should show Alert if SignUp usecase throws with correct error', async () => {
