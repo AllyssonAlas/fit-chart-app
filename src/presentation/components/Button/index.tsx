@@ -35,7 +35,11 @@ export const Button = ({
       {...touchableOpacityProps}
     >
       {loading ? (
-        <ActivityIndicator color={'rgba(255, 255, 255, 1)'} size={'small'} />
+        <ActivityIndicator
+          color={'rgba(255, 255, 255, 1)'}
+          size={'small'}
+          testID={'button-loading-indicator'}
+        />
       ) : (
         <Text
           style={[styles.buttonText, disabled && styles.buttonTextDisabled]}

@@ -22,6 +22,7 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
     password: '',
     confirmPassword: '',
     role: '',
+    loading: false,
     nameError: '',
     emailError: '',
     contactError: '',
@@ -35,23 +36,24 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
   };
 
   const handleSubmit = async () => {
-    const errors = validation.validate({
-      name: state.name,
-      email: state.email,
-      contact: state.contact,
-      password: state.password,
-      confirmPassword: state.confirmPassword,
-      role: state.role,
-    });
-    if (errors.length) {
-      const newStateWithErrors = { ...state };
-      errors.forEach(({ field, error }) => {
-        Object.assign(newStateWithErrors, { [`${field}Error`]: error });
-      });
-      setState(newStateWithErrors);
-      return null;
-    }
     try {
+      setState({ ...state, loading: true });
+      const errors = validation.validate({
+        name: state.name,
+        email: state.email,
+        contact: state.contact,
+        password: state.password,
+        confirmPassword: state.confirmPassword,
+        role: state.role,
+      });
+      if (errors.length) {
+        const newStateWithErrors = { ...state };
+        errors.forEach(({ field, error }) => {
+          Object.assign(newStateWithErrors, { [`${field}Error`]: error });
+        });
+        setState(newStateWithErrors);
+        return null;
+      }
       await signUpUsecase({
         name: state.name,
         email: state.email,
@@ -63,6 +65,8 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
       Alert.alert('Erro ao criar conta', (error as Error).message, [
         { text: 'OK' },
       ]);
+    } finally {
+      setState((prevState) => ({ ...prevState, loading: false }));
     }
   };
 
@@ -151,6 +155,7 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
               />
             </View>
             <Button
+              loading={state.loading}
               disabled={
                 !state.name ||
                 !state.email ||
