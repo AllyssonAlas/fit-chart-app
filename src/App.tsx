@@ -3,12 +3,12 @@ import React from 'react';
 import 'react-native-unistyles';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { SignUp } from './presentation/screens/SignUp';
+import { MakeSignUpScreen } from '@/main/factories/presentation/screens';
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      <SignUp />
+      <MakeSignUpScreen />
     </SafeAreaProvider>
   );
 }
