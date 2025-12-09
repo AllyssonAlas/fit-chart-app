@@ -17,7 +17,8 @@ module.exports = function (api) {
             // if you need to include more folders, or customize discovery process
             // check available babel options
             root: 'src'
-        }]
+        }],
+        ['module:react-native-dotenv']
     ]
   }
 }
