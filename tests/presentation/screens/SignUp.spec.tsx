@@ -1,4 +1,10 @@
 import {
+  createNavigationContainerRef,
+  createStaticNavigation,
+  type NavigationContainerRefWithCurrent,
+} from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {
   fireEvent,
   render,
   screen,
@@ -7,14 +13,21 @@ import {
 import { type MockProxy, mock } from 'jest-mock-extended';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
-import { Alert } from 'react-native';
+import { Alert, Text, View } from 'react-native';
+
 import { UnexpectedError } from '@/domain/errors';
 import type { Validation } from '@/presentation/protocols';
 import { SignUp as SignUpScreen } from '@/presentation/screens/SignUp';
+
 import {
   checkInputError,
   populateInput,
 } from '@/tests/presentation/utils/test-helpers';
+
+type RootStackParamList = {
+  SignUp: undefined;
+  Home: undefined;
+};
 
 const simulateSubmitForm = () => {
   populateInput('name', 'any_name');
@@ -33,14 +46,23 @@ const simulateSubmitForm = () => {
 describe('SignUp', () => {
   let validation: MockProxy<Validation>;
   let signUpUsecase: jest.Mock;
+  let navigationRef: NavigationContainerRefWithCurrent<RootStackParamList>;
 
   beforeEach(() => {
     validation = mock();
     validation.validate.mockReturnValue([]);
     signUpUsecase = jest.fn();
-    render(
-      <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />,
-    );
+    navigationRef = createNavigationContainerRef<RootStackParamList>();
+    const RootStack = createNativeStackNavigator({
+      screens: {
+        SignUp: () => (
+          <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />
+        ),
+        Home: () => null,
+      },
+    });
+    const Navigation = createStaticNavigation(RootStack);
+    render(<Navigation ref={navigationRef} />);
   });
 
   it('Should start with correct initial state', () => {
@@ -136,6 +158,15 @@ describe('SignUp', () => {
         [{ text: 'OK' }],
       );
       expect(alertSpy).toHaveBeenCalledTimes(1);
+      expect(navigationRef.getCurrentRoute()?.name).toBe('SignUp');
+    });
+  });
+
+  it('Should navigate to Home screen on success', async () => {
+    simulateSubmitForm();
+
+    await waitFor(() => {
+      expect(navigationRef.getCurrentRoute()?.name).toBe('Home');
     });
   });
 });
