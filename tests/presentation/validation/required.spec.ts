@@ -126,6 +126,21 @@ describe('RequiredEqualFields', () => {
     });
   });
 
+  it('Should return error with alias field name if fields are not equal', () => {
+    const sut = new RequiredEqualFields(
+      'any_field',
+      'any_field_2',
+      'alias_field',
+    );
+
+    const error = sut.validate({ any_field: '12345', any_field_2: '123456' });
+
+    expect(error).toEqual({
+      field: 'any_field',
+      error: new RequiredEqualFieldsError('alias_field').message,
+    });
+  });
+
   it('Should return undefined if fields are equal', () => {
     const sut = new RequiredEqualFields('any_field', 'any_field_2');
 
