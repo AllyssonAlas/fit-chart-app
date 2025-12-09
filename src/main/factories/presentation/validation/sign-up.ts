@@ -13,7 +13,7 @@ export const makeSignUpValidation = (): Validation => {
     new RequiredEmail('email'),
     new Required('contact'),
     new RequiredMinLength('password', 6),
-    new RequiredEqualFields('confirmPassword', 'password'),
+    new RequiredEqualFields('confirmPassword', 'password', 'senha'),
     new Required('role'),
   ]);
 };
