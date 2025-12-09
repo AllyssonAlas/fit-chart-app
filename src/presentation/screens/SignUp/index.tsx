@@ -1,4 +1,6 @@
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
+
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Alert, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,6 +17,7 @@ type Props = {
 };
 
 export const SignUp = ({ validation, signUpUsecase }: Props) => {
+  const navigation = useNavigation();
   const [state, setState] = useState({
     name: '',
     email: '',
@@ -61,6 +64,7 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
         password: state.password,
         role: state.role,
       });
+      navigation.navigate('Home');
     } catch (error) {
       Alert.alert('Erro ao criar conta', (error as Error).message, [
         { text: 'OK' },
