@@ -26,16 +26,20 @@ export const Login = ({ validation, loginUsecase }: Props) => {
     setState({ ...state, [name]: value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const errors = validation.validate({
       email: state.email,
       password: state.password,
     });
-    const newStateWithErrors = { ...state };
-    errors.forEach(({ field, error }) => {
-      Object.assign(newStateWithErrors, { [`${field}Error`]: error });
-    });
-    setState(newStateWithErrors);
+    if (errors.length) {
+      const newStateWithErrors = { ...state };
+      errors.forEach(({ field, error }) => {
+        Object.assign(newStateWithErrors, { [`${field}Error`]: error });
+      });
+      setState(newStateWithErrors);
+      return null;
+    }
+    await loginUsecase({ email: state.email, password: state.password });
   };
 
   return (
