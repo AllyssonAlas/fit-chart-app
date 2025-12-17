@@ -4,14 +4,37 @@ import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Input } from '@/presentation/components';
+import type { Validation } from '@/presentation/protocols';
 
 import { styles } from './styles';
 
-export const Login = () => {
-  const [state] = useState({
+type Props = {
+  validation: Validation;
+};
+
+export const Login = ({ validation }: Props) => {
+  const [state, setState] = useState({
+    email: '',
+    password: '',
     emailError: '',
     passwordError: '',
   });
+
+  const handleInputChange = (name: string, value: string) => {
+    setState({ ...state, [name]: value });
+  };
+
+  const handleSubmit = () => {
+    const errors = validation.validate({
+      email: state.email,
+      password: state.password,
+    });
+    const newStateWithErrors = { ...state };
+    errors.forEach(({ field, error }) => {
+      Object.assign(newStateWithErrors, { [`${field}Error`]: error });
+    });
+    setState(newStateWithErrors);
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -30,7 +53,9 @@ export const Login = () => {
               keyboardType={'email-address'}
               label={'Email'}
               name={'email'}
+              onChangeText={(value) => handleInputChange('email', value)}
               placeholder={'Digite seu email'}
+              value={state.email}
             />
             <Input
               error={state.passwordError}
@@ -39,10 +64,16 @@ export const Login = () => {
               keyboardType={'visible-password'}
               label={'Senha'}
               name={'password'}
+              onChangeText={(value) => handleInputChange('password', value)}
               placeholder={'Digite sua senha'}
+              value={state.password}
             />
           </View>
-          <Button disabled title={'Entrar'} />
+          <Button
+            disabled={!state.email || !state.password}
+            onPress={handleSubmit}
+            title={'Entrar'}
+          />
           <View style={styles.signUpSection}>
             <Text style={styles.signUpText}>Não tem uma conta? </Text>
             <Text style={styles.signUpLink}>Cadastre-se</Text>
