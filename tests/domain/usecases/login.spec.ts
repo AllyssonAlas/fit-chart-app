@@ -1,6 +1,7 @@
 import { type MockProxy, mock } from 'jest-mock-extended';
 
-import type { HttpClient } from '@/domain/contracts/gateways';
+import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
+import { InvalidCredentialsError } from '@/domain/errors';
 import { type Login, setupLogin } from '@/domain/usecases';
 
 describe('Login', () => {
@@ -16,6 +17,14 @@ describe('Login', () => {
 
   beforeAll(() => {
     httpClient = mock();
+    httpClient.request.mockResolvedValue({
+      statusCode: HttpStatusCode.ok,
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        accessToken: 'any_token',
+      },
+    });
   });
 
   beforeEach(() => {
@@ -31,5 +40,15 @@ describe('Login', () => {
       body: input,
     });
     expect(httpClient.request).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should throw InvalidCredentialsError if HttpClient returns 401', async () => {
+    httpClient.request.mockResolvedValueOnce({
+      statusCode: HttpStatusCode.unauthorized,
+    });
+
+    const promise = sut(input);
+
+    await expect(promise).rejects.toThrow(new InvalidCredentialsError());
   });
 });
