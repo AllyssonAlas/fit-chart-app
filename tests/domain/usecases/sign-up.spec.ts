@@ -55,7 +55,7 @@ describe('SignUp', () => {
     expect(httpClient.request).toHaveBeenCalledTimes(1);
   });
 
-  it('Should throw EmailInUseError if HttpClient returns 401', async () => {
+  it('Should throw EmailInUseError if HttpClient returns 403', async () => {
     httpClient.request.mockResolvedValueOnce({
       statusCode: HttpStatusCode.forbidden,
     });
