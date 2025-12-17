@@ -1,5 +1,5 @@
 import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
-import { InvalidCredentialsError } from '@/domain/errors';
+import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors';
 
 type Input = {
   email: string;
@@ -16,8 +16,11 @@ export const setupLogin: Setup = (url, httpClient) => {
       method: 'post',
       body: input,
     });
-    if (statusCode === HttpStatusCode.unauthorized) {
-      throw new InvalidCredentialsError();
+    switch (statusCode) {
+      case HttpStatusCode.unauthorized:
+        throw new InvalidCredentialsError();
+      default:
+        throw new UnexpectedError();
     }
   };
 };
