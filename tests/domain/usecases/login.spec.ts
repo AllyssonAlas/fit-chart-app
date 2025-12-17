@@ -1,7 +1,7 @@
 import { type MockProxy, mock } from 'jest-mock-extended';
 
 import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
-import { InvalidCredentialsError } from '@/domain/errors';
+import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors';
 import { type Login, setupLogin } from '@/domain/usecases';
 
 describe('Login', () => {
@@ -50,5 +50,15 @@ describe('Login', () => {
     const promise = sut(input);
 
     await expect(promise).rejects.toThrow(new InvalidCredentialsError());
+  });
+
+  it('Should throw UnexpectedError if HttpClient returns 500', async () => {
+    httpClient.request.mockResolvedValueOnce({
+      statusCode: HttpStatusCode.serverError,
+    });
+
+    const promise = sut(input);
+
+    await expect(promise).rejects.toThrow(new UnexpectedError());
   });
 });
