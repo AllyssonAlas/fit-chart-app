@@ -1,4 +1,5 @@
-import type { HttpClient } from '@/domain/contracts/gateways';
+import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
+import { InvalidCredentialsError } from '@/domain/errors';
 
 type Input = {
   email: string;
@@ -10,6 +11,13 @@ type Setup = (url: string, httpClient: HttpClient) => Login;
 
 export const setupLogin: Setup = (url, httpClient) => {
   return async (input) => {
-    await httpClient.request({ url, method: 'post', body: input });
+    const { statusCode } = await httpClient.request({
+      url,
+      method: 'post',
+      body: input,
+    });
+    if (statusCode === HttpStatusCode.unauthorized) {
+      throw new InvalidCredentialsError();
+    }
   };
 };
