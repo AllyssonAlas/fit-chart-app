@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import type { Login as LoginUsecase } from '@/domain/usecases';
 import { Button, Input } from '@/presentation/components';
 import type { Validation } from '@/presentation/protocols';
 
@@ -10,9 +11,10 @@ import { styles } from './styles';
 
 type Props = {
   validation: Validation;
+  loginUsecase: LoginUsecase;
 };
 
-export const Login = ({ validation }: Props) => {
+export const Login = ({ validation, loginUsecase }: Props) => {
   const [state, setState] = useState({
     email: '',
     password: '',
