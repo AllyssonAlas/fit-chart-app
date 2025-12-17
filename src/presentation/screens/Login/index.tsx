@@ -16,6 +16,7 @@ type Props = {
 
 export const Login = ({ validation, loginUsecase }: Props) => {
   const [state, setState] = useState({
+    loading: false,
     email: '',
     password: '',
     emailError: '',
@@ -27,6 +28,7 @@ export const Login = ({ validation, loginUsecase }: Props) => {
   };
 
   const handleSubmit = async () => {
+    setState({ ...state, loading: true });
     const errors = validation.validate({
       email: state.email,
       password: state.password,
@@ -77,6 +79,7 @@ export const Login = ({ validation, loginUsecase }: Props) => {
           </View>
           <Button
             disabled={!state.email || !state.password}
+            loading={state.loading}
             onPress={handleSubmit}
             title={'Entrar'}
           />
