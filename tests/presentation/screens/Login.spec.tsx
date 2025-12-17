@@ -1,8 +1,4 @@
-import {
-  fireEvent,
-  render,
-  screen,
-} from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
 import { type MockProxy, mock } from 'jest-mock-extended';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
@@ -28,6 +24,7 @@ describe('Login', () => {
 
   beforeEach(() => {
     validation = mock();
+    validation.validate.mockReturnValue([]);
     loginUsecase = jest.fn();
     render(<LoginScreen validation={validation} loginUsecase={loginUsecase} />);
   });
@@ -60,5 +57,15 @@ describe('Login', () => {
     simulateSubmitForm();
 
     expect(loginUsecase).toHaveBeenCalledTimes(0);
+  });
+
+  it('Should call Login usecase with correct input', () => {
+    simulateSubmitForm();
+
+    expect(loginUsecase).toHaveBeenCalledWith({
+      email: 'any_email',
+      password: 'any_password',
+    });
+    expect(loginUsecase).toHaveBeenCalledTimes(1);
   });
 });
