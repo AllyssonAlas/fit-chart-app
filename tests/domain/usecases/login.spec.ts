@@ -61,4 +61,14 @@ describe('Login', () => {
 
     await expect(promise).rejects.toThrow(new UnexpectedError());
   });
+
+  it('Should return correct output on success', async () => {
+    const result = await sut(input);
+
+    expect(result).toEqual({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      accessToken: 'any_token',
+    });
+  });
 });
