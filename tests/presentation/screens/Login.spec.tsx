@@ -24,10 +24,12 @@ const simulateSubmitForm = () => {
 
 describe('Login', () => {
   let validation: MockProxy<Validation>;
+  let loginUsecase: jest.Mock;
 
   beforeEach(() => {
     validation = mock();
-    render(<LoginScreen validation={validation} />);
+    loginUsecase = jest.fn();
+    render(<LoginScreen validation={validation} loginUsecase={loginUsecase} />);
   });
 
   it('Should start with correct initial state', () => {
@@ -48,5 +50,15 @@ describe('Login', () => {
 
     checkInputError('email-input', 'any_email_error');
     checkInputError('password-input', 'any_password_error');
+  });
+
+  it('Should not call Login usecase if validation fails', () => {
+    validation.validate.mockReturnValueOnce([
+      { field: 'email', error: 'any_error' },
+    ]);
+
+    simulateSubmitForm();
+
+    expect(loginUsecase).toHaveBeenCalledTimes(0);
   });
 });
