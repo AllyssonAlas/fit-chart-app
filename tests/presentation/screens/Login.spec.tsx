@@ -68,4 +68,14 @@ describe('Login', () => {
     });
     expect(loginUsecase).toHaveBeenCalledTimes(1);
   });
+
+  it('Should show a ActivityIndicator when submitting form', () => {
+    simulateSubmitForm();
+
+    const buttonLoadingIndicator = screen.getByTestId(
+      'button-loading-indicator',
+    );
+
+    expect(buttonLoadingIndicator).toBeTruthy();
+  });
 });
