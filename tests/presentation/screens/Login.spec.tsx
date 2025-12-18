@@ -139,4 +139,12 @@ describe('Login', () => {
       expect(navigationRef.getCurrentRoute()?.name).toBe('Login');
     });
   });
+
+  it('Should navigate to Home screen on success', async () => {
+    simulateSubmitForm();
+
+    await waitFor(() => {
+      expect(navigationRef.getCurrentRoute()?.name).toBe('Home');
+    });
+  });
 });
