@@ -1,12 +1,15 @@
-// biome-ignore lint/correctness/noUnusedImports: React is required for JSX
-
 import { useNavigation } from '@react-navigation/native';
+// biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React, { useState } from 'react';
-import { Alert, ScrollView, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Alert, Text, View } from 'react-native';
 
 import type { SignUp as SignUpUsecase } from '@/domain/usecases';
-import { Button, Input, Picker } from '@/presentation/components';
+import {
+  Button,
+  Input,
+  Picker,
+  ScreenWrapper,
+} from '@/presentation/components';
 import type { Validation } from '@/presentation/protocols';
 
 import { styles } from './styles';
@@ -75,99 +78,97 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.container}>
-          <View style={styles.mainContent}>
-            <View style={styles.welcomeSection}>
-              <Text style={styles.welcomeTitle}>Crie sua conta</Text>
-              <Text style={styles.welcomeSubtitle}>
-                Crie sua conta para entrar no mundo fitness
-              </Text>
-            </View>
-            <View style={styles.formSection}>
-              <Input
-                autoCapitalize={'words'}
-                autoCorrect
-                error={state.nameError}
-                icon={'account-circle'}
-                label={'Nome'}
-                name={'name'}
-                onChangeText={(value) => handleInputChange('name', value)}
-                placeholder={'Digite seu nome'}
-                value={state.name}
-              />
-              <Input
-                error={state.emailError}
-                icon={'email'}
-                keyboardType={'email-address'}
-                label={'Email'}
-                name={'email'}
-                onChangeText={(value) => handleInputChange('email', value)}
-                placeholder={'Digite seu email'}
-                value={state.email}
-              />
-              <Input
-                error={state.contactError}
-                icon={'phone'}
-                keyboardType={'phone-pad'}
-                label={'Contato'}
-                name={'contact'}
-                onChangeText={(value) => handleInputChange('contact', value)}
-                placeholder={'Digite seu contato'}
-                value={state.contact}
-              />
-              <Input
-                error={state.passwordError}
-                icon={'lock'}
-                isPasswordInput
-                keyboardType={'visible-password'}
-                label={'Senha'}
-                name={'password'}
-                onChangeText={(value) => handleInputChange('password', value)}
-                placeholder={'Digite sua senha'}
-                value={state.password}
-              />
-              <Input
-                error={state.confirmPasswordError}
-                icon={'lock'}
-                isPasswordInput
-                keyboardType={'visible-password'}
-                label={'Confirmar senha'}
-                name={'confirm-password'}
-                onChangeText={(value) =>
-                  handleInputChange('confirmPassword', value)
-                }
-                placeholder={'Confirme sua senha'}
-                value={state.confirmPassword}
-              />
-              <Picker
-                error={state.roleError}
-                icon={'account-question'}
-                items={[{ label: 'Instrutor', value: 'instructor' }]}
-                label={'Você é'}
-                name={'role'}
-                onValueChange={(value) => handleInputChange('role', value)}
-                value={state.role}
-              />
-            </View>
-            <Button
-              loading={state.loading}
-              disabled={
-                !state.name ||
-                !state.email ||
-                !state.contact ||
-                !state.password ||
-                !state.confirmPassword ||
-                !state.role
+    <ScreenWrapper>
+      <View style={styles.container}>
+        <View style={styles.mainContent}>
+          <View style={styles.welcomeSection}>
+            <Text style={styles.welcomeTitle}>Crie sua conta</Text>
+            <Text style={styles.welcomeSubtitle}>
+              Crie sua conta para entrar no mundo fitness
+            </Text>
+          </View>
+          <View style={styles.formSection}>
+            <Input
+              autoCapitalize={'words'}
+              autoCorrect
+              error={state.nameError}
+              icon={'account-circle'}
+              label={'Nome'}
+              name={'name'}
+              onChangeText={(value) => handleInputChange('name', value)}
+              placeholder={'Digite seu nome'}
+              value={state.name}
+            />
+            <Input
+              error={state.emailError}
+              icon={'email'}
+              keyboardType={'email-address'}
+              label={'Email'}
+              name={'email'}
+              onChangeText={(value) => handleInputChange('email', value)}
+              placeholder={'Digite seu email'}
+              value={state.email}
+            />
+            <Input
+              error={state.contactError}
+              icon={'phone'}
+              keyboardType={'phone-pad'}
+              label={'Contato'}
+              name={'contact'}
+              onChangeText={(value) => handleInputChange('contact', value)}
+              placeholder={'Digite seu contato'}
+              value={state.contact}
+            />
+            <Input
+              error={state.passwordError}
+              icon={'lock'}
+              isPasswordInput
+              keyboardType={'visible-password'}
+              label={'Senha'}
+              name={'password'}
+              onChangeText={(value) => handleInputChange('password', value)}
+              placeholder={'Digite sua senha'}
+              value={state.password}
+            />
+            <Input
+              error={state.confirmPasswordError}
+              icon={'lock'}
+              isPasswordInput
+              keyboardType={'visible-password'}
+              label={'Confirmar senha'}
+              name={'confirm-password'}
+              onChangeText={(value) =>
+                handleInputChange('confirmPassword', value)
               }
-              onPress={handleSubmit}
-              testID={'submit-button'}
-              title={'Continuar'}
+              placeholder={'Confirme sua senha'}
+              value={state.confirmPassword}
+            />
+            <Picker
+              error={state.roleError}
+              icon={'account-question'}
+              items={[{ label: 'Instrutor', value: 'instructor' }]}
+              label={'Você é'}
+              name={'role'}
+              onValueChange={(value) => handleInputChange('role', value)}
+              value={state.role}
             />
           </View>
+          <Button
+            loading={state.loading}
+            disabled={
+              !state.name ||
+              !state.email ||
+              !state.contact ||
+              !state.password ||
+              !state.confirmPassword ||
+              !state.role
+            }
+            onPress={handleSubmit}
+            testID={'submit-button'}
+            title={'Continuar'}
+          />
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+    </ScreenWrapper>
   );
 };

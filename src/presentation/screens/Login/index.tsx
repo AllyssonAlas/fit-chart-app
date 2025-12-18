@@ -2,10 +2,9 @@ import { useNavigation } from '@react-navigation/native';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React, { useState } from 'react';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { Login as LoginUsecase } from '@/domain/usecases';
-import { Button, Input } from '@/presentation/components';
+import { Button, Input, ScreenWrapper } from '@/presentation/components';
 import type { Validation } from '@/presentation/protocols';
 
 import { styles } from './styles';
@@ -54,7 +53,7 @@ export const Login = ({ validation, loginUsecase }: Props) => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <ScreenWrapper scrollable={false}>
       <View style={styles.container}>
         <View style={styles.mainContent}>
           <View style={styles.welcomeSection}>
@@ -102,6 +101,6 @@ export const Login = ({ validation, loginUsecase }: Props) => {
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+    </ScreenWrapper>
   );
 };
