@@ -2,7 +2,7 @@
 
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { Login as LoginUsecase } from '@/domain/usecases';
@@ -93,10 +93,14 @@ export const Login = ({ validation, loginUsecase }: Props) => {
             onPress={handleSubmit}
             title={'Entrar'}
           />
-          <View style={styles.signUpSection}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SignUp')}
+            style={styles.signUpSection}
+            testID={'link-to-sign-up'}
+          >
             <Text style={styles.signUpText}>Não tem uma conta? </Text>
             <Text style={styles.signUpLink}>Cadastre-se</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
