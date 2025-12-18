@@ -1,6 +1,5 @@
-// biome-ignore lint/correctness/noUnusedImports: React is required for JSX
-
 import { useNavigation } from '@react-navigation/native';
+// biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React, { useState } from 'react';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
