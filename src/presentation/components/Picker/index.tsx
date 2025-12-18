@@ -20,7 +20,7 @@ type PickerComponentProps = {
   name?: string;
   items: PickerItem[];
   value?: string;
-  onValueChange?: (value: string) => void;
+  onValueChange: (value: string) => void;
   placeholder?: string | { label: string; value: null };
 } & Omit<
   PickerSelectProps,
@@ -38,12 +38,6 @@ export const Picker = ({
   placeholder = 'Escolha uma opção',
   ...pickerProps
 }: PickerComponentProps) => {
-  const handleValueChange = (selectedValue: any) => {
-    if (onValueChange && selectedValue !== null) {
-      onValueChange(selectedValue);
-    }
-  };
-
   return (
     <View style={styles.inputContainer}>
       <Text style={styles.inputLabel}>{label}</Text>
@@ -57,7 +51,7 @@ export const Picker = ({
           />
         )}
         <RNPickerSelect
-          onValueChange={handleValueChange}
+          onValueChange={onValueChange}
           items={items}
           value={value}
           placeholder={{ label: placeholder, value: '' }}
