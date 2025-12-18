@@ -36,6 +36,7 @@ const simulateSubmitForm = () => {
   waitFor(() => {
     fireEvent.press(submitButton);
   });
+  return submitButton;
 };
 
 describe('Login', () => {
@@ -130,14 +131,14 @@ describe('Login', () => {
     loginUsecase.mockRejectedValueOnce(error);
     const alertSpy = jest.spyOn(Alert, 'alert');
 
-    simulateSubmitForm();
+    const submitButton = simulateSubmitForm();
 
     await waitFor(() => {
       expect(alertSpy).toHaveBeenCalledWith('Erro ao entrar', error.message, [
         { text: 'OK' },
       ]);
       expect(alertSpy).toHaveBeenCalledTimes(1);
-      expect(navigationRef.getCurrentRoute()?.name).toBe('Login');
+      expect(submitButton).not.toBeDisabled();
     });
   });
 

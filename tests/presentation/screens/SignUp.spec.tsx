@@ -13,7 +13,7 @@ import {
 import { type MockProxy, mock } from 'jest-mock-extended';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert } from 'react-native';
 
 import { UnexpectedError } from '@/domain/errors';
 import type { Validation } from '@/presentation/protocols';
@@ -41,6 +41,7 @@ const simulateSubmitForm = () => {
   waitFor(() => {
     fireEvent.press(submitButton);
   });
+  return submitButton;
 };
 
 describe('SignUp', () => {
@@ -149,7 +150,7 @@ describe('SignUp', () => {
     signUpUsecase.mockRejectedValueOnce(error);
     const alertSpy = jest.spyOn(Alert, 'alert');
 
-    simulateSubmitForm();
+    const submitButton = simulateSubmitForm();
 
     await waitFor(() => {
       expect(alertSpy).toHaveBeenCalledWith(
@@ -158,7 +159,7 @@ describe('SignUp', () => {
         [{ text: 'OK' }],
       );
       expect(alertSpy).toHaveBeenCalledTimes(1);
-      expect(navigationRef.getCurrentRoute()?.name).toBe('SignUp');
+      expect(submitButton).not.toBeDisabled();
     });
   });
 
