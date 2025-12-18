@@ -1,6 +1,6 @@
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { Login as LoginUsecase } from '@/domain/usecases';
@@ -28,20 +28,26 @@ export const Login = ({ validation, loginUsecase }: Props) => {
   };
 
   const handleSubmit = async () => {
-    setState({ ...state, loading: true });
-    const errors = validation.validate({
-      email: state.email,
-      password: state.password,
-    });
-    if (errors.length) {
-      const newStateWithErrors = { ...state };
-      errors.forEach(({ field, error }) => {
-        Object.assign(newStateWithErrors, { [`${field}Error`]: error });
+    try {
+      setState({ ...state, loading: true });
+      const errors = validation.validate({
+        email: state.email,
+        password: state.password,
       });
-      setState(newStateWithErrors);
-      return null;
+      if (errors.length) {
+        const newStateWithErrors = { ...state };
+        errors.forEach(({ field, error }) => {
+          Object.assign(newStateWithErrors, { [`${field}Error`]: error });
+        });
+        setState(newStateWithErrors);
+        return null;
+      }
+      await loginUsecase({ email: state.email, password: state.password });
+    } catch (error) {
+      Alert.alert('Erro ao entrar', (error as Error).message, [{ text: 'OK' }]);
+    } finally {
+      setState((prevState) => ({ ...prevState, loading: false }));
     }
-    await loginUsecase({ email: state.email, password: state.password });
   };
 
   return (
