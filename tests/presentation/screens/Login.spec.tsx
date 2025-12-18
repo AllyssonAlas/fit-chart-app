@@ -54,6 +54,7 @@ describe('Login', () => {
           <LoginScreen validation={validation} loginUsecase={loginUsecase} />
         ),
         Home: () => null,
+        SignUp: () => null,
       },
     });
     const Navigation = createStaticNavigation(RootStack);
@@ -146,5 +147,13 @@ describe('Login', () => {
     await waitFor(() => {
       expect(navigationRef.getCurrentRoute()?.name).toBe('Home');
     });
+  });
+
+  it('Should navigate to SignUp screen on link press', () => {
+    const linkButton = screen.getByTestId('link-to-sign-up');
+
+    fireEvent.press(linkButton);
+
+    expect(navigationRef.getCurrentRoute()?.name).toBe('SignUp');
   });
 });
