@@ -1,4 +1,6 @@
-import MaterialIcons, { type MaterialDesignIconsIconName } from '@react-native-vector-icons/material-design-icons';
+import MaterialIcons, {
+  type MaterialDesignIconsIconName,
+} from '@react-native-vector-icons/material-design-icons';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React, { useState } from 'react';
 import {
@@ -28,7 +30,7 @@ export const Input = ({
   name,
   ...textInputProps
 }: InputProps) => {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -60,6 +62,7 @@ export const Input = ({
           <TouchableOpacity
             style={styles.passwordToggle}
             onPress={togglePasswordVisibility}
+            testID={`${name}-password-toggle`}
           >
             <MaterialIcons
               name={isPasswordVisible ? 'eye' : 'eye-off'}
