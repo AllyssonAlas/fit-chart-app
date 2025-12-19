@@ -31,10 +31,7 @@ export const Login = ({ validation, loginUsecase }: Props) => {
   const handleSubmit = async () => {
     try {
       setState({ ...state, loading: true });
-      const errors = validation.validate({
-        email: state.email,
-        password: state.password,
-      });
+      const errors = validation.validate(state);
       if (errors.length) {
         const newStateWithErrors = { ...state };
         errors.forEach(({ field, error }) => {

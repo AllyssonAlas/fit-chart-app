@@ -44,14 +44,7 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
   const handleSubmit = async () => {
     try {
       setState({ ...state, loading: true });
-      const errors = validation.validate({
-        name: state.name,
-        email: state.email,
-        contact: state.contact,
-        password: state.password,
-        confirmPassword: state.confirmPassword,
-        role: state.role,
-      });
+      const errors = validation.validate(state);
       if (errors.length) {
         const newStateWithErrors = { ...state };
         errors.forEach(({ field, error }) => {
