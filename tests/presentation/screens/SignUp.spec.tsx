@@ -1,15 +1,5 @@
-import {
-  createNavigationContainerRef,
-  createStaticNavigation,
-  type NavigationContainerRefWithCurrent,
-} from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react-native';
+import type { NavigationContainerRefWithCurrent } from '@react-navigation/native';
+import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { type MockProxy, mock } from 'jest-mock-extended';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
@@ -18,13 +8,14 @@ import { Alert } from 'react-native';
 import { UnexpectedError } from '@/domain/errors';
 import type { Validation } from '@/presentation/protocols';
 import { SignUp as SignUpScreen } from '@/presentation/screens/SignUp';
-
+import { createNavigationStack } from '@/tests/presentation/utils/render-navigation';
 import {
   checkInputError,
   populateInput,
 } from '@/tests/presentation/utils/test-helpers';
 
 type RootStackParamList = {
+  Login: undefined;
   SignUp: undefined;
   Home: undefined;
 };
@@ -53,17 +44,16 @@ describe('SignUp', () => {
     validation = mock();
     validation.validate.mockReturnValue([]);
     signUpUsecase = jest.fn();
-    navigationRef = createNavigationContainerRef<RootStackParamList>();
-    const RootStack = createNativeStackNavigator({
-      screens: {
+    navigationRef = createNavigationStack(
+      {
+        Login: () => null,
         SignUp: () => (
           <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />
         ),
         Home: () => null,
       },
-    });
-    const Navigation = createStaticNavigation(RootStack);
-    render(<Navigation ref={navigationRef} />);
+      'SignUp',
+    );
   });
 
   it('Should start with correct initial state', () => {
