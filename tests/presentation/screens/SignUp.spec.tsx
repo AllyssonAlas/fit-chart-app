@@ -160,4 +160,23 @@ describe('SignUp', () => {
       expect(navigationRef.getCurrentRoute()?.name).toBe('Home');
     });
   });
+
+  it('Should navigate back to Login screen on link press', async () => {
+    const newNavigationRef = createNavigationStack(
+      {
+        Login: () => null,
+        SignUp: () => (
+          <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />
+        ),
+        Home: () => null,
+      },
+      'Login',
+    );
+    await waitFor(() => newNavigationRef.navigate('SignUp'));
+
+    const linkButton = screen.getByTestId('link-to-login');
+    fireEvent.press(linkButton);
+
+    expect(newNavigationRef.getCurrentRoute()?.name).toBe('Login');
+  });
 });
