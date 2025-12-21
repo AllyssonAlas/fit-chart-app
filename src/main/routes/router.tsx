@@ -4,12 +4,14 @@ import {
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { MakeSignUpScreen } from '@/main/factories/presentation/screens';
-import { Login } from '@/presentation/screens/Login';
+import {
+  MakeLoginScreen,
+  MakeSignUpScreen,
+} from '@/main/factories/presentation/screens';
 
 const RootStack = createNativeStackNavigator({
   screens: {
-    Login: () => <Login />,
+    Login: () => <MakeLoginScreen />,
     SignUp: () => <MakeSignUpScreen />,
     Home: () => null,
   },
