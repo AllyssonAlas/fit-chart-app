@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React, { useState } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
 
 import type { SignUp as SignUpUsecase } from '@/domain/usecases';
 import {
@@ -160,6 +160,13 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
             testID={'submit-button'}
             title={'Continuar'}
           />
+          <TouchableOpacity
+            onPress={navigation.goBack}
+            style={styles.link}
+            testID={'link-to-login'}
+          >
+            <Text style={styles.linkText}>Voltar</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ScreenWrapper>

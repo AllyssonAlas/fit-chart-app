@@ -31,4 +31,15 @@ export const styles = StyleSheet.create(() => ({
   formSection: {
     marginBottom: 32,
   },
+  link: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  linkText: {
+    color: 'rgba(215, 4, 4, 1)',
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 24,
+  },
 }));
