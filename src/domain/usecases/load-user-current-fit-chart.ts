@@ -1,7 +1,23 @@
 import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
 import { UnexpectedError } from '@/domain/errors';
 
-type Output = void | null;
+type Output = {
+  id: string;
+  userId: string;
+  goals: string;
+  observation?: string;
+  divisions: {
+    name: string;
+    weekDays: number[];
+  }[];
+  exercises: {
+    exerciseId: string;
+    series: number;
+    repts: number;
+    weight: number;
+    division: string;
+  }[];
+} | null;
 export type LoadUserCurrentFitChart = () => Promise<Output>;
 export type Setup = (
   url: string,
@@ -13,8 +29,17 @@ export const setupLoadUserCurrentFitChart: Setup = (
   httpClient: HttpClient,
 ) => {
   return async () => {
-    const { statusCode } = await httpClient.request({ url, method: 'get' });
-    if (statusCode === HttpStatusCode.serverError) throw new UnexpectedError();
-    if (statusCode === HttpStatusCode.noContent) return null;
+    const { body, statusCode } = await httpClient.request({
+      url,
+      method: 'get',
+    });
+    switch (statusCode) {
+      case HttpStatusCode.ok:
+        return body;
+      case HttpStatusCode.noContent:
+        return null;
+      default:
+        throw new UnexpectedError();
+    }
   };
 };
