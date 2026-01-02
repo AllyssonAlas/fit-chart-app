@@ -18,6 +18,32 @@ describe('LoadUserCurrentFitChart', () => {
     httpClient = mock();
     httpClient.request.mockResolvedValue({
       statusCode: HttpStatusCode.ok,
+      body: {
+        id: 'any_fit_chart_id',
+        userId: 'any_user_id',
+        goals: 'any_goal',
+        observation: 'any_observation',
+        divisions: [
+          { name: 'any_division_1', weekDays: [0, 1] },
+          { name: 'any_division_2', weekDays: [2, 3] },
+        ],
+        exercises: [
+          {
+            exerciseId: 'any_exercise_id_1',
+            series: 4,
+            repts: 12,
+            weight: 20,
+            division: 'any_division_1',
+          },
+          {
+            exerciseId: 'any_exercise_id_2',
+            series: 3,
+            repts: 10,
+            weight: 30,
+            division: 'any_division_2',
+          },
+        ],
+      },
     });
   });
 
@@ -53,5 +79,36 @@ describe('LoadUserCurrentFitChart', () => {
     const result = await sut();
 
     expect(result).toBeNull();
+  });
+
+  it('Should return correct output on success', async () => {
+    const result = await sut();
+
+    expect(result).toEqual({
+      id: 'any_fit_chart_id',
+      userId: 'any_user_id',
+      goals: 'any_goal',
+      observation: 'any_observation',
+      divisions: [
+        { name: 'any_division_1', weekDays: [0, 1] },
+        { name: 'any_division_2', weekDays: [2, 3] },
+      ],
+      exercises: [
+        {
+          exerciseId: 'any_exercise_id_1',
+          series: 4,
+          repts: 12,
+          weight: 20,
+          division: 'any_division_1',
+        },
+        {
+          exerciseId: 'any_exercise_id_2',
+          series: 3,
+          repts: 10,
+          weight: 30,
+          division: 'any_division_2',
+        },
+      ],
+    });
   });
 });
