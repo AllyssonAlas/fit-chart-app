@@ -1,4 +1,5 @@
-import type { HttpClient } from '@/domain/contracts/gateways';
+import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
+import { UnexpectedError } from '@/domain/errors';
 
 type Output = void;
 export type LoadUserCurrentFitChart = () => Promise<Output>;
@@ -12,6 +13,7 @@ export const setupLoadUserCurrentFitChart: Setup = (
   httpClient: HttpClient,
 ) => {
   return async () => {
-    await httpClient.request({ url, method: 'get' });
+    const { statusCode } = await httpClient.request({ url, method: 'get' });
+    if (statusCode === HttpStatusCode.serverError) throw new UnexpectedError();
   };
 };
