@@ -13,7 +13,7 @@ export namespace HttpClient {
   export type Input = {
     url: string;
     method: string;
-    body: any;
+    body?: any;
   };
 
   export type Output = {
