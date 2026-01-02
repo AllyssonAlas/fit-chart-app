@@ -44,4 +44,14 @@ describe('LoadUserCurrentFitChart', () => {
 
     await expect(promise).rejects.toThrow(new UnexpectedError());
   });
+
+  it('Should return null if HttpClient returns 204', async () => {
+    httpClient.request.mockResolvedValueOnce({
+      statusCode: HttpStatusCode.noContent,
+    });
+
+    const result = await sut();
+
+    expect(result).toBeNull();
+  });
 });
