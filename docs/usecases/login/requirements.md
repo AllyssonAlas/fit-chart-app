@@ -1,4 +1,4 @@
-# Sign up Usecase
+# Login Usecase
 
 > ## Case of success
 1. Validate provided **email** and **password**
