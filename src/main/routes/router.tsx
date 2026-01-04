@@ -17,10 +17,6 @@ const RootStack = createNativeStackNavigator({
   },
   screenOptions: {
     headerShown: false,
-    contentStyle: {
-      backgroundColor: 'rgba(0, 0, 0, 0)',
-      flex: 1,
-    },
   },
 });
 

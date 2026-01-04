@@ -5,5 +5,9 @@ export const styles = StyleSheet.create(() => ({
     flex: 1,
     justifyContent: 'center',
     paddingTop: 16,
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+  },
+  scrollViewContent: {
+    flex: 1,
   },
 }));

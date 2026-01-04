@@ -17,10 +17,11 @@ export const ScreenWrapper = ({
   scrollViewProps,
 }: ScreenWrapperProps) => {
   return (
-    <SafeAreaView style={[styles.safeArea]}>
+    <SafeAreaView style={styles.safeArea}>
       <ScrollView
         scrollEnabled={scrollable}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollViewContent}
         {...scrollViewProps}
       >
         {children}
