@@ -8,12 +8,13 @@ import {
   MakeLoginScreen,
   MakeSignUpScreen,
 } from '@/main/factories/presentation/screens';
+import { Home } from '@/presentation/screens/Home';
 
 const RootStack = createNativeStackNavigator({
   screens: {
     Login: () => <MakeLoginScreen />,
     SignUp: () => <MakeSignUpScreen />,
-    Home: () => null,
+    Home: () => <Home />,
   },
   screenOptions: {
     headerShown: false,
