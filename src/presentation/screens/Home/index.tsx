@@ -1,7 +1,7 @@
 import MaterialIcons from '@react-native-vector-icons/material-design-icons';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 
 import type { LoadUserCurrentFitChart } from '@/domain/usecases';
 import { ScreenWrapper } from '@/presentation/components';
@@ -13,12 +13,15 @@ type Props = {
 };
 
 export const Home = ({ loadUserCurrentFitChart }: Props) => {
-  const [state] = useState({
+  const [state, setState] = useState({
     loading: true,
+    error: false,
   });
 
   useEffect(() => {
-    loadUserCurrentFitChart();
+    loadUserCurrentFitChart().catch(() => {
+      setState({ error: true, loading: false });
+    });
   }, []);
 
   if (state.loading) {
@@ -34,9 +37,25 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
       </ScreenWrapper>
     );
   }
+
+  if (state.error) {
+    return (
+      <ScreenWrapper>
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText} testID={'error-message'}>
+            Erro ao carregar ficha de treino.
+          </Text>
+          <TouchableOpacity style={styles.errorButton} testID={'error-button'}>
+            <Text style={styles.errorButtonText}>Tentar novamente</Text>
+          </TouchableOpacity>
+        </View>
+      </ScreenWrapper>
+    );
+  }
+
   return (
     <ScreenWrapper>
-      <View style={styles.container}>
+      <View style={styles.container} testID={'home-screen'}>
         <View style={styles.content}>
           <Text style={styles.dateText}>Monday, 27</Text>
           <Text style={styles.objectiveText}>

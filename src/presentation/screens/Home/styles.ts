@@ -99,4 +99,28 @@ export const styles = StyleSheet.create(() => ({
     borderColor: 'rgba(215, 4, 4, 1)',
     borderWidth: 1,
   },
+  errorContainer: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+  },
+  errorText: {
+    color: 'rgba(0, 0, 0, 1)',
+    fontSize: 16,
+    fontWeight: '400',
+    marginBottom: 24,
+    textAlign: 'center',
+  },
+  errorButton: {
+    backgroundColor: 'rgba(215, 4, 4, 1)',
+    borderRadius: 8,
+    padding: 12,
+  },
+  errorButtonText: {
+    color: 'rgba(255, 255, 255, 1)',
+    fontSize: 16,
+    fontWeight: '600',
+  },
 }));
