@@ -1,16 +1,25 @@
 import MaterialIcons from '@react-native-vector-icons/material-design-icons';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 
+import type { LoadUserCurrentFitChart } from '@/domain/usecases';
 import { ScreenWrapper } from '@/presentation/components';
 
 import { styles } from './styles';
 
-export const Home = () => {
+type Props = {
+  loadUserCurrentFitChart: LoadUserCurrentFitChart;
+};
+
+export const Home = ({ loadUserCurrentFitChart }: Props) => {
   const [state] = useState({
     loading: true,
   });
+
+  useEffect(() => {
+    loadUserCurrentFitChart();
+  }, []);
 
   if (state.loading) {
     return (
