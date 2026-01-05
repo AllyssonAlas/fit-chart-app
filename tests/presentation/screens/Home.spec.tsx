@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
 import { UnexpectedError } from '@/domain/errors';
@@ -62,5 +62,21 @@ describe('Home', () => {
 
     expect(errorText).toHaveTextContent('Erro ao carregar ficha de treino.');
     expect(errorButton).toBeTruthy();
+  });
+
+  it('Should present retry LoadUserCurrentFitChart on error button press', async () => {
+    const loadUserCurrentFitChartUsecase = jest
+      .fn()
+      .mockRejectedValue(new UnexpectedError());
+    makeSut(loadUserCurrentFitChartUsecase);
+
+    const errorButton = await screen.findByTestId('error-button');
+
+    fireEvent.press(errorButton);
+
+    const loadingIndicator = screen.getByTestId('loading-indicator');
+    expect(loadingIndicator).toBeTruthy();
+    expect(loadUserCurrentFitChartUsecase).toHaveBeenCalledTimes(2);
+    screen.unmount();
   });
 });
