@@ -18,6 +18,13 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
     error: false,
   });
 
+  const handleRetry = () => {
+    setState({ loading: true, error: false });
+    loadUserCurrentFitChart().catch(() => {
+      setState({ error: true, loading: false });
+    });
+  };
+
   useEffect(() => {
     loadUserCurrentFitChart().catch(() => {
       setState({ error: true, loading: false });
@@ -45,7 +52,11 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
           <Text style={styles.errorText} testID={'error-message'}>
             Erro ao carregar ficha de treino.
           </Text>
-          <TouchableOpacity style={styles.errorButton} testID={'error-button'}>
+          <TouchableOpacity
+            onPress={handleRetry}
+            style={styles.errorButton}
+            testID={'error-button'}
+          >
             <Text style={styles.errorButtonText}>Tentar novamente</Text>
           </TouchableOpacity>
         </View>
