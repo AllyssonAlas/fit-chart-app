@@ -1,13 +1,30 @@
 import MaterialIcons from '@react-native-vector-icons/material-design-icons';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { ActivityIndicator, Text, View } from 'react-native';
 
 import { ScreenWrapper } from '@/presentation/components';
 
 import { styles } from './styles';
 
 export const Home = () => {
+  const [state] = useState({
+    loading: true,
+  });
+
+  if (state.loading) {
+    return (
+      <ScreenWrapper>
+        <View style={styles.container}>
+          <ActivityIndicator
+            testID={'loading-indicator'}
+            size={'small'}
+            color={'black'}
+          />
+        </View>
+      </ScreenWrapper>
+    );
+  }
   return (
     <ScreenWrapper>
       <View style={styles.container}>
