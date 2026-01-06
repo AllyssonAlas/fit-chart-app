@@ -46,22 +46,27 @@ describe('Home', () => {
     const loadingIndicator = screen.getByTestId('loading-indicator');
 
     expect(loadingIndicator).toBeTruthy();
+    screen.unmount();
   });
 
   it('Should LoadUserCurrentFitChart usecase on start', () => {
     const { loadUserCurrentFitChartUsecase } = makeSut();
 
     expect(loadUserCurrentFitChartUsecase).toHaveBeenCalledTimes(1);
+    screen.unmount();
   });
 
   it('Should present error message if LoadUserCurrentFitChart throws UnexpectedError', async () => {
     makeSut(Promise.reject(new UnexpectedError()));
 
-    const errorText = await screen.findByTestId('error-message');
-    const errorButton = await screen.findByTestId('error-button');
+    const noContentMessage = await screen.findByTestId('no-content-message');
+    const noContentButton = await screen.findByTestId('no-content-button');
 
-    expect(errorText).toHaveTextContent('Erro ao carregar ficha de treino.');
-    expect(errorButton).toBeTruthy();
+    expect(noContentMessage).toHaveTextContent(
+      'Erro ao carregar ficha de treino.',
+    );
+    expect(noContentButton).toBeTruthy();
+    screen.unmount();
   });
 
   it('Should present retry LoadUserCurrentFitChart on error button press', async () => {
@@ -69,13 +74,24 @@ describe('Home', () => {
       Promise.reject(new UnexpectedError()),
     );
 
-    const errorButton = await screen.findByTestId('error-button');
+    const noContentButton = await screen.findByTestId('no-content-button');
 
-    fireEvent.press(errorButton);
+    fireEvent.press(noContentButton);
 
     const loadingIndicator = screen.getByTestId('loading-indicator');
     expect(loadingIndicator).toBeTruthy();
     expect(loadUserCurrentFitChartUsecase).toHaveBeenCalledTimes(2);
+    screen.unmount();
+  });
+
+  it('Should present a message text if LoadUserCurrentFitChart returns null', async () => {
+    makeSut(null);
+
+    const messageText = await screen.findByTestId('no-content-message');
+
+    expect(messageText).toHaveTextContent(
+      'Você ainda não possui uma ficha de treino.',
+    );
     screen.unmount();
   });
 });
