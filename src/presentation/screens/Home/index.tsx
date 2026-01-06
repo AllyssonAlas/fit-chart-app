@@ -16,19 +16,28 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
   const [state, setState] = useState({
     loading: true,
     error: false,
+    fitChart: null,
   });
 
   const handleRetry = () => {
-    setState({ loading: true, error: false });
-    loadUserCurrentFitChart().catch(() => {
-      setState({ error: true, loading: false });
-    });
+    setState({ fitChart: null, loading: true, error: false });
+    loadUserCurrentFitChart()
+      .then(() => {
+        setState({ fitChart: null, loading: false, error: false });
+      })
+      .catch(() => {
+        setState({ fitChart: null, error: true, loading: false });
+      });
   };
 
   useEffect(() => {
-    loadUserCurrentFitChart().catch(() => {
-      setState({ error: true, loading: false });
-    });
+    loadUserCurrentFitChart()
+      .then(() => {
+        setState({ fitChart: null, loading: false, error: false });
+      })
+      .catch(() => {
+        setState({ fitChart: null, error: true, loading: false });
+      });
   }, []);
 
   if (state.loading) {
@@ -48,17 +57,31 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
   if (state.error) {
     return (
       <ScreenWrapper>
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText} testID={'error-message'}>
+        <View style={styles.noContentContainer}>
+          <Text style={styles.noContentContainer} testID={'no-content-message'}>
             Erro ao carregar ficha de treino.
           </Text>
           <TouchableOpacity
             onPress={handleRetry}
-            style={styles.errorButton}
-            testID={'error-button'}
+            style={styles.noContentContainerButton}
+            testID={'no-content-button'}
           >
-            <Text style={styles.errorButtonText}>Tentar novamente</Text>
+            <Text style={styles.noContentContainerButtonText}>
+              Tentar novamente
+            </Text>
           </TouchableOpacity>
+        </View>
+      </ScreenWrapper>
+    );
+  }
+
+  if (state.fitChart === null) {
+    return (
+      <ScreenWrapper>
+        <View style={styles.noContentContainer}>
+          <Text style={styles.noContentContainer} testID={'no-content-message'}>
+            Você ainda não possui uma ficha de treino.
+          </Text>
         </View>
       </ScreenWrapper>
     );
