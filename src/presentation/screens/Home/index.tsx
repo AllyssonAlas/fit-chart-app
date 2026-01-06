@@ -19,8 +19,7 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
     fitChart: null,
   });
 
-  const handleRetry = () => {
-    setState({ fitChart: null, loading: true, error: false });
+  const handleLoadUserCurrentFitChart = () => {
     loadUserCurrentFitChart()
       .then(() => {
         setState({ fitChart: null, loading: false, error: false });
@@ -30,14 +29,13 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
       });
   };
 
+  const handleRetry = () => {
+    setState({ fitChart: null, loading: true, error: false });
+    handleLoadUserCurrentFitChart();
+  };
+
   useEffect(() => {
-    loadUserCurrentFitChart()
-      .then(() => {
-        setState({ fitChart: null, loading: false, error: false });
-      })
-      .catch(() => {
-        setState({ fitChart: null, error: true, loading: false });
-      });
+    handleLoadUserCurrentFitChart();
   }, []);
 
   if (state.loading) {
