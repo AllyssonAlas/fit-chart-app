@@ -1,4 +1,9 @@
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react-native';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
 import { UnexpectedError } from '@/domain/errors';
@@ -36,6 +41,9 @@ const makeSut = (
     .fn()
     .mockResolvedValue(useCaseOutput);
   render(<Home loadUserCurrentFitChart={loadUserCurrentFitChartUsecase} />);
+  waitFor(() => {
+    screen.getByTestId('loading-indicator');
+  });
   return { loadUserCurrentFitChartUsecase };
 };
 
@@ -46,14 +54,12 @@ describe('Home', () => {
     const loadingIndicator = screen.getByTestId('loading-indicator');
 
     expect(loadingIndicator).toBeTruthy();
-    screen.unmount();
   });
 
   it('Should LoadUserCurrentFitChart usecase on start', () => {
     const { loadUserCurrentFitChartUsecase } = makeSut();
 
     expect(loadUserCurrentFitChartUsecase).toHaveBeenCalledTimes(1);
-    screen.unmount();
   });
 
   it('Should present error message if LoadUserCurrentFitChart throws UnexpectedError', async () => {
@@ -66,7 +72,6 @@ describe('Home', () => {
       'Erro ao carregar ficha de treino.',
     );
     expect(noContentButton).toBeTruthy();
-    screen.unmount();
   });
 
   it('Should present retry LoadUserCurrentFitChart on error button press', async () => {
@@ -81,7 +86,6 @@ describe('Home', () => {
     const loadingIndicator = screen.getByTestId('loading-indicator');
     expect(loadingIndicator).toBeTruthy();
     expect(loadUserCurrentFitChartUsecase).toHaveBeenCalledTimes(2);
-    screen.unmount();
   });
 
   it('Should present a message text if LoadUserCurrentFitChart returns null', async () => {
@@ -92,6 +96,5 @@ describe('Home', () => {
     expect(messageText).toHaveTextContent(
       'Você ainda não possui uma ficha de treino.',
     );
-    screen.unmount();
   });
 });
