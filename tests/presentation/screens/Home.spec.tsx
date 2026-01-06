@@ -5,7 +5,7 @@ import { UnexpectedError } from '@/domain/errors';
 import { Home } from '@/presentation/screens/Home';
 
 const makeSut = (
-  loadUserCurrentFitChartUsecase = jest.fn().mockResolvedValue({
+  useCaseOutput: any = {
     id: 'any_fit_chart_id',
     userId: 'any_user_id',
     goals: 'any_goal',
@@ -30,8 +30,11 @@ const makeSut = (
         division: 'any_division_2',
       },
     ],
-  }),
+  },
 ) => {
+  const loadUserCurrentFitChartUsecase = jest
+    .fn()
+    .mockResolvedValue(useCaseOutput);
   render(<Home loadUserCurrentFitChart={loadUserCurrentFitChartUsecase} />);
   return { loadUserCurrentFitChartUsecase };
 };
@@ -52,10 +55,7 @@ describe('Home', () => {
   });
 
   it('Should present error message if LoadUserCurrentFitChart throws UnexpectedError', async () => {
-    const loadUserCurrentFitChartUsecase = jest
-      .fn()
-      .mockRejectedValueOnce(new UnexpectedError());
-    makeSut(loadUserCurrentFitChartUsecase);
+    makeSut(Promise.reject(new UnexpectedError()));
 
     const errorText = await screen.findByTestId('error-message');
     const errorButton = await screen.findByTestId('error-button');
@@ -65,10 +65,9 @@ describe('Home', () => {
   });
 
   it('Should present retry LoadUserCurrentFitChart on error button press', async () => {
-    const loadUserCurrentFitChartUsecase = jest
-      .fn()
-      .mockRejectedValue(new UnexpectedError());
-    makeSut(loadUserCurrentFitChartUsecase);
+    const { loadUserCurrentFitChartUsecase } = makeSut(
+      Promise.reject(new UnexpectedError()),
+    );
 
     const errorButton = await screen.findByTestId('error-button');
 
