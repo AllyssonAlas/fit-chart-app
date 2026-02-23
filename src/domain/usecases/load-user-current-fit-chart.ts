@@ -1,23 +1,8 @@
 import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
+import type { FitChart } from '@/domain/entities/types';
 import { UnexpectedError } from '@/domain/errors';
 
-type Output = {
-  id: string;
-  userId: string;
-  goals: string;
-  observation?: string;
-  divisions: {
-    name: string;
-    weekDays: number[];
-  }[];
-  exercises: {
-    exerciseId: string;
-    series: number;
-    repts: number;
-    weight: number;
-    division: string;
-  }[];
-} | null;
+type Output = FitChart | null;
 export type LoadUserCurrentFitChart = () => Promise<Output>;
 export type Setup = (
   url: string,

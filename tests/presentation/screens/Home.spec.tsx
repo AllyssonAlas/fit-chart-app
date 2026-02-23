@@ -7,11 +7,12 @@ import {
 } from '@testing-library/react-native';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
+import type { FitChart } from '@/domain/entities/types';
 import { UnexpectedError } from '@/domain/errors';
 import { Home } from '@/presentation/screens/Home';
 
 const makeSut = (
-  useCaseOutput: any = {
+  useCaseOutput: FitChart | Promise<never> | null = {
     id: 'any_fit_chart_id',
     userId: 'any_user_id',
     goals: 'any_goal',

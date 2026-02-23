@@ -2,21 +2,40 @@ import MaterialIcons from '@react-native-vector-icons/material-design-icons';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
-
+import type { FitChart } from '@/domain/entities/types';
 import type { LoadUserCurrentFitChart } from '@/domain/usecases';
 import { ScreenWrapper } from '@/presentation/components';
 
 import { styles } from './styles';
+
+type State = {
+  loading: boolean;
+  error: boolean;
+  fitChart: {
+    goals: string;
+    exercisesList: {
+      category: string;
+      exercises: {
+        name: string;
+        equipment?: string;
+        series: number;
+        repts: number;
+        weight: number;
+        exerciseId: string;
+      }[];
+    }[];
+  } | null;
+};
 
 type Props = {
   loadUserCurrentFitChart: LoadUserCurrentFitChart;
 };
 
 export const Home = ({ loadUserCurrentFitChart }: Props) => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<State>({
     loading: true,
     error: false,
-    fitChart: null as any,
+    fitChart: null,
   });
 
   const handleGetTitle = () => {
@@ -45,25 +64,25 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
     handleLoadUserCurrentFitChart();
   };
 
-  const handleFormatFitChart = (fitChart: any) => {
+  const handleFormatFitChart = (fitChart: FitChart) => {
     const dayOfWeek = new Date().getDay();
-    const divisionOfDay = fitChart.divisions.find((division: any) =>
+    const divisionOfDay = fitChart.divisions.find((division) =>
       division.weekDays.includes(dayOfWeek),
     );
     if (!divisionOfDay) return null;
     const exercisesOfDay = fitChart.exercises.filter(
-      (exercise: any) => exercise.division === divisionOfDay.name,
+      (exercise) => exercise.division === divisionOfDay.name,
     );
     const categories = new Set(
-      exercisesOfDay.map((exercise: any) => exercise.category),
+      exercisesOfDay.map((exercise) => exercise.category),
     );
     return {
       goals: fitChart.goals,
-      exercises: Array.from(categories).map((category: any) => {
+      exercisesList: Array.from(categories).map((category) => {
         return {
           category,
           exercises: exercisesOfDay.filter(
-            (exercise: any) => exercise.category === category,
+            (exercise) => exercise.category === category,
           ),
         };
       }),
@@ -132,7 +151,7 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
             {state.fitChart.goals}
           </Text>
           <View testID={'exercises-list'}>
-            {state.fitChart.exercises.map(
+            {state.fitChart.exercisesList.map(
               ({ category, exercises }: any, index: number) => {
                 const categoryIndex = index + 1;
                 return (
