@@ -16,13 +16,24 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
   const [state, setState] = useState({
     loading: true,
     error: false,
-    fitChart: null,
+    fitChart: null as any,
   });
+
+  const handleGetTitle = () => {
+    const today = new Date();
+    const dayOfWeekInPtBr = today.toLocaleString('pt-BR', { weekday: 'long' });
+    const dayOfMonth = today.getDate();
+    return `${dayOfWeekInPtBr.charAt(0).toUpperCase() + dayOfWeekInPtBr.slice(1)}, ${dayOfMonth}`;
+  };
 
   const handleLoadUserCurrentFitChart = () => {
     loadUserCurrentFitChart()
-      .then(() => {
-        setState({ fitChart: null, loading: false, error: false });
+      .then((fitChart) => {
+        setState({
+          fitChart: fitChart ? handleFormatFitChart(fitChart) : null,
+          loading: false,
+          error: false,
+        });
       })
       .catch(() => {
         setState({ fitChart: null, error: true, loading: false });
@@ -32,6 +43,31 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
   const handleRetry = () => {
     setState({ fitChart: null, loading: true, error: false });
     handleLoadUserCurrentFitChart();
+  };
+
+  const handleFormatFitChart = (fitChart: any) => {
+    const dayOfWeek = new Date().getDay();
+    const divisionOfDay = fitChart.divisions.find((division: any) =>
+      division.weekDays.includes(dayOfWeek),
+    );
+    if (!divisionOfDay) return null;
+    const exercisesOfDay = fitChart.exercises.filter(
+      (exercise: any) => exercise.division === divisionOfDay.name,
+    );
+    const categories = new Set(
+      exercisesOfDay.map((exercise: any) => exercise.category),
+    );
+    return {
+      goals: fitChart.goals,
+      exercises: Array.from(categories).map((category: any) => {
+        return {
+          category,
+          exercises: exercisesOfDay.filter(
+            (exercise: any) => exercise.category === category,
+          ),
+        };
+      }),
+    };
   };
 
   useEffect(() => {
@@ -89,80 +125,121 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
     <ScreenWrapper>
       <View style={styles.container} testID={'home-screen'}>
         <View style={styles.content}>
-          <Text style={styles.dateText}>Monday, 27</Text>
-          <Text style={styles.objectiveText}>
-            This is the objective of this chart something like gain of slim mass
+          <Text style={styles.dateText} testID={'date-text'}>
+            {handleGetTitle()}
           </Text>
-          <Text style={styles.muscleGroupText}>Biceps</Text>
-          <View style={[styles.exerciseCard, styles.borderSelected]}>
-            <View style={styles.exerciseMain}>
-              <View style={styles.rowContainer}>
-                <View style={[styles.row, styles.borderSelected]}>
-                  <Text style={styles.rowText}>Rosca direta</Text>
-                </View>
-                <View
-                  style={[styles.row, styles.rowSmall, styles.borderSelected]}
-                >
-                  <View style={styles.rowIcon}>
-                    <MaterialIcons
-                      name="weight-kilogram"
-                      size={20}
-                      color="black"
-                    />
+          <Text style={styles.objectiveText} testID={'goals-text'}>
+            {state.fitChart.goals}
+          </Text>
+          <View testID={'exercises-list'}>
+            {state.fitChart.exercises.map(
+              ({ category, exercises }: any, index: number) => {
+                const categoryIndex = index + 1;
+                return (
+                  <View key={category}>
+                    <Text
+                      style={styles.muscleGroupText}
+                      testID={`exercises-category-${categoryIndex}`}
+                    >
+                      {category}
+                    </Text>
+                    {exercises.map((exercise: any, exerciseIndex: number) => {
+                      const indexOfExercise = exerciseIndex + 1;
+                      return (
+                        <View key={exercise.exerciseId}>
+                          <View
+                            style={[styles.exerciseCard, styles.borderSelected]}
+                          >
+                            <View style={styles.exerciseMain}>
+                              <View style={styles.rowContainer}>
+                                <View
+                                  style={[styles.row, styles.borderSelected]}
+                                >
+                                  <Text
+                                    style={styles.rowText}
+                                    testID={`category-${categoryIndex}-exercise-${indexOfExercise}-name`}
+                                  >
+                                    {exercise.name}
+                                  </Text>
+                                </View>
+                                <View
+                                  style={[
+                                    styles.row,
+                                    styles.rowSmall,
+                                    styles.borderSelected,
+                                  ]}
+                                >
+                                  <View style={styles.rowIcon}>
+                                    <MaterialIcons
+                                      name={'weight-kilogram'}
+                                      size={20}
+                                      color={'black'}
+                                    />
+                                  </View>
+                                  <Text
+                                    style={styles.rowText}
+                                    testID={`category-${categoryIndex}-exercise-${indexOfExercise}-weight`}
+                                  >
+                                    {exercise.weight}
+                                  </Text>
+                                </View>
+                              </View>
+                              <View style={styles.rowContainer}>
+                                <View
+                                  style={[styles.row, styles.borderSelected]}
+                                >
+                                  <Text
+                                    style={styles.rowText}
+                                    testID={`category-${categoryIndex}-exercise-${indexOfExercise}-equipment`}
+                                  >
+                                    {exercise.equipment || ''}
+                                  </Text>
+                                </View>
+                                <View
+                                  style={[
+                                    styles.row,
+                                    styles.rowSmall,
+                                    styles.borderSelected,
+                                  ]}
+                                >
+                                  <View style={styles.rowIcon}>
+                                    <MaterialIcons
+                                      name={'repeat'}
+                                      size={20}
+                                      color={'black'}
+                                    />
+                                  </View>
+                                  <Text
+                                    style={styles.rowText}
+                                    testID={`category-${categoryIndex}-exercise-${indexOfExercise}-repts`}
+                                  >
+                                    {exercise.repts}
+                                  </Text>
+                                </View>
+                              </View>
+                            </View>
+                            <View
+                              style={[
+                                styles.seriesContainer,
+                                styles.borderSelected,
+                              ]}
+                            >
+                              <Text
+                                style={styles.seriesText}
+                                testID={`category-${categoryIndex}-exercise-${indexOfExercise}-series`}
+                              >
+                                {exercise.series}
+                                {'\n'}séries
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
+                      );
+                    })}
                   </View>
-                  <Text style={styles.rowText}>20</Text>
-                </View>
-              </View>
-              <View style={styles.rowContainer}>
-                <View style={[styles.row, styles.borderSelected]}>
-                  <Text style={styles.rowText}>Na barra livre</Text>
-                </View>
-                <View
-                  style={[styles.row, styles.rowSmall, styles.borderSelected]}
-                >
-                  <View style={styles.rowIcon}>
-                    <MaterialIcons name="repeat" size={20} color="black" />
-                  </View>
-                  <Text style={styles.rowText}>12</Text>
-                </View>
-              </View>
-            </View>
-            <View style={[styles.seriesContainer, styles.borderSelected]}>
-              <Text style={styles.seriesText}>4{'\n'}séries</Text>
-            </View>
-          </View>
-          <View style={styles.exerciseCard}>
-            <View style={styles.exerciseMain}>
-              <View style={styles.rowContainer}>
-                <View style={styles.row}>
-                  <Text style={styles.rowText}>Rosca direta</Text>
-                </View>
-                <View style={[styles.row, styles.rowSmall]}>
-                  <View style={styles.rowIcon}>
-                    <MaterialIcons
-                      name="weight-kilogram"
-                      size={20}
-                      color="black"
-                    />
-                  </View>
-                  <Text style={styles.rowText}>20</Text>
-                </View>
-              </View>
-              <View style={styles.rowContainer}>
-                <View style={styles.row}>
-                  <Text style={styles.rowText}>Na barra livre</Text>
-                </View>
-                <View style={[styles.row, styles.rowSmall]}>
-                  <View style={styles.rowIcon}>
-                    <MaterialIcons name="repeat" size={20} color="black" />
-                  </View>
-                  <Text style={styles.rowText}>12</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.seriesContainer}>
-              <Text style={styles.seriesText}>4{'\n'}séries</Text>
-            </View>
+                );
+              },
+            )}
           </View>
         </View>
       </View>
