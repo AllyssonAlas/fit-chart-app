@@ -94,17 +94,17 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
     handleLoadUserCurrentFitChart();
   }, []);
 
-  if (state.loading) {
-    return <Loading />;
-  }
-
-  if (state.error) {
-    return <HomeError onRetry={handleRetry} />;
-  }
-
-  if (state.fitChart === null) {
-    return <EmptyFitchart />;
-  }
+  const handleRenderContent = () => {
+    if (state.loading) return <Loading />;
+    else if (state.error) return <HomeError onRetry={handleRetry} />;
+    else if (state.fitChart === null) return <EmptyFitchart />;
+    return (
+      <Fitchart
+        exercisesList={state.fitChart.exercisesList}
+        goals={state.fitChart.goals}
+      />
+    );
+  };
 
   return (
     <ScreenWrapper>
@@ -113,10 +113,7 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
           <Text style={styles.dateText} testID={'date-text'}>
             {handleGetTitle()}
           </Text>
-          <Fitchart
-            exercisesList={state.fitChart.exercisesList}
-            goals={state.fitChart.goals}
-          />
+          {handleRenderContent()}
         </View>
       </View>
     </ScreenWrapper>
