@@ -68,18 +68,18 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
   const handleFormatFitChart = (fitChart: FitChart) => {
     const dayOfWeek = new Date().getDay();
     const divisionOfDay = fitChart.divisions.find((division) => division.weekDays.includes(dayOfWeek));
-    if (!divisionOfDay) return null;
-    const exercisesOfDay = fitChart.exercises.filter((exercise) => exercise.division === divisionOfDay.name);
-    const categories = new Set(exercisesOfDay.map((exercise) => exercise.category));
-    return {
-      goals: fitChart.goals,
-      exercisesList: Array.from(categories).map((category) => {
+    const fitChartFormatted: State['fitChart'] = { goals: fitChart.goals, exercisesList: [] };
+    if (divisionOfDay) {
+      const exercisesOfDay = fitChart.exercises.filter((exercise) => exercise.division === divisionOfDay.name);
+      const categories = new Set(exercisesOfDay.map((exercise) => exercise.category));
+      fitChartFormatted.exercisesList = Array.from(categories).map((category) => {
         return {
           category,
           exercises: exercisesOfDay.filter((exercise) => exercise.category === category),
         };
-      }),
-    };
+      });
+    }
+    return fitChartFormatted;
   };
 
   useEffect(() => {
