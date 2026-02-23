@@ -79,6 +79,14 @@ describe('Home', () => {
     expect(messageText).toHaveTextContent('Você não possui exercicios para hoje.');
   });
 
+  it('Should present a message text if LoadUserCurrentFitChart returns a FitChart without exercises', async () => {
+    makeSut({ ...mockFitChart(), exercises: [] });
+
+    const messageText = await screen.findByTestId('no-content-message');
+
+    expect(messageText).toHaveTextContent('Você não possui exercicios para hoje.');
+  });
+
   it('Should present fit chart on success', async () => {
     makeSut();
 
