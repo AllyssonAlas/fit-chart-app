@@ -4,12 +4,7 @@ import {
   RequiredFieldError,
   RequiredMinLengthError,
 } from '@/presentation/errors';
-import {
-  Required,
-  RequiredEmail,
-  RequiredEqualFields,
-  RequiredMinLength,
-} from '@/presentation/validation';
+import { Required, RequiredEmail, RequiredEqualFields, RequiredMinLength } from '@/presentation/validation';
 
 describe('Required', () => {
   it('Should return error if field value is empty', () => {
@@ -127,11 +122,7 @@ describe('RequiredEqualFields', () => {
   });
 
   it('Should return error with alias field name if fields are not equal', () => {
-    const sut = new RequiredEqualFields(
-      'any_field',
-      'any_field_2',
-      'alias_field',
-    );
+    const sut = new RequiredEqualFields('any_field', 'any_field_2', 'alias_field');
 
     const error = sut.validate({ any_field: '12345', any_field_2: '123456' });
 

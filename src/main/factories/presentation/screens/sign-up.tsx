@@ -5,10 +5,5 @@ import { makeSignUpValidation } from '@/main/factories/presentation/validation';
 import { SignUp } from '@/presentation/screens/SignUp';
 
 export const MakeSignUpScreen = () => {
-  return (
-    <SignUp
-      validation={makeSignUpValidation()}
-      signUpUsecase={makeSignUpUsecase()}
-    />
-  );
+  return <SignUp validation={makeSignUpValidation()} signUpUsecase={makeSignUpUsecase()} />;
 };

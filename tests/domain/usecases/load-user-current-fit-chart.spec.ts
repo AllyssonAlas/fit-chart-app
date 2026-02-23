@@ -3,10 +3,7 @@ import { type MockProxy, mock } from 'jest-mock-extended';
 import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
 import { UnexpectedError } from '@/domain/errors';
 
-import {
-  type LoadUserCurrentFitChart,
-  setupLoadUserCurrentFitChart,
-} from '@/domain/usecases';
+import { type LoadUserCurrentFitChart, setupLoadUserCurrentFitChart } from '@/domain/usecases';
 
 describe('LoadUserCurrentFitChart', () => {
   const url = 'any_url';

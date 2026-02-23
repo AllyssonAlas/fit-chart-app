@@ -5,11 +5,7 @@ export const populateInput = (fieldName: string, value = 'any_value') => {
   fireEvent.changeText(input, value);
 };
 
-export const checkInputError = (
-  fieldName: string,
-  errorMessage = 'any_error',
-  checkIfExists = true,
-) => {
+export const checkInputError = (fieldName: string, errorMessage = 'any_error', checkIfExists = true) => {
   const inputError = screen.queryByTestId(`${fieldName}-error`);
   if (checkIfExists) expect(inputError).toHaveTextContent(errorMessage);
   else expect(inputError).toBeNull();

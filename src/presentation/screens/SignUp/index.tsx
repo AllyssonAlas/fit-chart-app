@@ -4,12 +4,7 @@ import React, { useState } from 'react';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 
 import type { SignUp as SignUpUsecase } from '@/domain/usecases';
-import {
-  Button,
-  Input,
-  Picker,
-  ScreenWrapper,
-} from '@/presentation/components';
+import { Button, Input, Picker, ScreenWrapper } from '@/presentation/components';
 import type { Validation } from '@/presentation/protocols';
 
 import { styles } from './styles';
@@ -62,9 +57,7 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
       });
       navigation.navigate('Home');
     } catch (error) {
-      Alert.alert('Erro ao criar conta', (error as Error).message, [
-        { text: 'OK' },
-      ]);
+      Alert.alert('Erro ao criar conta', (error as Error).message, [{ text: 'OK' }]);
     } finally {
       setState((prevState) => ({ ...prevState, loading: false }));
     }
@@ -76,9 +69,7 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
         <View style={styles.mainContent}>
           <View style={styles.welcomeSection}>
             <Text style={styles.welcomeTitle}>Crie sua conta</Text>
-            <Text style={styles.welcomeSubtitle}>
-              Crie sua conta para entrar no mundo fitness
-            </Text>
+            <Text style={styles.welcomeSubtitle}>Crie sua conta para entrar no mundo fitness</Text>
           </View>
           <View style={styles.formSection}>
             <Input
@@ -130,9 +121,7 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
               keyboardType={'visible-password'}
               label={'Confirmar senha'}
               name={'confirm-password'}
-              onChangeText={(value) =>
-                handleInputChange('confirmPassword', value)
-              }
+              onChangeText={(value) => handleInputChange('confirmPassword', value)}
               placeholder={'Confirme sua senha'}
               value={state.confirmPassword}
             />
@@ -149,22 +138,13 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
           <Button
             loading={state.loading}
             disabled={
-              !state.name ||
-              !state.email ||
-              !state.contact ||
-              !state.password ||
-              !state.confirmPassword ||
-              !state.role
+              !state.name || !state.email || !state.contact || !state.password || !state.confirmPassword || !state.role
             }
             onPress={handleSubmit}
             testID={'submit-button'}
             title={'Continuar'}
           />
-          <TouchableOpacity
-            onPress={navigation.goBack}
-            style={styles.link}
-            testID={'link-to-login'}
-          >
+          <TouchableOpacity onPress={navigation.goBack} style={styles.link} testID={'link-to-login'}>
             <Text style={styles.linkText}>Voltar</Text>
           </TouchableOpacity>
         </View>

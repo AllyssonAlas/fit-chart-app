@@ -1,15 +1,7 @@
-import MaterialIcons, {
-  type MaterialDesignIconsIconName,
-} from '@react-native-vector-icons/material-design-icons';
+import MaterialIcons, { type MaterialDesignIconsIconName } from '@react-native-vector-icons/material-design-icons';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React, { useState } from 'react';
-import {
-  Text,
-  TextInput,
-  type TextInputProps,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Text, TextInput, type TextInputProps, TouchableOpacity, View } from 'react-native';
 
 import { styles } from './styles';
 
@@ -40,14 +32,7 @@ export const Input = ({
     <View style={styles.inputContainer}>
       <Text style={styles.inputLabel}>{label}</Text>
       <View style={[styles.inputField, !!error && styles.inputFieldError]}>
-        {icon && (
-          <MaterialIcons
-            name={icon}
-            size={20}
-            color={'rgba(215, 4, 4, 1)'}
-            style={styles.inputIcon}
-          />
-        )}
+        {icon && <MaterialIcons name={icon} size={20} color={'rgba(215, 4, 4, 1)'} style={styles.inputIcon} />}
         <TextInput
           autoCorrect={false}
           autoCapitalize={'none'}
@@ -64,11 +49,7 @@ export const Input = ({
             onPress={togglePasswordVisibility}
             testID={`${name}-password-toggle`}
           >
-            <MaterialIcons
-              name={isPasswordVisible ? 'eye' : 'eye-off'}
-              size={20}
-              color={'rgba(121, 121, 121, 1)'}
-            />
+            <MaterialIcons name={isPasswordVisible ? 'eye' : 'eye-off'} size={20} color={'rgba(121, 121, 121, 1)'} />
           </TouchableOpacity>
         )}
       </View>

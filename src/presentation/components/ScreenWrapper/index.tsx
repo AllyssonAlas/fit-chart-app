@@ -11,11 +11,7 @@ type ScreenWrapperProps = {
   scrollViewProps?: Omit<ScrollViewProps, 'style' | 'children'>;
 };
 
-export const ScreenWrapper = ({
-  children,
-  scrollable = true,
-  scrollViewProps,
-}: ScreenWrapperProps) => {
+export const ScreenWrapper = ({ children, scrollable = true, scrollViewProps }: ScreenWrapperProps) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView

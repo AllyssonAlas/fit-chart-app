@@ -5,10 +5,5 @@ import { makeLoginValidation } from '@/main/factories/presentation/validation';
 import { Login } from '@/presentation/screens/Login';
 
 export const MakeLoginScreen = () => {
-  return (
-    <Login
-      validation={makeLoginValidation()}
-      loginUsecase={makeLoginUsecase()}
-    />
-  );
+  return <Login validation={makeLoginValidation()} loginUsecase={makeLoginUsecase()} />;
 };

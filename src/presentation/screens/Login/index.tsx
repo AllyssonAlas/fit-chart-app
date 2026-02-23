@@ -55,9 +55,7 @@ export const Login = ({ validation, loginUsecase }: Props) => {
         <View style={styles.mainContent}>
           <View style={styles.welcomeSection}>
             <Text style={styles.welcomeTitle}>Bem-vindo de volta</Text>
-            <Text style={styles.welcomeSubtitle}>
-              Entre com sua conta para continuar
-            </Text>
+            <Text style={styles.welcomeSubtitle}>Entre com sua conta para continuar</Text>
           </View>
           <View style={styles.formSection}>
             <Input

@@ -53,12 +53,7 @@ describe('AxiosHttpClient', () => {
   it('Should return correct output on http error', async () => {
     const headers = new AxiosHeaders();
     const config = { url: 'any_url', headers };
-    const error = new AxiosError(
-      'error_message',
-      HttpStatusCode.forbidden.toString(),
-      config,
-      null,
-    );
+    const error = new AxiosError('error_message', HttpStatusCode.forbidden.toString(), config, null);
     error.response = {
       status: 403,
       data: 'any_data',

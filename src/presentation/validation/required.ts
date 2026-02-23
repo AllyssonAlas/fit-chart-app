@@ -46,8 +46,7 @@ export class RequiredMinLength extends Required {
   validate(input: object) {
     if (
       super.validate(input[this.field as keyof typeof input]) &&
-      (input[this.field as keyof typeof input] as string).length <
-        this.minLength
+      (input[this.field as keyof typeof input] as string).length < this.minLength
     ) {
       return {
         field: this.field,
@@ -69,8 +68,7 @@ export class RequiredEqualFields extends Required {
   validate(input: object) {
     if (
       super.validate(input[this.field as keyof typeof input]) &&
-      input[this.field as keyof typeof input] !==
-        input[this.fieldToCompare as keyof typeof input]
+      input[this.field as keyof typeof input] !== input[this.fieldToCompare as keyof typeof input]
     ) {
       const fieldName = this.aliasField || this.fieldToCompare;
       return {

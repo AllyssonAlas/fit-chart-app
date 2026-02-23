@@ -9,10 +9,7 @@ import { UnexpectedError } from '@/domain/errors';
 import type { Validation } from '@/presentation/protocols';
 import { SignUp as SignUpScreen } from '@/presentation/screens/SignUp';
 import { createNavigationStack } from '@/tests/presentation/utils/render-navigation';
-import {
-  checkInputError,
-  populateInput,
-} from '@/tests/presentation/utils/test-helpers';
+import { checkInputError, populateInput } from '@/tests/presentation/utils/test-helpers';
 
 type RootStackParamList = {
   Login: undefined;
@@ -47,9 +44,7 @@ describe('SignUp', () => {
     navigationRef = createNavigationStack(
       {
         Login: () => null,
-        SignUp: () => (
-          <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />
-        ),
+        SignUp: () => <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />,
         Home: () => null,
       },
       'SignUp',
@@ -89,9 +84,7 @@ describe('SignUp', () => {
   });
 
   it('Should not call SignUp usecase if validation fails', () => {
-    validation.validate.mockReturnValueOnce([
-      { field: 'name', error: 'any_error' },
-    ]);
+    validation.validate.mockReturnValueOnce([{ field: 'name', error: 'any_error' }]);
 
     simulateSubmitForm();
 
@@ -114,9 +107,7 @@ describe('SignUp', () => {
   it('Should show a ActivityIndicator when submitting form', () => {
     simulateSubmitForm();
 
-    const buttonLoadingIndicator = screen.getByTestId(
-      'button-loading-indicator',
-    );
+    const buttonLoadingIndicator = screen.getByTestId('button-loading-indicator');
 
     expect(buttonLoadingIndicator).toBeTruthy();
   });
@@ -124,9 +115,7 @@ describe('SignUp', () => {
   it('Should disable Button when submitting form', () => {
     simulateSubmitForm();
 
-    const buttonLoadingIndicator = screen.getByTestId(
-      'button-loading-indicator',
-    );
+    const buttonLoadingIndicator = screen.getByTestId('button-loading-indicator');
     const submitButton = screen.getByTestId('submit-button');
     fireEvent.press(submitButton);
 
@@ -143,11 +132,7 @@ describe('SignUp', () => {
     const submitButton = simulateSubmitForm();
 
     await waitFor(() => {
-      expect(alertSpy).toHaveBeenCalledWith(
-        'Erro ao criar conta',
-        error.message,
-        [{ text: 'OK' }],
-      );
+      expect(alertSpy).toHaveBeenCalledWith('Erro ao criar conta', error.message, [{ text: 'OK' }]);
       expect(alertSpy).toHaveBeenCalledTimes(1);
       expect(submitButton).not.toBeDisabled();
     });
@@ -165,9 +150,7 @@ describe('SignUp', () => {
     const newNavigationRef = createNavigationStack(
       {
         Login: () => null,
-        SignUp: () => (
-          <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />
-        ),
+        SignUp: () => <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />,
         Home: () => null,
       },
       'Login',

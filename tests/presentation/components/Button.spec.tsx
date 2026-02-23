@@ -11,9 +11,7 @@ describe('Button', () => {
 
   it('Should render button not disabled or with loading state', () => {
     const button = screen.getByTestId('submit-button');
-    const buttonLoadingIndicator = screen.queryByTestId(
-      'button-loading-indicator',
-    );
+    const buttonLoadingIndicator = screen.queryByTestId('button-loading-indicator');
 
     expect(button).not.toBeDisabled();
     expect(buttonLoadingIndicator).toBeNull();

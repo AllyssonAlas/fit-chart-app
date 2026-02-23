@@ -2,9 +2,7 @@ import MaterialIcons from '@react-native-vector-icons/material-design-icons';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
 import { Text, View } from 'react-native';
-import RNPickerSelect, {
-  type PickerSelectProps,
-} from 'react-native-picker-select';
+import RNPickerSelect, { type PickerSelectProps } from 'react-native-picker-select';
 
 import { styles } from './styles';
 
@@ -22,10 +20,7 @@ type PickerComponentProps = {
   value?: string;
   onValueChange: (value: string) => void;
   placeholder?: string | { label: string; value: null };
-} & Omit<
-  PickerSelectProps,
-  'items' | 'value' | 'onValueChange' | 'placeholder'
->;
+} & Omit<PickerSelectProps, 'items' | 'value' | 'onValueChange' | 'placeholder'>;
 
 export const Picker = ({
   label,
@@ -42,14 +37,7 @@ export const Picker = ({
     <View style={styles.inputContainer}>
       <Text style={styles.inputLabel}>{label}</Text>
       <View style={[styles.inputField, !!error && styles.inputFieldError]}>
-        {icon && (
-          <MaterialIcons
-            name={icon as any}
-            size={20}
-            color={'rgba(215, 4, 4, 1)'}
-            style={styles.inputIcon}
-          />
-        )}
+        {icon && <MaterialIcons name={icon as any} size={20} color={'rgba(215, 4, 4, 1)'} style={styles.inputIcon} />}
         <RNPickerSelect
           onValueChange={onValueChange}
           items={items}

@@ -9,10 +9,7 @@ import { UnexpectedError } from '@/domain/errors';
 import type { Validation } from '@/presentation/protocols';
 import { Login as LoginScreen } from '@/presentation/screens/Login';
 import { createNavigationStack } from '@/tests/presentation/utils/render-navigation';
-import {
-  checkInputError,
-  populateInput,
-} from '@/tests/presentation/utils/test-helpers';
+import { checkInputError, populateInput } from '@/tests/presentation/utils/test-helpers';
 
 type RootStackParamList = {
   Login: undefined;
@@ -41,9 +38,7 @@ describe('Login', () => {
     loginUsecase = jest.fn();
     navigationRef = createNavigationStack(
       {
-        Login: () => (
-          <LoginScreen validation={validation} loginUsecase={loginUsecase} />
-        ),
+        Login: () => <LoginScreen validation={validation} loginUsecase={loginUsecase} />,
         SignUp: () => null,
         Home: () => null,
       },
@@ -72,9 +67,7 @@ describe('Login', () => {
   });
 
   it('Should not call Login usecase if validation fails', () => {
-    validation.validate.mockReturnValueOnce([
-      { field: 'email', error: 'any_error' },
-    ]);
+    validation.validate.mockReturnValueOnce([{ field: 'email', error: 'any_error' }]);
 
     simulateSubmitForm();
 
@@ -94,9 +87,7 @@ describe('Login', () => {
   it('Should show a ActivityIndicator when submitting form', () => {
     simulateSubmitForm();
 
-    const buttonLoadingIndicator = screen.getByTestId(
-      'button-loading-indicator',
-    );
+    const buttonLoadingIndicator = screen.getByTestId('button-loading-indicator');
 
     expect(buttonLoadingIndicator).toBeTruthy();
   });
@@ -104,9 +95,7 @@ describe('Login', () => {
   it('Should disable Button when submitting form', () => {
     simulateSubmitForm();
 
-    const buttonLoadingIndicator = screen.getByTestId(
-      'button-loading-indicator',
-    );
+    const buttonLoadingIndicator = screen.getByTestId('button-loading-indicator');
     const submitButton = screen.getByTestId('submit-button');
     fireEvent.press(submitButton);
 
@@ -123,9 +112,7 @@ describe('Login', () => {
     const submitButton = simulateSubmitForm();
 
     await waitFor(() => {
-      expect(alertSpy).toHaveBeenCalledWith('Erro ao entrar', error.message, [
-        { text: 'OK' },
-      ]);
+      expect(alertSpy).toHaveBeenCalledWith('Erro ao entrar', error.message, [{ text: 'OK' }]);
       expect(alertSpy).toHaveBeenCalledTimes(1);
       expect(submitButton).not.toBeDisabled();
     });

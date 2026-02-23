@@ -33,10 +33,7 @@ export const Fitchart = ({ exercisesList, goals }: Props) => {
           const categoryIndex = index + 1;
           return (
             <View key={category}>
-              <Text
-                style={styles.muscleGroupText}
-                testID={`exercises-category-${categoryIndex}`}
-              >
+              <Text style={styles.muscleGroupText} testID={`exercises-category-${categoryIndex}`}>
                 {category}
               </Text>
               {exercises.map((exercise, exerciseIndex: number) => {
@@ -54,19 +51,9 @@ export const Fitchart = ({ exercisesList, goals }: Props) => {
                               {exercise.name}
                             </Text>
                           </View>
-                          <View
-                            style={[
-                              styles.row,
-                              styles.rowSmall,
-                              styles.borderSelected,
-                            ]}
-                          >
+                          <View style={[styles.row, styles.rowSmall, styles.borderSelected]}>
                             <View style={styles.rowIcon}>
-                              <MaterialIcons
-                                name={'weight-kilogram'}
-                                size={20}
-                                color={'black'}
-                              />
+                              <MaterialIcons name={'weight-kilogram'} size={20} color={'black'} />
                             </View>
                             <Text
                               style={styles.rowText}
@@ -85,19 +72,9 @@ export const Fitchart = ({ exercisesList, goals }: Props) => {
                               {exercise.equipment || ''}
                             </Text>
                           </View>
-                          <View
-                            style={[
-                              styles.row,
-                              styles.rowSmall,
-                              styles.borderSelected,
-                            ]}
-                          >
+                          <View style={[styles.row, styles.rowSmall, styles.borderSelected]}>
                             <View style={styles.rowIcon}>
-                              <MaterialIcons
-                                name={'repeat'}
-                                size={20}
-                                color={'black'}
-                              />
+                              <MaterialIcons name={'repeat'} size={20} color={'black'} />
                             </View>
                             <Text
                               style={styles.rowText}
@@ -108,9 +85,7 @@ export const Fitchart = ({ exercisesList, goals }: Props) => {
                           </View>
                         </View>
                       </View>
-                      <View
-                        style={[styles.seriesContainer, styles.borderSelected]}
-                      >
+                      <View style={[styles.seriesContainer, styles.borderSelected]}>
                         <Text
                           style={styles.seriesText}
                           testID={`category-${categoryIndex}-exercise-${indexOfExercise}-series`}

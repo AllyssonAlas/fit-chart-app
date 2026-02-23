@@ -4,15 +4,9 @@ import { UnexpectedError } from '@/domain/errors';
 
 type Output = FitChart | null;
 export type LoadUserCurrentFitChart = () => Promise<Output>;
-export type Setup = (
-  url: string,
-  httpClient: HttpClient,
-) => LoadUserCurrentFitChart;
+export type Setup = (url: string, httpClient: HttpClient) => LoadUserCurrentFitChart;
 
-export const setupLoadUserCurrentFitChart: Setup = (
-  url: string,
-  httpClient: HttpClient,
-) => {
+export const setupLoadUserCurrentFitChart: Setup = (url: string, httpClient: HttpClient) => {
   return async () => {
     const { body, statusCode } = await httpClient.request({
       url,

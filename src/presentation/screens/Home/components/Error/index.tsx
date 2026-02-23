@@ -14,11 +14,7 @@ export const HomeError = ({ onRetry }: Props) => {
       <Text style={styles.message} testID={'no-content-message'}>
         Erro ao carregar ficha de treino.
       </Text>
-      <TouchableOpacity
-        onPress={onRetry}
-        style={styles.button}
-        testID={'no-content-button'}
-      >
+      <TouchableOpacity onPress={onRetry} style={styles.button} testID={'no-content-button'}>
         <Text style={styles.buttonText}>Tentar novamente</Text>
       </TouchableOpacity>
     </View>

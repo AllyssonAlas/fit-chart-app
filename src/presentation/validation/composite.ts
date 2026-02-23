@@ -1,8 +1,4 @@
-import type {
-  Validation,
-  Validator,
-  ValidatorError,
-} from '@/presentation/protocols';
+import type { Validation, Validator, ValidatorError } from '@/presentation/protocols';
 
 export class ValidationComposite implements Validation {
   constructor(readonly validators: Validator[]) {}

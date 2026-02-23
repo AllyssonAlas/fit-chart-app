@@ -1,11 +1,6 @@
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
-import {
-  ActivityIndicator,
-  Text,
-  TouchableOpacity,
-  type TouchableOpacityProps,
-} from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity, type TouchableOpacityProps } from 'react-native';
 
 import { styles } from './styles';
 
@@ -15,37 +10,18 @@ type ButtonProps = {
   loading?: boolean;
 } & TouchableOpacityProps;
 
-export const Button = ({
-  title,
-  disabled = false,
-  loading = false,
-  style,
-  ...touchableOpacityProps
-}: ButtonProps) => {
+export const Button = ({ title, disabled = false, loading = false, style, ...touchableOpacityProps }: ButtonProps) => {
   return (
     <TouchableOpacity
       disabled={disabled || loading}
-      style={[
-        styles.button,
-        disabled && styles.buttonDisabled,
-        loading && styles.buttonLoading,
-        style,
-      ]}
+      style={[styles.button, disabled && styles.buttonDisabled, loading && styles.buttonLoading, style]}
       testID={'submit-button'}
       {...touchableOpacityProps}
     >
       {loading ? (
-        <ActivityIndicator
-          color={'rgba(255, 255, 255, 1)'}
-          size={'small'}
-          testID={'button-loading-indicator'}
-        />
+        <ActivityIndicator color={'rgba(255, 255, 255, 1)'} size={'small'} testID={'button-loading-indicator'} />
       ) : (
-        <Text
-          style={[styles.buttonText, disabled && styles.buttonTextDisabled]}
-        >
-          {title}
-        </Text>
+        <Text style={[styles.buttonText, disabled && styles.buttonTextDisabled]}>{title}</Text>
       )}
     </TouchableOpacity>
   );
