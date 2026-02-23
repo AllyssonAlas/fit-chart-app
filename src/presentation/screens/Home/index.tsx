@@ -89,7 +89,7 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
   const handleRenderContent = () => {
     if (state.loading) return <Loading />;
     else if (state.error) return <HomeError onRetry={handleRetry} />;
-    else if (state.fitChart === null) return <EmptyFitchart />;
+    else if (state.fitChart === null) return <EmptyFitchart message={'Você ainda não possui uma ficha de treino.'} />;
     return <Fitchart exercisesList={state.fitChart.exercisesList} goals={state.fitChart.goals} />;
   };
 

@@ -4,11 +4,14 @@ import { Text, View } from 'react-native';
 
 import { styles } from './styles';
 
-export const EmptyFitchart = () => {
+type Props = {
+  message: string;
+};
+export const EmptyFitchart = ({ message }: Props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.message} testID={'no-content-message'}>
-        Você ainda não possui uma ficha de treino.
+        {message}
       </Text>
     </View>
   );
