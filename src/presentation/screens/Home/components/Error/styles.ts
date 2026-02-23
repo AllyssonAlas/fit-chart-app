@@ -6,17 +6,23 @@ export const styles = StyleSheet.create(() => ({
     backgroundColor: 'rgba(255, 255, 255, 1)',
     flex: 1,
     justifyContent: 'center',
-  },
-  content: {
-    flex: 1,
     paddingHorizontal: 24,
-    paddingTop: 24,
   },
-  dateText: {
+  message: {
     color: 'rgba(0, 0, 0, 1)',
-    fontSize: 24,
+    fontSize: 16,
+    fontWeight: '400',
+    marginBottom: 24,
+    textAlign: 'center',
+  },
+  button: {
+    backgroundColor: 'rgba(215, 4, 4, 1)',
+    borderRadius: 8,
+    padding: 12,
+  },
+  buttonText: {
+    color: 'rgba(255, 255, 255, 1)',
+    fontSize: 16,
     fontWeight: '600',
-    lineHeight: 36,
-    marginBottom: 16,
   },
 }));

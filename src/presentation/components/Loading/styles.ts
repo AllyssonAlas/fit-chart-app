@@ -7,16 +7,4 @@ export const styles = StyleSheet.create(() => ({
     flex: 1,
     justifyContent: 'center',
   },
-  content: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 24,
-  },
-  dateText: {
-    color: 'rgba(0, 0, 0, 1)',
-    fontSize: 24,
-    fontWeight: '600',
-    lineHeight: 36,
-    marginBottom: 16,
-  },
 }));

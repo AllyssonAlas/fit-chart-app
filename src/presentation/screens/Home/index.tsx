@@ -1,10 +1,11 @@
-import MaterialIcons from '@react-native-vector-icons/material-design-icons';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
+import { Text, View } from 'react-native';
+
 import type { FitChart } from '@/domain/entities/types';
 import type { LoadUserCurrentFitChart } from '@/domain/usecases';
-import { ScreenWrapper } from '@/presentation/components';
+import { Loading, ScreenWrapper } from '@/presentation/components';
+import { EmptyFitchart, Fitchart, HomeError } from './components';
 
 import { styles } from './styles';
 
@@ -94,50 +95,15 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
   }, []);
 
   if (state.loading) {
-    return (
-      <ScreenWrapper>
-        <View style={styles.container}>
-          <ActivityIndicator
-            testID={'loading-indicator'}
-            size={'small'}
-            color={'black'}
-          />
-        </View>
-      </ScreenWrapper>
-    );
+    return <Loading />;
   }
 
   if (state.error) {
-    return (
-      <ScreenWrapper>
-        <View style={styles.noContentContainer}>
-          <Text style={styles.noContentContainer} testID={'no-content-message'}>
-            Erro ao carregar ficha de treino.
-          </Text>
-          <TouchableOpacity
-            onPress={handleRetry}
-            style={styles.noContentContainerButton}
-            testID={'no-content-button'}
-          >
-            <Text style={styles.noContentContainerButtonText}>
-              Tentar novamente
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScreenWrapper>
-    );
+    return <HomeError onRetry={handleRetry} />;
   }
 
   if (state.fitChart === null) {
-    return (
-      <ScreenWrapper>
-        <View style={styles.noContentContainer}>
-          <Text style={styles.noContentContainer} testID={'no-content-message'}>
-            Você ainda não possui uma ficha de treino.
-          </Text>
-        </View>
-      </ScreenWrapper>
-    );
+    return <EmptyFitchart />;
   }
 
   return (
@@ -147,119 +113,10 @@ export const Home = ({ loadUserCurrentFitChart }: Props) => {
           <Text style={styles.dateText} testID={'date-text'}>
             {handleGetTitle()}
           </Text>
-          <Text style={styles.objectiveText} testID={'goals-text'}>
-            {state.fitChart.goals}
-          </Text>
-          <View testID={'exercises-list'}>
-            {state.fitChart.exercisesList.map(
-              ({ category, exercises }: any, index: number) => {
-                const categoryIndex = index + 1;
-                return (
-                  <View key={category}>
-                    <Text
-                      style={styles.muscleGroupText}
-                      testID={`exercises-category-${categoryIndex}`}
-                    >
-                      {category}
-                    </Text>
-                    {exercises.map((exercise: any, exerciseIndex: number) => {
-                      const indexOfExercise = exerciseIndex + 1;
-                      return (
-                        <View key={exercise.exerciseId}>
-                          <View
-                            style={[styles.exerciseCard, styles.borderSelected]}
-                          >
-                            <View style={styles.exerciseMain}>
-                              <View style={styles.rowContainer}>
-                                <View
-                                  style={[styles.row, styles.borderSelected]}
-                                >
-                                  <Text
-                                    style={styles.rowText}
-                                    testID={`category-${categoryIndex}-exercise-${indexOfExercise}-name`}
-                                  >
-                                    {exercise.name}
-                                  </Text>
-                                </View>
-                                <View
-                                  style={[
-                                    styles.row,
-                                    styles.rowSmall,
-                                    styles.borderSelected,
-                                  ]}
-                                >
-                                  <View style={styles.rowIcon}>
-                                    <MaterialIcons
-                                      name={'weight-kilogram'}
-                                      size={20}
-                                      color={'black'}
-                                    />
-                                  </View>
-                                  <Text
-                                    style={styles.rowText}
-                                    testID={`category-${categoryIndex}-exercise-${indexOfExercise}-weight`}
-                                  >
-                                    {exercise.weight}
-                                  </Text>
-                                </View>
-                              </View>
-                              <View style={styles.rowContainer}>
-                                <View
-                                  style={[styles.row, styles.borderSelected]}
-                                >
-                                  <Text
-                                    style={styles.rowText}
-                                    testID={`category-${categoryIndex}-exercise-${indexOfExercise}-equipment`}
-                                  >
-                                    {exercise.equipment || ''}
-                                  </Text>
-                                </View>
-                                <View
-                                  style={[
-                                    styles.row,
-                                    styles.rowSmall,
-                                    styles.borderSelected,
-                                  ]}
-                                >
-                                  <View style={styles.rowIcon}>
-                                    <MaterialIcons
-                                      name={'repeat'}
-                                      size={20}
-                                      color={'black'}
-                                    />
-                                  </View>
-                                  <Text
-                                    style={styles.rowText}
-                                    testID={`category-${categoryIndex}-exercise-${indexOfExercise}-repts`}
-                                  >
-                                    {exercise.repts}
-                                  </Text>
-                                </View>
-                              </View>
-                            </View>
-                            <View
-                              style={[
-                                styles.seriesContainer,
-                                styles.borderSelected,
-                              ]}
-                            >
-                              <Text
-                                style={styles.seriesText}
-                                testID={`category-${categoryIndex}-exercise-${indexOfExercise}-series`}
-                              >
-                                {exercise.series}
-                                {'\n'}séries
-                              </Text>
-                            </View>
-                          </View>
-                        </View>
-                      );
-                    })}
-                  </View>
-                );
-              },
-            )}
-          </View>
+          <Fitchart
+            exercisesList={state.fitChart.exercisesList}
+            goals={state.fitChart.goals}
+          />
         </View>
       </View>
     </ScreenWrapper>
