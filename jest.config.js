@@ -20,9 +20,9 @@ module.exports = {
   transform: {
     '\\.(ts|tsx)$': 'ts-jest'
   },
-  setupFiles: ['react-native-unistyles/mocks'],
+  setupFiles: ['react-native-unistyles/mocks', './setupTests.js'],
   preset: 'react-native',
   transformIgnorePatterns: [
-    'node_modules/(?!(jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-picker-select)',
+    'node_modules/(?!(jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-picker-select)|@react-native-async-storage/async-storage',
   ],
 };
