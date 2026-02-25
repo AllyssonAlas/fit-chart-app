@@ -56,5 +56,11 @@ describe('Storage', () => {
 
       await expect(promise).rejects.toThrow(error);
     });
+
+    it('Should returns null if AsyncStorage.getItem returns null', async () => {
+      const result = await sut.get(input);
+
+      expect(result).toBeNull();
+    });
   });
 });
