@@ -1,12 +1,12 @@
 import type { GetStorage, HttpClient } from '@/domain/contracts/gateways';
 
-export class AuthorizeHttpClient {
+export class AuthorizeHttpClient implements HttpClient {
   constructor(
     private readonly getStorage: GetStorage,
     private readonly httpClient: HttpClient,
   ) {}
 
-  async request(input: HttpClient.Input): Promise<void> {
+  async request(input: HttpClient.Input): Promise<HttpClient.Output> {
     const account = await this.getStorage.get({ key: 'account' });
     if (account) {
       input.headers = {
@@ -14,6 +14,7 @@ export class AuthorizeHttpClient {
         authToken: account.authToken,
       };
     }
-    await this.httpClient.request(input);
+    const output = await this.httpClient.request(input);
+    return output;
   }
 }
