@@ -47,5 +47,14 @@ describe('Storage', () => {
       expect(fakeAsyncStorage.getItem).toHaveBeenCalledWith(input.key);
       expect(fakeAsyncStorage.getItem).toHaveBeenCalledTimes(1);
     });
+
+    it('Should rethrow error if AsyncStorage.getItem throw', async () => {
+      const error = new Error('storage_error');
+      fakeAsyncStorage.getItem.mockRejectedValueOnce(error);
+
+      const promise = sut.get(input);
+
+      await expect(promise).rejects.toThrow(error);
+    });
   });
 });
