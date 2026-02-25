@@ -9,5 +9,6 @@ export class Storage implements SetStorage {
 
   async get(input: GetStorage.Input): Promise<GetStorage.Output> {
     await AsyncStorage.getItem(input.key);
+    return null;
   }
 }
