@@ -1,9 +1,13 @@
-import type { GetStorage } from '@/domain/contracts/gateways';
+import type { GetStorage, HttpClient } from '@/domain/contracts/gateways';
 
 export class AuthorizeHttpClient {
-  constructor(private readonly getStorage: GetStorage) {}
+  constructor(
+    private readonly getStorage: GetStorage,
+    private readonly httpClient: HttpClient,
+  ) {}
 
-  async request(): Promise<void> {
+  async request(input: HttpClient.Input): Promise<void> {
     await this.getStorage.get({ key: 'account' });
+    await this.httpClient.request(input);
   }
 }
