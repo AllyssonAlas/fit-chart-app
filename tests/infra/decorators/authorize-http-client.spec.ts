@@ -20,4 +20,13 @@ describe('AuthorizeHttpClient', () => {
     expect(storage.get).toHaveBeenCalledWith({ key: 'account' });
     expect(storage.get).toHaveBeenCalledTimes(1);
   });
+
+  it('Should call GetStorage with correct input', async () => {
+    const error = new Error('storage_error');
+    storage.get.mockRejectedValueOnce(error);
+
+    const promise = sut.request();
+
+    await expect(promise).rejects.toThrow(error);
+  });
 });
