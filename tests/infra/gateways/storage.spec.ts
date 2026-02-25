@@ -40,6 +40,11 @@ describe('Storage', () => {
 
   describe('get', () => {
     const input = { key: 'any_key' };
+    const storedValue = { any: 'any_value' };
+
+    beforeEach(() => {
+      fakeAsyncStorage.getItem.mockResolvedValue(JSON.stringify(storedValue));
+    });
 
     it('Should call AsyncStorage.getItem with correct input', async () => {
       await sut.get(input);
@@ -58,9 +63,17 @@ describe('Storage', () => {
     });
 
     it('Should returns null if AsyncStorage.getItem returns null', async () => {
+      fakeAsyncStorage.getItem.mockResolvedValueOnce(null);
+
       const result = await sut.get(input);
 
       expect(result).toBeNull();
+    });
+
+    it('Should returns the value if AsyncStorage.getItem returns a value', async () => {
+      const result = await sut.get(input);
+
+      expect(result).toEqual(JSON.parse(JSON.stringify(storedValue)));
     });
   });
 });
