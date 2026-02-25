@@ -7,7 +7,13 @@ export class AuthorizeHttpClient {
   ) {}
 
   async request(input: HttpClient.Input): Promise<void> {
-    await this.getStorage.get({ key: 'account' });
+    const account = await this.getStorage.get({ key: 'account' });
+    if (account) {
+      input.headers = {
+        ...input.headers,
+        authToken: account.authToken,
+      };
+    }
     await this.httpClient.request(input);
   }
 }

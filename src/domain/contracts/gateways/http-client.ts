@@ -15,6 +15,7 @@ export namespace HttpClient {
     url: string;
     method: string;
     body?: any;
+    headers?: object;
   };
 
   export type Output = {
