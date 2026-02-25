@@ -1,5 +1,6 @@
 import { type MockProxy, mock } from 'jest-mock-extended';
-import type { GetStorage, HttpClient } from '@/domain/contracts/gateways';
+
+import { type GetStorage, type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
 import { AuthorizeHttpClient } from '@/infra/decorators';
 
 import { mockAuthedUser } from '@/tests/mocks/domain/entitites';
@@ -20,6 +21,10 @@ describe('AuthorizeHttpClient', () => {
     storage = mock();
     storage.get.mockResolvedValue(mockAuthedUser());
     httpClient = mock();
+    httpClient.request.mockResolvedValue({
+      statusCode: HttpStatusCode.ok,
+      body: { any: 'any' },
+    });
   });
 
   beforeEach(() => {
@@ -59,5 +64,14 @@ describe('AuthorizeHttpClient', () => {
       headers: { ...input.headers, authToken: 'any_token' },
     });
     expect(httpClient.request).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should add authToken header to input to call HttpClient', async () => {
+    const output = await sut.request(input);
+
+    expect(output).toEqual({
+      statusCode: HttpStatusCode.ok,
+      body: { any: 'any' },
+    });
   });
 });
