@@ -1,8 +1,7 @@
 import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { MakeLoginScreen, MakeSignUpScreen } from '@/main/factories/presentation/screens';
-import { Home } from '@/presentation/screens/Home';
+import { MakeHomeScreen, MakeLoginScreen, MakeSignUpScreen } from '@/main/factories/presentation/screens';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -14,7 +13,7 @@ const RootStack = createNativeStackNavigator<RootStackParamList>({
   screens: {
     Login: () => <MakeLoginScreen />,
     SignUp: () => <MakeSignUpScreen />,
-    Home: () => <Home />,
+    Home: () => <MakeHomeScreen />,
   },
   screenOptions: {
     headerShown: false,
