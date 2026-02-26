@@ -1,4 +1,3 @@
-import type { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { type MockProxy, mock } from 'jest-mock-extended';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
@@ -10,12 +9,6 @@ import type { Validation } from '@/presentation/protocols';
 import { Login as LoginScreen } from '@/presentation/screens/Login';
 import { createNavigationStack } from '@/tests/presentation/utils/render-navigation';
 import { checkInputError, populateInput } from '@/tests/presentation/utils/test-helpers';
-
-type RootStackParamList = {
-  Login: undefined;
-  SignUp: undefined;
-  Home: undefined;
-};
 
 const simulateSubmitForm = () => {
   populateInput('email', 'any_email');
@@ -30,7 +23,7 @@ const simulateSubmitForm = () => {
 describe('Login', () => {
   let validation: MockProxy<Validation>;
   let loginUsecase: jest.Mock;
-  let navigationRef: NavigationContainerRefWithCurrent<RootStackParamList>;
+  let navigationRef: ReturnType<typeof createNavigationStack>;
 
   beforeEach(() => {
     validation = mock();
