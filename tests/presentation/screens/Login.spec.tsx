@@ -7,6 +7,7 @@ import { Alert } from 'react-native';
 import { UnexpectedError } from '@/domain/errors';
 import type { Validation } from '@/presentation/protocols';
 import { Login as LoginScreen } from '@/presentation/screens/Login';
+import { mockAuthedUser } from '@/tests/mocks/domain/entitites';
 import { createNavigationStack } from '@/tests/presentation/utils/render-navigation';
 import { checkInputError, populateInput } from '@/tests/presentation/utils/test-helpers';
 
@@ -28,7 +29,7 @@ describe('Login', () => {
   beforeEach(() => {
     validation = mock();
     validation.validate.mockReturnValue([]);
-    loginUsecase = jest.fn();
+    loginUsecase = jest.fn().mockResolvedValue(mockAuthedUser());
     navigationRef = createNavigationStack(
       {
         Login: () => <LoginScreen validation={validation} loginUsecase={loginUsecase} />,
@@ -116,6 +117,7 @@ describe('Login', () => {
 
     await waitFor(() => {
       expect(navigationRef.getCurrentRoute()?.name).toBe('Home');
+      expect(navigationRef.getCurrentRoute()?.params).toEqual({ userId: 'any_user_id' });
     });
   });
 
