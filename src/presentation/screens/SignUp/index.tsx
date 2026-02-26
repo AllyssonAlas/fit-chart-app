@@ -48,14 +48,14 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
         setState(newStateWithErrors);
         return null;
       }
-      await signUpUsecase({
+      const user = await signUpUsecase({
         name: state.name,
         email: state.email,
         contact: state.contact,
         password: state.password,
         role: state.role,
       });
-      navigation.navigate('Home');
+      navigation.navigate('Home', { userId: user.id });
     } catch (error) {
       Alert.alert('Erro ao criar conta', (error as Error).message, [{ text: 'OK' }]);
     } finally {
