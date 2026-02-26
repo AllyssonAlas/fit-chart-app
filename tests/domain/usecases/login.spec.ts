@@ -22,7 +22,7 @@ describe('Login', () => {
       body: {
         name: 'any_name',
         email: 'any_email@mail.com',
-        accessToken: 'any_token',
+        authToken: 'any_token',
       },
     });
   });
@@ -68,7 +68,7 @@ describe('Login', () => {
     expect(result).toEqual({
       name: 'any_name',
       email: 'any_email@mail.com',
-      accessToken: 'any_token',
+      authToken: 'any_token',
     });
   });
 });
