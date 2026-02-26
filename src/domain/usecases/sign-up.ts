@@ -1,4 +1,5 @@
 import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
+import type { AuthedUser } from '@/domain/entities/types';
 import { EmailInUseError, UnexpectedError } from '@/domain/errors';
 
 type Input = {
@@ -17,7 +18,7 @@ type Input = {
     complement?: string;
   };
 };
-type Output = { name: string; email: string; authToken: string };
+type Output = AuthedUser;
 export type SignUp = (input: Input) => Promise<Output>;
 type Setup = (url: string, httpClient: HttpClient) => SignUp;
 

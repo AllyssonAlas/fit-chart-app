@@ -1,11 +1,12 @@
 import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
+import type { AuthedUser } from '@/domain/entities/types';
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors';
 
 type Input = {
   email: string;
   password: string;
 };
-type Output = { name: string; email: string; accessToken: string };
+type Output = AuthedUser;
 export type Login = (input: Input) => Promise<Output>;
 type Setup = (url: string, httpClient: HttpClient) => Login;
 
