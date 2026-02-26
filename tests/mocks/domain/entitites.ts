@@ -2,6 +2,7 @@ import type { AuthedUser, FitChart } from '@/domain/entities/types';
 
 export const mockAuthedUser = (): AuthedUser => {
   return {
+    id: 'any_user_id',
     name: 'any_name',
     email: 'any_email@mail.com',
     authToken: 'any_token',
