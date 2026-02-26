@@ -4,6 +4,8 @@ import { type HttpClient, HttpStatusCode } from '@/domain/contracts/gateways';
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors';
 import { type Login, setupLogin } from '@/domain/usecases';
 
+import { mockAuthedUser } from '@/tests/mocks/domain/entitites';
+
 describe('Login', () => {
   const url = 'any_url';
 
@@ -19,11 +21,7 @@ describe('Login', () => {
     httpClient = mock();
     httpClient.request.mockResolvedValue({
       statusCode: HttpStatusCode.ok,
-      body: {
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        authToken: 'any_token',
-      },
+      body: mockAuthedUser(),
     });
   });
 
@@ -65,10 +63,6 @@ describe('Login', () => {
   it('Should return correct output on success', async () => {
     const result = await sut(input);
 
-    expect(result).toEqual({
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      authToken: 'any_token',
-    });
+    expect(result).toEqual(mockAuthedUser());
   });
 });

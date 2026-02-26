@@ -1,4 +1,12 @@
-import type { FitChart } from '@/domain/entities/types';
+import type { AuthedUser, FitChart } from '@/domain/entities/types';
+
+export const mockAuthedUser = (): AuthedUser => {
+  return {
+    name: 'any_name',
+    email: 'any_email@mail.com',
+    authToken: 'any_token',
+  };
+};
 
 export const mockFitChart = (): FitChart => {
   return {
