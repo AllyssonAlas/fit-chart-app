@@ -9,6 +9,7 @@ module.exports = {
   coverageDirectory: "coverage",
   coverageProvider: "babel",
   moduleNameMapper: {
+    '@env$': '<rootDir>/__mocks__/env.js',
     '@/tests/(.+)': '<rootDir>/tests/$1',
     '@/(.+)': '<rootDir>/src/$1',
      '\\.(ttf)$': '<rootDir>/__mocks__/vector-icons-mock.js',
