@@ -25,5 +25,13 @@ describe('CurrentAccountAdapter', () => {
       expect(getSpy).toHaveBeenCalledWith({ key: 'account' });
       expect(getSpy).toHaveBeenCalledTimes(1);
     });
+
+    it('Should return correct output on success', async () => {
+      jest.spyOn(Storage.prototype, 'get').mockResolvedValue(mockAuthedUser());
+
+      const result = await getCurrentAccountAdapter();
+
+      expect(result).toEqual(mockAuthedUser());
+    });
   });
 });
