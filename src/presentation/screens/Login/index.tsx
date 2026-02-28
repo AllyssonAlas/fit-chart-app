@@ -1,10 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 
 import type { Login as LoginUsecase } from '@/domain/usecases';
 import { Button, Input, ScreenWrapper } from '@/presentation/components';
+import { AuthContext } from '@/presentation/contexts';
 import type { Validation } from '@/presentation/protocols';
 
 import { styles } from './styles';
@@ -16,6 +17,7 @@ type Props = {
 
 export const Login = ({ validation, loginUsecase }: Props) => {
   const navigation = useNavigation();
+  const { setCurrentAccount } = useContext(AuthContext);
   const [state, setState] = useState({
     loading: false,
     email: '',
@@ -41,6 +43,7 @@ export const Login = ({ validation, loginUsecase }: Props) => {
         return null;
       }
       const user = await loginUsecase({ email: state.email, password: state.password });
+      await setCurrentAccount(user);
       navigation.navigate('Home', { userId: user.id });
     } catch (error) {
       Alert.alert('Erro ao entrar', (error as Error).message, [{ text: 'OK' }]);
