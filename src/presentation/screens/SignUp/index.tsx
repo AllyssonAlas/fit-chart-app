@@ -58,7 +58,10 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
         role: state.role,
       });
       await setCurrentAccount(user);
-      navigation.navigate('Home', { userId: user.id });
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Home', params: { userId: user.id } }],
+      });
     } catch (error) {
       Alert.alert('Erro ao criar conta', (error as Error).message, [{ text: 'OK' }]);
     } finally {
