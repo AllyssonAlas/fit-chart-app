@@ -32,6 +32,7 @@ describe('SignUp', () => {
   let validation: MockProxy<Validation>;
   let signUpUsecase: jest.Mock;
   let navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
+  let setCurrentAccount: jest.Mock;
 
   beforeEach(() => {
     validation = mock();
@@ -46,6 +47,7 @@ describe('SignUp', () => {
       'SignUp',
     );
     navigationRef = navigationStack.navigationRef;
+    setCurrentAccount = navigationStack.setCurrentAccount;
   });
 
   it('Should start with correct initial state', () => {
@@ -132,6 +134,15 @@ describe('SignUp', () => {
       expect(alertSpy).toHaveBeenCalledWith('Erro ao criar conta', error.message, [{ text: 'OK' }]);
       expect(alertSpy).toHaveBeenCalledTimes(1);
       expect(submitButton).not.toBeDisabled();
+    });
+  });
+
+  it('Should call setCurrentAccount with correct account on success', async () => {
+    simulateSubmitForm();
+
+    await waitFor(() => {
+      expect(setCurrentAccount).toHaveBeenCalledWith(mockAuthedUser());
+      expect(setCurrentAccount).toHaveBeenCalledTimes(1);
     });
   });
 
