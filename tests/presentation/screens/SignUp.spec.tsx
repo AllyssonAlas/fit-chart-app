@@ -146,12 +146,13 @@ describe('SignUp', () => {
     });
   });
 
-  it('Should navigate to Home screen on success', async () => {
+  it('Should reset navigation stack and navigate to Home screen on success', async () => {
     simulateSubmitForm();
 
     await waitFor(() => {
       expect(navigationRef.getCurrentRoute()?.name).toBe('Home');
       expect(navigationRef.getCurrentRoute()?.params).toEqual({ userId: 'any_user_id' });
+      expect(navigationRef.canGoBack()).toBe(false);
     });
   });
 
