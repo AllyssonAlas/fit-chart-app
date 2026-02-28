@@ -1,10 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 
 import type { SignUp as SignUpUsecase } from '@/domain/usecases';
 import { Button, Input, Picker, ScreenWrapper } from '@/presentation/components';
+import { AuthContext } from '@/presentation/contexts';
 import type { Validation } from '@/presentation/protocols';
 
 import { styles } from './styles';
@@ -16,6 +17,7 @@ type Props = {
 
 export const SignUp = ({ validation, signUpUsecase }: Props) => {
   const navigation = useNavigation();
+  const { setCurrentAccount } = useContext(AuthContext);
   const [state, setState] = useState({
     name: '',
     email: '',
@@ -55,6 +57,7 @@ export const SignUp = ({ validation, signUpUsecase }: Props) => {
         password: state.password,
         role: state.role,
       });
+      await setCurrentAccount(user);
       navigation.navigate('Home', { userId: user.id });
     } catch (error) {
       Alert.alert('Erro ao criar conta', (error as Error).message, [{ text: 'OK' }]);
