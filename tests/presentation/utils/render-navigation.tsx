@@ -7,12 +7,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { render } from '@testing-library/react-native';
 // biome-ignore lint/style/useImportType: React is required for JSX
 import React from 'react';
-
+import { Authenticator } from '@/presentation/components';
 import { AuthContext } from '@/presentation/contexts';
 
 type CreateNavigationType = {
   navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
   setCurrentAccount: jest.Mock;
+  getCurrentAccount: jest.Mock;
 };
 
 export const createNavigationStack = (
@@ -26,8 +27,10 @@ export const createNavigationStack = (
   const getCurrentAccount = jest.fn();
   render(
     <AuthContext.Provider value={{ setCurrentAccount, getCurrentAccount }}>
-      <Navigation ref={navigationRef} />
+      <Authenticator>
+        <Navigation ref={navigationRef} />
+      </Authenticator>
     </AuthContext.Provider>,
   );
-  return { navigationRef, setCurrentAccount };
+  return { navigationRef, setCurrentAccount, getCurrentAccount };
 };
