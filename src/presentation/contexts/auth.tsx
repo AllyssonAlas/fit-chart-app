@@ -7,7 +7,4 @@ type AuthContextType = {
   getCurrentAccount: () => Promise<AuthedUser | null>;
 };
 
-export const AuthContext = createContext<AuthContextType>({
-  setCurrentAccount: async () => {},
-  getCurrentAccount: async () => null,
-});
+export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
