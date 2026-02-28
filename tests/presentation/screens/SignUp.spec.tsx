@@ -1,3 +1,4 @@
+import type { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { type MockProxy, mock } from 'jest-mock-extended';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
@@ -7,6 +8,7 @@ import { Alert } from 'react-native';
 import { UnexpectedError } from '@/domain/errors';
 import type { Validation } from '@/presentation/protocols';
 import { SignUp as SignUpScreen } from '@/presentation/screens/SignUp';
+
 import { mockAuthedUser } from '@/tests/mocks/domain/entitites';
 import { createNavigationStack } from '@/tests/presentation/utils/render-navigation';
 import { checkInputError, populateInput } from '@/tests/presentation/utils/test-helpers';
@@ -29,13 +31,13 @@ const simulateSubmitForm = () => {
 describe('SignUp', () => {
   let validation: MockProxy<Validation>;
   let signUpUsecase: jest.Mock;
-  let navigationRef: ReturnType<typeof createNavigationStack>;
+  let navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
 
   beforeEach(() => {
     validation = mock();
     validation.validate.mockReturnValue([]);
     signUpUsecase = jest.fn().mockResolvedValue(mockAuthedUser());
-    navigationRef = createNavigationStack(
+    const navigationStack = createNavigationStack(
       {
         Login: () => null,
         SignUp: () => <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />,
@@ -43,6 +45,7 @@ describe('SignUp', () => {
       },
       'SignUp',
     );
+    navigationRef = navigationStack.navigationRef;
   });
 
   it('Should start with correct initial state', () => {
@@ -149,7 +152,7 @@ describe('SignUp', () => {
         Home: () => null,
       },
       'Login',
-    );
+    ).navigationRef;
     await waitFor(() => newNavigationRef.navigate('SignUp'));
 
     const linkButton = screen.getByTestId('link-to-login');

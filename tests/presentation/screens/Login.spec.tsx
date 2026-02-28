@@ -1,3 +1,4 @@
+import type { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { type MockProxy, mock } from 'jest-mock-extended';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
@@ -7,6 +8,7 @@ import { Alert } from 'react-native';
 import { UnexpectedError } from '@/domain/errors';
 import type { Validation } from '@/presentation/protocols';
 import { Login as LoginScreen } from '@/presentation/screens/Login';
+
 import { mockAuthedUser } from '@/tests/mocks/domain/entitites';
 import { createNavigationStack } from '@/tests/presentation/utils/render-navigation';
 import { checkInputError, populateInput } from '@/tests/presentation/utils/test-helpers';
@@ -24,13 +26,14 @@ const simulateSubmitForm = () => {
 describe('Login', () => {
   let validation: MockProxy<Validation>;
   let loginUsecase: jest.Mock;
-  let navigationRef: ReturnType<typeof createNavigationStack>;
+  let navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
+  let setCurrentAccount: jest.Mock;
 
   beforeEach(() => {
     validation = mock();
     validation.validate.mockReturnValue([]);
     loginUsecase = jest.fn().mockResolvedValue(mockAuthedUser());
-    navigationRef = createNavigationStack(
+    const navigationStack = createNavigationStack(
       {
         Login: () => <LoginScreen validation={validation} loginUsecase={loginUsecase} />,
         SignUp: () => null,
@@ -38,6 +41,8 @@ describe('Login', () => {
       },
       'Login',
     );
+    navigationRef = navigationStack.navigationRef;
+    setCurrentAccount = navigationStack.setCurrentAccount;
   });
 
   it('Should start with correct initial state', () => {
@@ -109,6 +114,15 @@ describe('Login', () => {
       expect(alertSpy).toHaveBeenCalledWith('Erro ao entrar', error.message, [{ text: 'OK' }]);
       expect(alertSpy).toHaveBeenCalledTimes(1);
       expect(submitButton).not.toBeDisabled();
+    });
+  });
+
+  it('Should call setCurrentAccount with correct account on success', async () => {
+    simulateSubmitForm();
+
+    await waitFor(() => {
+      expect(setCurrentAccount).toHaveBeenCalledWith(mockAuthedUser());
+      expect(setCurrentAccount).toHaveBeenCalledTimes(1);
     });
   });
 
