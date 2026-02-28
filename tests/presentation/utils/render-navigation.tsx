@@ -1,12 +1,13 @@
 import {
   createNavigationContainerRef,
-  createStaticNavigation,
+  NavigationContainer,
   type NavigationContainerRefWithCurrent,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { render } from '@testing-library/react-native';
 // biome-ignore lint/style/useImportType: React is required for JSX
 import React from 'react';
+import type { AuthedUser } from '@/domain/entities/types';
 import { Authenticator } from '@/presentation/components';
 import { AuthContext } from '@/presentation/contexts';
 
@@ -19,18 +20,24 @@ type CreateNavigationType = {
 export const createNavigationStack = (
   screens: Record<string, React.ComponentType<any>>,
   initialRouteName: string,
+  initialAccount: AuthedUser | null = null,
 ): CreateNavigationType => {
   const navigationRef = createNavigationContainerRef();
-  const RootStack = createNativeStackNavigator({ screens, initialRouteName });
-  const Navigation = createStaticNavigation(RootStack);
+  const Stack = createNativeStackNavigator();
   const setCurrentAccount = jest.fn().mockResolvedValue(undefined);
-  const getCurrentAccount = jest.fn();
+  const getCurrentAccount = jest.fn().mockResolvedValue(initialAccount);
   render(
-    <AuthContext.Provider value={{ setCurrentAccount, getCurrentAccount }}>
-      <Authenticator>
-        <Navigation ref={navigationRef} />
-      </Authenticator>
-    </AuthContext.Provider>,
+    <NavigationContainer ref={navigationRef}>
+      <AuthContext.Provider value={{ setCurrentAccount, getCurrentAccount }}>
+        <Authenticator>
+          <Stack.Navigator initialRouteName={initialRouteName}>
+            {Object.entries(screens).map(([name, screen]) => (
+              <Stack.Screen key={name} name={name} component={screen} />
+            ))}
+          </Stack.Navigator>
+        </Authenticator>
+      </AuthContext.Provider>
+    </NavigationContainer>,
   );
   return { navigationRef, setCurrentAccount, getCurrentAccount };
 };
