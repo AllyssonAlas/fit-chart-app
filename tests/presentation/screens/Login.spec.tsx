@@ -29,18 +29,17 @@ describe('Login', () => {
   let navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
   let setCurrentAccount: jest.Mock;
 
+  const Stack = {
+    Login: () => <LoginScreen validation={validation} loginUsecase={loginUsecase} />,
+    SignUp: () => null,
+    Home: () => null,
+  };
+
   beforeEach(() => {
     validation = mock();
     validation.validate.mockReturnValue([]);
     loginUsecase = jest.fn().mockResolvedValue(mockAuthedUser());
-    const navigationStack = createNavigationStack(
-      {
-        Login: () => <LoginScreen validation={validation} loginUsecase={loginUsecase} />,
-        SignUp: () => null,
-        Home: () => null,
-      },
-      'Login',
-    );
+    const navigationStack = createNavigationStack(Stack, 'Login');
     navigationRef = navigationStack.navigationRef;
     setCurrentAccount = navigationStack.setCurrentAccount;
   });

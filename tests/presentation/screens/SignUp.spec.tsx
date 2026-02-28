@@ -34,18 +34,17 @@ describe('SignUp', () => {
   let navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
   let setCurrentAccount: jest.Mock;
 
+  const Stack = {
+    Login: () => null,
+    SignUp: () => <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />,
+    Home: () => null,
+  };
+
   beforeEach(() => {
     validation = mock();
     validation.validate.mockReturnValue([]);
     signUpUsecase = jest.fn().mockResolvedValue(mockAuthedUser());
-    const navigationStack = createNavigationStack(
-      {
-        Login: () => null,
-        SignUp: () => <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />,
-        Home: () => null,
-      },
-      'SignUp',
-    );
+    const navigationStack = createNavigationStack(Stack, 'SignUp');
     navigationRef = navigationStack.navigationRef;
     setCurrentAccount = navigationStack.setCurrentAccount;
   });
@@ -157,14 +156,7 @@ describe('SignUp', () => {
   });
 
   it('Should navigate back to Login screen on link press', async () => {
-    const newNavigationRef = createNavigationStack(
-      {
-        Login: () => null,
-        SignUp: () => <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />,
-        Home: () => null,
-      },
-      'Login',
-    ).navigationRef;
+    const { navigationRef: newNavigationRef } = createNavigationStack(Stack, 'Login');
     await waitFor(() => newNavigationRef.navigate('SignUp'));
 
     const linkButton = screen.getByTestId('link-to-login');

@@ -7,15 +7,14 @@ describe('Authenticator', () => {
   let getCurrentAccount: jest.Mock;
   let navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
 
+  const Stack = {
+    Login: () => null,
+    SignUp: () => null,
+    Home: () => null,
+  };
+
   beforeEach(() => {
-    const navigationStack = createNavigationStack(
-      {
-        Login: () => null,
-        SignUp: () => null,
-        Home: () => null,
-      },
-      'Login',
-    );
+    const navigationStack = createNavigationStack(Stack, 'Login');
     navigationRef = navigationStack.navigationRef;
     getCurrentAccount = navigationStack.getCurrentAccount;
     getCurrentAccount.mockResolvedValue(mockAuthedUser());
@@ -33,15 +32,7 @@ describe('Authenticator', () => {
   });
 
   it('Should reset navigation stack and navigate to Home screen with correct params if getCurrentAccount return an user ', async () => {
-    const { navigationRef: authNavRef } = createNavigationStack(
-      {
-        Login: () => null,
-        SignUp: () => null,
-        Home: () => null,
-      },
-      'Login',
-      mockAuthedUser(),
-    );
+    const { navigationRef: authNavRef } = createNavigationStack(Stack, 'Login', mockAuthedUser());
 
     await waitFor(() => {
       expect(authNavRef.getCurrentRoute()?.name).toBe('Home');
