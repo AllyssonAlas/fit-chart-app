@@ -44,7 +44,10 @@ export const Login = ({ validation, loginUsecase }: Props) => {
       }
       const user = await loginUsecase({ email: state.email, password: state.password });
       await setCurrentAccount(user);
-      navigation.navigate('Home', { userId: user.id });
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Home', params: { userId: user.id } }],
+      });
     } catch (error) {
       Alert.alert('Erro ao entrar', (error as Error).message, [{ text: 'OK' }]);
     } finally {
