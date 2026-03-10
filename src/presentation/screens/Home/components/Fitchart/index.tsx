@@ -2,6 +2,7 @@ import MaterialIcons from '@react-native-vector-icons/material-design-icons';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
 import { Text, View } from 'react-native';
+import { useUnistyles } from 'react-native-unistyles';
 
 import { EmptyFitchart } from '@/presentation/screens/Home/components';
 
@@ -25,6 +26,7 @@ type Props = {
 };
 
 export const Fitchart = ({ exercisesList, goals }: Props) => {
+  const { theme } = useUnistyles();
   return (
     <View>
       <Text style={styles.objectiveText} testID={'goals-text'}>
@@ -56,7 +58,7 @@ export const Fitchart = ({ exercisesList, goals }: Props) => {
                             </View>
                             <View style={[styles.row, styles.rowSmall, styles.borderSelected]}>
                               <View style={styles.rowIcon}>
-                                <MaterialIcons name={'weight-kilogram'} size={20} color={'black'} />
+                                <MaterialIcons color={theme.colors.black} name={'weight-kilogram'} size={20} />
                               </View>
                               <Text
                                 style={styles.rowText}
@@ -77,7 +79,7 @@ export const Fitchart = ({ exercisesList, goals }: Props) => {
                             </View>
                             <View style={[styles.row, styles.rowSmall, styles.borderSelected]}>
                               <View style={styles.rowIcon}>
-                                <MaterialIcons name={'repeat'} size={20} color={'black'} />
+                                <MaterialIcons color={theme.colors.black} name={'repeat'} size={20} />
                               </View>
                               <Text
                                 style={styles.rowText}

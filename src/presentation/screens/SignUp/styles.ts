@@ -1,35 +1,35 @@
 import { StyleSheet } from 'react-native-unistyles';
 
-export const styles = StyleSheet.create(() => ({
+export const styles = StyleSheet.create((theme) => ({
   container: {
     flex: 1,
   },
   mainContent: {
-    backgroundColor: 'rgba(255, 255, 255, 1)',
+    backgroundColor: theme.colors.white,
     flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 8,
+    paddingHorizontal: theme.spacing.lg,
+    paddingTop: theme.spacing.xs,
   },
   welcomeSection: {
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: theme.spacing.md,
   },
   welcomeTitle: {
-    color: 'rgba(0, 0, 0, 1)',
-    fontSize: 24,
+    color: theme.colors.black,
+    fontSize: theme.fonts.sizes.xl,
     fontWeight: '600',
-    marginBottom: 8,
+    marginBottom: theme.spacing.xs,
     textAlign: 'center',
     textTransform: 'capitalize',
   },
   welcomeSubtitle: {
-    color: 'rgba(150, 154, 168, 1)',
-    fontSize: 16,
-    marginBottom: 24,
+    color: theme.colors.blackExtraLight,
+    fontSize: theme.fonts.sizes.md,
+    marginBottom: theme.spacing.lg,
     textAlign: 'center',
   },
   formSection: {
-    marginBottom: 32,
+    marginBottom: theme.spacing.xl,
   },
   link: {
     alignItems: 'center',
@@ -37,9 +37,9 @@ export const styles = StyleSheet.create(() => ({
     justifyContent: 'center',
   },
   linkText: {
-    color: 'rgba(215, 4, 4, 1)',
-    fontSize: 16,
+    color: theme.colors.red,
+    fontSize: theme.fonts.sizes.md,
     fontWeight: '600',
-    marginBottom: 24,
+    marginBottom: theme.spacing.lg,
   },
 }));

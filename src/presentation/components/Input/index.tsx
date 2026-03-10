@@ -2,6 +2,7 @@ import MaterialIcons, { type MaterialDesignIconsIconName } from '@react-native-v
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React, { useState } from 'react';
 import { Text, TextInput, type TextInputProps, TouchableOpacity, View } from 'react-native';
+import { useUnistyles } from 'react-native-unistyles';
 
 import { styles } from './styles';
 
@@ -22,6 +23,7 @@ export const Input = ({
   name,
   ...textInputProps
 }: InputProps) => {
+  const { theme } = useUnistyles();
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
 
   const togglePasswordVisibility = () => {
@@ -32,13 +34,13 @@ export const Input = ({
     <View style={styles.inputContainer}>
       <Text style={styles.inputLabel}>{label}</Text>
       <View style={[styles.inputField, !!error && styles.inputFieldError]}>
-        {icon && <MaterialIcons name={icon} size={20} color={'rgba(215, 4, 4, 1)'} style={styles.inputIcon} />}
+        {icon && <MaterialIcons color={theme.colors.red} name={icon} size={20} style={styles.inputIcon} />}
         <TextInput
           autoCorrect={false}
           autoCapitalize={'none'}
           style={styles.inputText}
           placeholder={placeholder}
-          placeholderTextColor={'rgba(127, 144, 159, 1)'}
+          placeholderTextColor={theme.colors.blackLight}
           secureTextEntry={isPasswordVisible}
           testID={`${name}-input`}
           {...textInputProps}
@@ -49,7 +51,7 @@ export const Input = ({
             onPress={togglePasswordVisibility}
             testID={`${name}-password-toggle`}
           >
-            <MaterialIcons name={isPasswordVisible ? 'eye' : 'eye-off'} size={20} color={'rgba(121, 121, 121, 1)'} />
+            <MaterialIcons color={theme.colors.grayLight} name={isPasswordVisible ? 'eye' : 'eye-off'} size={20} />
           </TouchableOpacity>
         )}
       </View>

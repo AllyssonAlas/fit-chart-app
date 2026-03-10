@@ -1,28 +1,28 @@
 import { StyleSheet } from 'react-native-unistyles';
 
-export const styles = StyleSheet.create(() => ({
+export const styles = StyleSheet.create((theme) => ({
   container: {
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 1)',
+    backgroundColor: theme.colors.white,
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: theme.spacing.lg,
   },
   message: {
-    color: 'rgba(0, 0, 0, 1)',
-    fontSize: 16,
+    color: theme.colors.black,
+    fontSize: theme.fonts.sizes.md,
     fontWeight: '400',
-    marginBottom: 24,
+    marginBottom: theme.spacing.lg,
     textAlign: 'center',
   },
   button: {
-    backgroundColor: 'rgba(215, 4, 4, 1)',
-    borderRadius: 8,
-    padding: 12,
+    backgroundColor: theme.colors.red,
+    borderRadius: theme.spacing.xs,
+    padding: theme.spacing.sm,
   },
   buttonText: {
-    color: 'rgba(255, 255, 255, 1)',
-    fontSize: 16,
+    color: theme.colors.white,
+    fontSize: theme.fonts.sizes.md,
     fontWeight: '600',
   },
 }));

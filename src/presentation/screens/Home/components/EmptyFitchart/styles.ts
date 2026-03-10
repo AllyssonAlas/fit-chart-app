@@ -1,16 +1,16 @@
 import { StyleSheet } from 'react-native-unistyles';
 
-export const styles = StyleSheet.create(() => ({
+export const styles = StyleSheet.create((theme) => ({
   container: {
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 1)',
+    backgroundColor: theme.colors.white,
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: theme.spacing.lg,
   },
   message: {
-    color: 'rgba(0, 0, 0, 1)',
-    fontSize: 16,
+    color: theme.colors.black,
+    fontSize: theme.fonts.sizes.md,
     fontWeight: '400',
     textAlign: 'center',
   },

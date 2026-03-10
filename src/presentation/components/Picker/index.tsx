@@ -3,6 +3,7 @@ import MaterialIcons from '@react-native-vector-icons/material-design-icons';
 import React from 'react';
 import { Text, View } from 'react-native';
 import RNPickerSelect, { type PickerSelectProps } from 'react-native-picker-select';
+import { useUnistyles } from 'react-native-unistyles';
 
 import { styles } from './styles';
 
@@ -33,11 +34,12 @@ export const Picker = ({
   placeholder = 'Escolha uma opção',
   ...pickerProps
 }: PickerComponentProps) => {
+  const { theme } = useUnistyles();
   return (
     <View style={styles.inputContainer}>
       <Text style={styles.inputLabel}>{label}</Text>
       <View style={[styles.inputField, !!error && styles.inputFieldError]}>
-        {icon && <MaterialIcons name={icon as any} size={20} color={'rgba(215, 4, 4, 1)'} style={styles.inputIcon} />}
+        {icon && <MaterialIcons color={theme.colors.red} name={icon as any} size={20} style={styles.inputIcon} />}
         <RNPickerSelect
           onValueChange={onValueChange}
           items={items}
