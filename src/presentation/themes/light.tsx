@@ -1,4 +1,6 @@
-export const light = {
+import type { Theme } from '@/presentation/protocols';
+
+export const light: Theme = {
   colors: {
     red: 'rgba(215, 4, 4, 1)',
     white: 'rgba(255, 255, 255, 1)',
