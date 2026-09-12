@@ -12,7 +12,7 @@ module.exports = {
     '@env$': '<rootDir>/__mocks__/env.js',
     '@/tests/(.+)': '<rootDir>/tests/$1',
     '@/(.+)': '<rootDir>/src/$1',
-     '\\.(ttf)$': '<rootDir>/__mocks__/vector-icons-mock.js',
+     '\\.(ttf)$': '<rootDir>/__mocks__/vector-icons.js',
   },
   roots: [
     "<rootDir>/src",
@@ -23,8 +23,8 @@ module.exports = {
   },
   setupFiles: [
     'react-native-unistyles/mocks',
-    '<rootDir>/__mocks__/react-native-unistyles-mock.js',
-    '<rootDir>/__mocks__/react-native-async-mock.js'
+    '<rootDir>/__mocks__/react-native-unistyles.js',
+    '<rootDir>/__mocks__/react-native-async-storage.js'
   ],
   preset: 'react-native',
   transformIgnorePatterns: [
