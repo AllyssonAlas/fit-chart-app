@@ -1,6 +1,7 @@
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
 import { ActivityIndicator, Text, TouchableOpacity, type TouchableOpacityProps } from 'react-native';
+import { useUnistyles } from 'react-native-unistyles';
 
 import { styles } from './styles';
 
@@ -11,6 +12,7 @@ type ButtonProps = {
 } & TouchableOpacityProps;
 
 export const Button = ({ title, disabled = false, loading = false, style, ...touchableOpacityProps }: ButtonProps) => {
+  const { theme } = useUnistyles();
   return (
     <TouchableOpacity
       disabled={disabled || loading}
@@ -19,7 +21,7 @@ export const Button = ({ title, disabled = false, loading = false, style, ...tou
       {...touchableOpacityProps}
     >
       {loading ? (
-        <ActivityIndicator color={'rgba(255, 255, 255, 1)'} size={'small'} testID={'button-loading-indicator'} />
+        <ActivityIndicator color={theme.colors.white} size={'small'} testID={'button-loading-indicator'} />
       ) : (
         <Text style={[styles.buttonText, disabled && styles.buttonTextDisabled]}>{title}</Text>
       )}

@@ -1,32 +1,32 @@
 import { StyleSheet } from 'react-native-unistyles';
 
-export const styles = StyleSheet.create(() => ({
+export const styles = StyleSheet.create((theme) => ({
   button: {
     alignItems: 'center',
-    backgroundColor: 'rgba(215, 4, 4, 1)',
-    borderRadius: 16,
+    backgroundColor: theme.colors.red,
+    borderRadius: theme.spacing.md,
     flexDirection: 'row',
     height: 56,
     justifyContent: 'center',
-    marginBottom: 32,
+    marginBottom: theme.spacing.xl,
   },
   buttonDisabled: {
-    backgroundColor: 'rgba(200, 200, 200, 1)',
+    backgroundColor: theme.colors.gray,
     opacity: 0.6,
   },
   buttonLoading: {
     opacity: 0.5,
   },
   buttonIcon: {
-    marginRight: 8,
+    marginRight: theme.spacing.xs,
   },
   buttonText: {
-    color: 'rgba(255, 255, 255, 1)',
-    fontSize: 16,
+    color: theme.colors.white,
+    fontSize: theme.fonts.sizes.md,
     fontWeight: '600',
     letterSpacing: 0.32,
   },
   buttonTextDisabled: {
-    color: 'rgba(150, 150, 150, 1)',
+    color: theme.colors.grayLight,
   },
 }));

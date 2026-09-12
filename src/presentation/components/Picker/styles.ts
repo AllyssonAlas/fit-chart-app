@@ -1,28 +1,28 @@
 import { StyleSheet } from 'react-native-unistyles';
 
-export const styles = StyleSheet.create(() => ({
+export const styles = StyleSheet.create((theme) => ({
   inputContainer: {
-    marginBottom: 24,
+    marginBottom: theme.spacing.lg,
   },
   inputLabel: {
-    color: 'rgba(0, 0, 0, 1)',
-    fontSize: 16,
+    color: theme.colors.black,
+    fontSize: theme.fonts.sizes.md,
     fontWeight: '500',
-    marginBottom: 8,
+    marginBottom: theme.spacing.xs,
   },
   inputField: {
     alignItems: 'center',
-    backgroundColor: 'rgba(248, 247, 251, 1)',
-    borderColor: 'rgba(248, 247, 251, 1)',
-    borderRadius: 8,
+    backgroundColor: theme.colors.whiteLight,
+    borderColor: theme.colors.whiteLight,
+    borderRadius: theme.spacing.xs,
     borderWidth: 1,
     flexDirection: 'row',
     height: 48,
-    paddingHorizontal: 16,
+    paddingHorizontal: theme.spacing.md,
     overflow: 'hidden',
   },
   inputIcon: {
-    marginRight: 12,
+    marginRight: theme.spacing.sm,
   },
   pickerViewContainer: {
     height: '100%',
@@ -30,8 +30,8 @@ export const styles = StyleSheet.create(() => ({
   },
   pickerInput: {
     backgroundColor: 'transparent',
-    color: 'rgba(0, 0, 0, 1)',
-    fontSize: 16,
+    color: theme.colors.black,
+    fontSize: theme.fonts.sizes.md,
     height: '100%',
     paddingVertical: 0,
     paddingHorizontal: 0,
@@ -43,15 +43,15 @@ export const styles = StyleSheet.create(() => ({
     width: '100%',
   },
   pickerPlaceholder: {
-    color: 'rgba(127, 144, 159, 1)',
-    fontSize: 16,
+    color: theme.colors.blackLight,
+    fontSize: theme.fonts.sizes.md,
   },
   inputFieldError: {
-    borderColor: 'rgba(215, 4, 4, 1)',
+    borderColor: theme.colors.red,
   },
   errorText: {
-    color: 'rgba(215, 4, 4, 1)',
-    fontSize: 12,
-    marginTop: 4,
+    color: theme.colors.red,
+    fontSize: theme.fonts.sizes.xs,
+    marginTop: theme.spacing.xxs,
   },
 }));
