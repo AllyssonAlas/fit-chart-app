@@ -1,3 +1,4 @@
+import type { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { type MockProxy, mock } from 'jest-mock-extended';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
@@ -7,6 +8,7 @@ import { Alert } from 'react-native';
 import { UnexpectedError } from '@/domain/errors';
 import type { Validation } from '@/presentation/protocols';
 import { Login as LoginScreen } from '@/presentation/screens/Login';
+
 import { mockAuthedUser } from '@/tests/mocks/domain/entitites';
 import { createNavigationStack } from '@/tests/presentation/utils/render-navigation';
 import { checkInputError, populateInput } from '@/tests/presentation/utils/test-helpers';
@@ -24,20 +26,22 @@ const simulateSubmitForm = () => {
 describe('Login', () => {
   let validation: MockProxy<Validation>;
   let loginUsecase: jest.Mock;
-  let navigationRef: ReturnType<typeof createNavigationStack>;
+  let navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
+  let setCurrentAccount: jest.Mock;
+
+  const Stack = {
+    Login: () => <LoginScreen validation={validation} loginUsecase={loginUsecase} />,
+    SignUp: () => null,
+    Home: () => null,
+  };
 
   beforeEach(() => {
     validation = mock();
     validation.validate.mockReturnValue([]);
     loginUsecase = jest.fn().mockResolvedValue(mockAuthedUser());
-    navigationRef = createNavigationStack(
-      {
-        Login: () => <LoginScreen validation={validation} loginUsecase={loginUsecase} />,
-        SignUp: () => null,
-        Home: () => null,
-      },
-      'Login',
-    );
+    const navigationStack = createNavigationStack(Stack, 'Login');
+    navigationRef = navigationStack.navigationRef;
+    setCurrentAccount = navigationStack.setCurrentAccount;
   });
 
   it('Should start with correct initial state', () => {
@@ -112,12 +116,22 @@ describe('Login', () => {
     });
   });
 
-  it('Should navigate to Home screen on success', async () => {
+  it('Should call setCurrentAccount with correct account on success', async () => {
+    simulateSubmitForm();
+
+    await waitFor(() => {
+      expect(setCurrentAccount).toHaveBeenCalledWith(mockAuthedUser());
+      expect(setCurrentAccount).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('Should reset navigation stack and navigate to Home screen on success', async () => {
     simulateSubmitForm();
 
     await waitFor(() => {
       expect(navigationRef.getCurrentRoute()?.name).toBe('Home');
       expect(navigationRef.getCurrentRoute()?.params).toEqual({ userId: 'any_user_id' });
+      expect(navigationRef.canGoBack()).toBe(false);
     });
   });
 

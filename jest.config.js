@@ -9,6 +9,7 @@ module.exports = {
   coverageDirectory: "coverage",
   coverageProvider: "babel",
   moduleNameMapper: {
+    '@env$': '<rootDir>/__mocks__/env.js',
     '@/tests/(.+)': '<rootDir>/tests/$1',
     '@/(.+)': '<rootDir>/src/$1',
      '\\.(ttf)$': '<rootDir>/__mocks__/vector-icons-mock.js',
@@ -20,9 +21,13 @@ module.exports = {
   transform: {
     '\\.(ts|tsx)$': 'ts-jest'
   },
-  setupFiles: ['react-native-unistyles/mocks', '<rootDir>/__mocks__/react-native-unistyles-mock.js'],
+  setupFiles: [
+    'react-native-unistyles/mocks',
+    '<rootDir>/__mocks__/react-native-unistyles-mock.js',
+    '<rootDir>/__mocks__/react-native-async-mock.js'
+  ],
   preset: 'react-native',
   transformIgnorePatterns: [
-    'node_modules/(?!(jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-picker-select)',
+    'node_modules/(?!(jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-picker-select)|@react-native-async-storage/async-storage',
   ],
 };
