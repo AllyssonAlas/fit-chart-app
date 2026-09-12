@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native-unistyles';
-import { light } from './src/presentation/themes';
+import { light } from '@/presentation/themes';
 
 StyleSheet.configure({
   themes: {
-    name: light,
+    light,
   },
 });
