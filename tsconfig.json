@@ -22,9 +22,11 @@
         "../tests/*"
       ]
     },
+    "ignoreDeprecations": "6.0",
     "allowJs": true,
     "resolveJsonModule": true,
-    "strict": true
+    "strict": true,
+    "types": ["jest"]
   },
   "include": [
     "src",
