@@ -9,8 +9,10 @@ import { styles } from './styles';
 export const AnimatedToaster = () => {
   const { theme } = useUnistyles();
 
+  return null;
+
   return (
-    <View style={styles.container}>
+    <View testID={"animated-toaster"} style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.message}>Este é um toaster animado com uma mensagem de exemplo</Text>
         <TouchableOpacity style={styles.closeButton}>
