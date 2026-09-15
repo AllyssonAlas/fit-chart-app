@@ -1,3 +1,4 @@
+export { AnimatedToaster } from './AnimatedToaster';
 export { Authenticator } from './Authenticator';
 export { Button } from './Button';
 export { Input } from './Input';
