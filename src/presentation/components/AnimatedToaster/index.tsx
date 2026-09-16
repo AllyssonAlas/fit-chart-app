@@ -26,13 +26,17 @@ export const AnimatedToaster = ({children}: Props) => {
     setMessage(message);
   }
 
+  const handleCloseToaster = () => {
+    setMessage('');
+  }
+
   const handleRenderToaster = () => {
     if(!message) return null;
     return (
       <View testID={"animated-toaster"} style={styles.container}>
         <View style={styles.content}>
-          <Text style={styles.message} testID={"animated-toaster-message"}>{message}</Text>
-          <TouchableOpacity style={styles.closeButton}>
+          <Text testID={"animated-toaster-message"} style={styles.message} >{message}</Text>
+          <TouchableOpacity testID={"close-button"} style={styles.closeButton} onPress={handleCloseToaster}>
             <MaterialIcons color={theme.colors.black} name={"close"} size={24} />
           </TouchableOpacity>
         </View>
