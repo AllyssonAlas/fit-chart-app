@@ -37,4 +37,14 @@ describe('AnimatedToaster', () => {
     expect(screen.getByTestId('animated-toaster')).toBeTruthy();
     expect(screen.getByTestId('animated-toaster-message')).toHaveTextContent('This is a test message');
   });
+
+  it('Should purge the component when close button is pressed', () => {
+    makeSut();
+
+    fireEvent.press(screen.getByTestId('button'));
+    expect(screen.getByTestId('animated-toaster')).toBeTruthy();
+
+    fireEvent.press(screen.getByTestId('close-button'));
+    expect(screen.queryByTestId('animated-toaster')).toBeNull();
+  });
 });
