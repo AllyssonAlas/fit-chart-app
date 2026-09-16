@@ -1,6 +1,6 @@
 import MaterialIcons from '@react-native-vector-icons/material-design-icons';
-// biome-ignore lint/style/useImportType: React is required for JSX
-import React from 'react';
+// biome-ignore lint/correctness/noUnusedImports: React is required for JSX
+import React, { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useUnistyles } from 'react-native-unistyles';
 
@@ -13,15 +13,25 @@ type Props = {
   children: React.ReactNode;
 }
 
+type ShowToasterProps = {
+  message: string;
+}
+
 export const AnimatedToaster = ({children}: Props) => {
   const { theme } = useUnistyles();
 
+  const [message, setMessage] = useState('');
+
+  const showToaster = ({message}: ShowToasterProps) => {
+    setMessage(message);
+  }
+
   const handleRenderToaster = () => {
-    return null;
+    if(!message) return null;
     return (
       <View testID={"animated-toaster"} style={styles.container}>
         <View style={styles.content}>
-          <Text style={styles.message} testID={"animated-toaster-message"}>Este é um toaster animado com uma mensagem de exemplo</Text>
+          <Text style={styles.message} testID={"animated-toaster-message"}>{message}</Text>
           <TouchableOpacity style={styles.closeButton}>
             <MaterialIcons color={theme.colors.black} name={"close"} size={24} />
           </TouchableOpacity>
@@ -31,8 +41,9 @@ export const AnimatedToaster = ({children}: Props) => {
     );
   }
 
+
   return (
-    <AnimatedToasterContext.Provider value={{}}>
+    <AnimatedToasterContext.Provider value={{showToaster}}>
       {children}
       {handleRenderToaster()}
     </AnimatedToasterContext.Provider>
