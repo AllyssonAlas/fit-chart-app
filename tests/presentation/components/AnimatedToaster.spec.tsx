@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import React, { useContext } from 'react';
 import { Button } from 'react-native';
 
@@ -45,6 +45,24 @@ describe('AnimatedToaster', () => {
     expect(screen.getByTestId('animated-toaster')).toBeTruthy();
 
     fireEvent.press(screen.getByTestId('close-button'));
+    expect(screen.queryByTestId('animated-toaster')).toBeNull();
+  });
+
+  it('Should hide the component after 3 seconds if no action is taken', () => {
+    jest.useFakeTimers();
+
+    makeSut();
+
+    fireEvent.press(screen.getByTestId('button'));
+
+    expect(screen.getByTestId('animated-toaster')).toBeTruthy();
+    act(() => {
+      jest.advanceTimersByTime(1500);
+    });
+    expect(screen.getByTestId('animated-toaster')).toBeTruthy();
+    act(() => {
+      jest.advanceTimersByTime(1500);
+    });
     expect(screen.queryByTestId('animated-toaster')).toBeNull();
   });
 });
