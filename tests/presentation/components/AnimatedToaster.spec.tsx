@@ -4,11 +4,16 @@ import { Button } from 'react-native';
 
 import { AnimatedToaster } from '@/presentation/components/AnimatedToaster';
 import { AnimatedToasterContext } from '@/presentation/contexts';
+import { light } from '@/presentation/themes';
 
 const Trigger = () => {
   const { showToaster } = useContext(AnimatedToasterContext);
   return (
-    <Button testID={'button'} title={'Button'} onPress={() => showToaster({ message: 'This is a test message' })} />
+    <Button
+      testID={'button'}
+      title={'Button'}
+      onPress={() => showToaster({ message: 'This is a test message', status: 'info' })}
+    />
   );
 };
 
@@ -29,13 +34,14 @@ describe('AnimatedToaster', () => {
     expect(animatedToaster).toBeNull();
   });
 
-  it('Should render the component with correct message on showToaster call', () => {
+  it('Should render the component with correct message and correct status on showToaster call', () => {
     makeSut();
 
     fireEvent.press(screen.getByTestId('button'));
 
     expect(screen.getByTestId('animated-toaster')).toBeTruthy();
     expect(screen.getByTestId('animated-toaster-message')).toHaveTextContent('This is a test message');
+    expect(screen.getByTestId('animated-toaster-status-bar')).toHaveStyle({ backgroundColor: 'rgba(28, 109, 171, 1)' });
   });
 
   it('Should purge the component when close button is pressed', () => {
