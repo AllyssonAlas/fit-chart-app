@@ -15,15 +15,25 @@ type Props = {
 
 type ShowToasterProps = {
   message: string;
+  status: 'success' | 'error' | 'info' | 'warning';
 }
 
 export const AnimatedToaster = ({children}: Props) => {
   const { theme } = useUnistyles();
 
   const [message, setMessage] = useState('');
+  const [status, setStatus] = useState<ShowToasterProps['status']>('success');
 
-  const showToaster = ({message}: ShowToasterProps) => {
+  const showToaster = ({message, status}: ShowToasterProps) => {
     setMessage(message);
+    setStatus(status);
+  }
+
+  const statusBarColor = {
+    error: 'rgba(215, 4, 4, 1)',
+    success: 'rgba(16, 147, 78, 1)',
+    info: 'rgba(28, 109, 171, 1)',
+    warning: 'rgba(201, 123, 13, 1)',
   }
 
   const handleCloseToaster = () => {
@@ -35,7 +45,6 @@ export const AnimatedToaster = ({children}: Props) => {
     const timeout = setTimeout(() => {
       setMessage('');
     }, 3000);
-
     return () => clearTimeout(timeout);
   }, [message]);
 
@@ -49,7 +58,7 @@ export const AnimatedToaster = ({children}: Props) => {
             <MaterialIcons color={theme.colors.black} name={"close"} size={24} />
           </TouchableOpacity>
         </View>
-        <View style={styles.progressBar} />
+        <View testID={"animated-toaster-status-bar"} style={[styles.progressBar, { backgroundColor: statusBarColor[status] }]} />
       </View>
     );
   }

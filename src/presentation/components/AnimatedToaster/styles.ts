@@ -33,7 +33,6 @@ export const styles = StyleSheet.create((theme) => ({
     width: '10%',
   },
   progressBar: {
-    backgroundColor: theme.colors.red,
     height: '15%',
     width: '100%',
   },
