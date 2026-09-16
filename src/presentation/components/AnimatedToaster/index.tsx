@@ -1,6 +1,6 @@
 import MaterialIcons from '@react-native-vector-icons/material-design-icons';
-// biome-ignore lint/correctness/noUnusedImports: React is required for JSX
-import React, { useState } from 'react';
+// biome-ignore lint/style/useImportType: React is required for JSX
+import React, {  useState, useEffect } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useUnistyles } from 'react-native-unistyles';
 
@@ -29,6 +29,15 @@ export const AnimatedToaster = ({children}: Props) => {
   const handleCloseToaster = () => {
     setMessage('');
   }
+
+  useEffect(() => {
+    if(!message) return;
+    const timeout = setTimeout(() => {
+      setMessage('');
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [message]);
 
   const handleRenderToaster = () => {
     if(!message) return null;
