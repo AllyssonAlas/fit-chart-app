@@ -19,12 +19,19 @@ module.exports = {
     "<rootDir>/tests"
   ],
   transform: {
-    '\\.(ts|tsx)$': 'ts-jest'
+    '\\.(ts|tsx)$': ['ts-jest', {
+      babelConfig: {
+        plugins: ['react-native-reanimated/plugin'],
+      },
+    }],
   },
   setupFiles: [
     'react-native-unistyles/mocks',
     '<rootDir>/__mocks__/react-native-unistyles.js',
-    '<rootDir>/__mocks__/react-native-async-storage.js'
+    '<rootDir>/__mocks__/react-native-async-storage.js',
+  ],
+  setupFilesAfterEnv: [
+    '<rootDir>/__mocks__/react-native-reanimated.js',
   ],
   preset: 'react-native',
   transformIgnorePatterns: [
