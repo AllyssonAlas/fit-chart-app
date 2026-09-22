@@ -8,7 +8,11 @@ import { AnimatedToasterContext } from '@/presentation/contexts';
 const Trigger = () => {
   const { showToaster } = useContext(AnimatedToasterContext);
   return (
-    <Button testID={'button'} title={'Button'} onPress={() => showToaster({ message: 'This is a test message' })} />
+    <Button
+      testID={'button'}
+      title={'Button'}
+      onPress={() => showToaster({ message: 'This is a test message', status: 'warning' })}
+    />
   );
 };
 
@@ -29,12 +33,15 @@ describe('AnimatedToaster', () => {
     expect(animatedToaster).toBeNull();
   });
 
-  it('Should render the component with correct message showToaster call', () => {
+  it('Should render the component with correct message and status on showToaster call', () => {
     makeSut();
 
     fireEvent.press(screen.getByTestId('button'));
 
     expect(screen.getByTestId('animated-toaster')).toBeTruthy();
     expect(screen.getByTestId('animated-toaster-message')).toHaveTextContent('This is a test message');
+    expect(screen.getByTestId('animated-toaster-progress-bar')).toHaveStyle({
+      backgroundColor: 'rgba(201, 123, 13, 1)',
+    });
   });
 });
