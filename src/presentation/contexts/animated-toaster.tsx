@@ -1,3 +1,7 @@
 import { createContext } from 'react';
 
-export const AnimatedToasterContext = createContext({});
+type AnimatedToasterContextType = {
+  showToaster: ({ message }: { message: string }) => void;
+};
+
+export const AnimatedToasterContext = createContext({} as AnimatedToasterContextType);

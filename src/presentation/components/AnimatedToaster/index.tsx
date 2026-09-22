@@ -15,14 +15,20 @@ type Props = {
 export const AnimatedToaster = ({ children }: Props) => {
   const { theme } = useUnistyles();
 
-  const [message] = useState('');
+  const [message, setMessage] = useState('');
+
+  const showToaster = ({ message }: { message: string }) => {
+    setMessage(message);
+  };
 
   const handleRenderToaster = () => {
     if (message === '') return null;
     return (
       <View testID={'animated-toaster'} style={styles.container}>
         <View style={styles.content}>
-          <Text style={styles.message}>Este é um toaster animado com uma mensagem de exemplo</Text>
+          <Text testID={'animated-toaster-message'} style={styles.message}>
+            {message}
+          </Text>
           <TouchableOpacity style={styles.closeButton}>
             <MaterialIcons color={theme.colors.black} name={'close'} size={24} />
           </TouchableOpacity>
@@ -33,7 +39,7 @@ export const AnimatedToaster = ({ children }: Props) => {
   };
 
   return (
-    <AnimatedToasterContext.Provider value={{}}>
+    <AnimatedToasterContext.Provider value={{ showToaster }}>
       {children}
       {handleRenderToaster()}
     </AnimatedToasterContext.Provider>
