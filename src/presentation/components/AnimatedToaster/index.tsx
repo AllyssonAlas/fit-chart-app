@@ -32,7 +32,12 @@ export const AnimatedToaster = ({ children }: Props) => {
     setMessage(message);
     translateY.value = withSequence(
       withTiming(height * 0.28, { duration: 500 }),
-      withDelay(3000, withTiming(0, { duration: 500 })),
+      withDelay(
+        3000,
+        withTiming(0, { duration: 500 }, (finished) => {
+          if (finished) runOnJS(setMessage)('');
+        }),
+      ),
     );
   };
 
