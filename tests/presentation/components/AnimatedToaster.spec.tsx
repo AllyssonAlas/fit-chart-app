@@ -63,4 +63,18 @@ describe('AnimatedToaster', () => {
     act(() => jest.advanceTimersByTime(3000));
     expect(animatedToaster).toHaveAnimatedStyle({ transform: [{ translateY }] });
   });
+
+  it('Should remove the component when it is hidden', () => {
+    jest.useFakeTimers();
+
+    makeSut();
+    fireEvent.press(screen.getByTestId('button'));
+    const animatedToaster = screen.queryByTestId('animated-toaster');
+
+    expect(animatedToaster).toBeOnTheScreen();
+    act(() => jest.advanceTimersByTime(3000));
+    expect(animatedToaster).toBeOnTheScreen();
+    act(() => jest.advanceTimersByTime(4000));
+    expect(animatedToaster).not.toBeOnTheScreen();
+  });
 });
