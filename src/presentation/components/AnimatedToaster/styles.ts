@@ -11,7 +11,7 @@ export const styles = StyleSheet.create((theme) => ({
     height: '8%',
     overflow: 'hidden',
     position: 'absolute',
-    top: '10%',
+    top: '-20%',
     width: '80%',
   },
   content: {

@@ -1,7 +1,15 @@
 import MaterialIcons from '@react-native-vector-icons/material-design-icons';
 // biome-ignore lint/style/useImportType: React is required for JSX
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import Animated, {
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 import { useUnistyles } from 'react-native-unistyles';
 
 import { AnimatedToasterContext } from '@/presentation/contexts';
@@ -14,6 +22,7 @@ type Props = {
 
 export const AnimatedToaster = ({ children }: Props) => {
   const { theme } = useUnistyles();
+  const { height } = useWindowDimensions();
 
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<'error' | 'success' | 'info' | 'warning'>('info');
@@ -21,7 +30,19 @@ export const AnimatedToaster = ({ children }: Props) => {
   const showToaster = ({ message, status }: { message: string; status: 'error' | 'success' | 'info' | 'warning' }) => {
     setStatus(status);
     setMessage(message);
+    translateY.value = withSequence(
+      withTiming(height * 0.28, { duration: 500 }),
+      withDelay(3000, withTiming(0, { duration: 500 })),
+    );
   };
+
+  const translateY = useSharedValue(0);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: translateY.value }],
+    };
+  });
 
   const statusBarColor = {
     error: 'rgba(215, 4, 4, 1)',
@@ -33,7 +54,7 @@ export const AnimatedToaster = ({ children }: Props) => {
   const handleRenderToaster = () => {
     if (message === '') return null;
     return (
-      <View testID={'animated-toaster'} style={styles.container}>
+      <Animated.View testID={'animated-toaster'} style={[styles.container, animatedStyle]}>
         <View style={styles.content}>
           <Text testID={'animated-toaster-message'} style={styles.message}>
             {message}
@@ -46,7 +67,7 @@ export const AnimatedToaster = ({ children }: Props) => {
           testID={'animated-toaster-progress-bar'}
           style={[styles.progressBar, { backgroundColor: statusBarColor[status] }]}
         />
-      </View>
+      </Animated.View>
     );
   };
 
