@@ -41,6 +41,12 @@ export const AnimatedToaster = ({ children }: Props) => {
     );
   };
 
+  const handleCloseToaster = () => {
+    translateY.value = withTiming(0, { duration: 500 }, (finished) => {
+      if (finished) runOnJS(setMessage)('');
+    });
+  };
+
   const translateY = useSharedValue(0);
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -64,7 +70,7 @@ export const AnimatedToaster = ({ children }: Props) => {
           <Text testID={'animated-toaster-message'} style={styles.message}>
             {message}
           </Text>
-          <TouchableOpacity style={styles.closeButton}>
+          <TouchableOpacity testID={'close-button'} style={styles.closeButton} onPress={handleCloseToaster}>
             <MaterialIcons color={theme.colors.black} name={'close'} size={24} />
           </TouchableOpacity>
         </View>
