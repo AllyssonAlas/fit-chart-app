@@ -1,9 +1,13 @@
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import React, { useContext } from 'react';
-import { Button } from 'react-native';
+import { Button, Dimensions } from 'react-native';
 
 import { AnimatedToaster } from '@/presentation/components/AnimatedToaster';
 import { AnimatedToasterContext } from '@/presentation/contexts';
+
+const { height } = Dimensions.get('window');
+
+const translateY = height * 0.28;
 
 const Trigger = () => {
   const { showToaster } = useContext(AnimatedToasterContext);
@@ -43,5 +47,20 @@ describe('AnimatedToaster', () => {
     expect(screen.getByTestId('animated-toaster-progress-bar')).toHaveStyle({
       backgroundColor: 'rgba(201, 123, 13, 1)',
     });
+  });
+
+  it('Should animate the component when it is shown', () => {
+    jest.useFakeTimers();
+
+    makeSut();
+    fireEvent.press(screen.getByTestId('button'));
+    const animatedToaster = screen.getByTestId('animated-toaster');
+
+    expect(animatedToaster.props.style[0].top).toBe('-20%');
+    expect(animatedToaster).toHaveAnimatedStyle({ transform: [{ translateY: 0 }] });
+    act(() => jest.advanceTimersByTime(500));
+    expect(animatedToaster).toHaveAnimatedStyle({ transform: [{ translateY }] });
+    act(() => jest.advanceTimersByTime(3000));
+    expect(animatedToaster).toHaveAnimatedStyle({ transform: [{ translateY }] });
   });
 });
