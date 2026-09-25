@@ -13,6 +13,7 @@ import Animated, {
 import { useUnistyles } from 'react-native-unistyles';
 
 import { AnimatedToasterContext } from '@/presentation/contexts';
+import type { ToasterMessage } from '@/presentation/protocols';
 
 import { styles } from './styles';
 
@@ -25,9 +26,9 @@ export const AnimatedToaster = ({ children }: Props) => {
   const { height } = useWindowDimensions();
 
   const [message, setMessage] = useState('');
-  const [status, setStatus] = useState<'error' | 'success' | 'info' | 'warning'>('info');
+  const [status, setStatus] = useState<ToasterMessage['status']>('info');
 
-  const showToaster = ({ message, status }: { message: string; status: 'error' | 'success' | 'info' | 'warning' }) => {
+  const showToaster = ({ message, status }: ToasterMessage) => {
     setStatus(status);
     setMessage(message);
     translateY.value = withSequence(
