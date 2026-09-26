@@ -44,7 +44,7 @@ describe('AnimatedToaster', () => {
 
     expect(screen.getByTestId('animated-toaster')).toBeTruthy();
     expect(screen.getByTestId('animated-toaster-message')).toHaveTextContent('This is a test message');
-    expect(screen.getByTestId('animated-toaster-progress-bar')).toHaveStyle({
+    expect(screen.getByTestId('animated-toaster-status-bar')).toHaveStyle({
       backgroundColor: 'rgba(201, 123, 13, 1)',
     });
   });

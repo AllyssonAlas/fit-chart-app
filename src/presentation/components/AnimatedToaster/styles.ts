@@ -3,23 +3,23 @@ import { StyleSheet } from 'react-native-unistyles';
 export const styles = StyleSheet.create((theme) => ({
   container: {
     alignSelf: 'center',
+    alignItems: 'center',
     backgroundColor: theme.colors.white,
     borderColor: theme.colors.gray,
     borderRadius: theme.spacing.xs,
     borderWidth: 1,
     boxShadow: '0px 8px 15px 0px rgba(0, 0, 0, 0.4)',
+    flexDirection: 'row',
     height: '8%',
     overflow: 'hidden',
     position: 'absolute',
     top: '-20%',
     width: '80%',
   },
-  content: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    height: '85%',
-    justifyContent: 'space-between',
-    padding: theme.spacing.xs,
+  statusBar: {
+    height: '100%',
+    width: '4%',
+    marginRight: theme.spacing.xs,
   },
   message: {
     flex: 1,
@@ -30,10 +30,6 @@ export const styles = StyleSheet.create((theme) => ({
     alignItems: 'center',
     height: '100%',
     justifyContent: 'center',
-    width: '10%',
-  },
-  progressBar: {
-    height: '15%',
-    width: '100%',
+    width: '12%',
   },
 }));

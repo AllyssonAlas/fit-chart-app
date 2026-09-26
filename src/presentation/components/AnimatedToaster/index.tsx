@@ -67,18 +67,16 @@ export const AnimatedToaster = ({ children }: Props) => {
     if (message === '') return null;
     return (
       <Animated.View testID={'animated-toaster'} style={[styles.container, animatedStyle]}>
-        <View style={styles.content}>
-          <Text testID={'animated-toaster-message'} style={styles.message}>
-            {message}
-          </Text>
-          <TouchableOpacity testID={'close-button'} style={styles.closeButton} onPress={handleCloseToaster}>
-            <MaterialIcons color={theme.colors.black} name={'close'} size={24} />
-          </TouchableOpacity>
-        </View>
         <View
-          testID={'animated-toaster-progress-bar'}
-          style={[styles.progressBar, { backgroundColor: statusBarColor[status] }]}
+          testID={'animated-toaster-status-bar'}
+          style={[styles.statusBar, { backgroundColor: statusBarColor[status] }]}
         />
+        <Text testID={'animated-toaster-message'} style={styles.message}>
+          {message}
+        </Text>
+        <TouchableOpacity testID={'close-button'} style={styles.closeButton} onPress={handleCloseToaster}>
+          <MaterialIcons color={theme.colors.black} name={'close'} size={24} />
+        </TouchableOpacity>
       </Animated.View>
     );
   };
