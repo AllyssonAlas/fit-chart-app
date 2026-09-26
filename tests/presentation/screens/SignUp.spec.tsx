@@ -3,9 +3,9 @@ import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { type MockProxy, mock } from 'jest-mock-extended';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
 import React from 'react';
-import { Alert } from 'react-native';
 
 import { UnexpectedError } from '@/domain/errors';
+import { AnimatedToasterContext } from '@/presentation/contexts';
 import type { Validation } from '@/presentation/protocols';
 import { SignUp as SignUpScreen } from '@/presentation/screens/SignUp';
 
@@ -33,10 +33,15 @@ describe('SignUp', () => {
   let signUpUsecase: jest.Mock;
   let navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
   let setCurrentAccount: jest.Mock;
+  let showToaster: jest.Mock;
 
   const Stack = {
     Login: () => null,
-    SignUp: () => <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />,
+    SignUp: () => (
+      <AnimatedToasterContext.Provider value={{ showToaster }}>
+        <SignUpScreen validation={validation} signUpUsecase={signUpUsecase} />
+      </AnimatedToasterContext.Provider>
+    ),
     Home: () => null,
   };
 
@@ -44,6 +49,7 @@ describe('SignUp', () => {
     validation = mock();
     validation.validate.mockReturnValue([]);
     signUpUsecase = jest.fn().mockResolvedValue(mockAuthedUser());
+    showToaster = jest.fn();
     const navigationStack = createNavigationStack(Stack, 'SignUp');
     navigationRef = navigationStack.navigationRef;
     setCurrentAccount = navigationStack.setCurrentAccount;
@@ -122,16 +128,15 @@ describe('SignUp', () => {
     expect(signUpUsecase).toHaveBeenCalledTimes(1);
   });
 
-  it('Should show Alert if SignUp usecase throws with correct error', async () => {
+  it('Should call showToaster from AnimatedToaster if SignUp usecase throws with correct error', async () => {
     const error = new UnexpectedError();
     signUpUsecase.mockRejectedValueOnce(error);
-    const alertSpy = jest.spyOn(Alert, 'alert');
 
     const submitButton = simulateSubmitForm();
 
     await waitFor(() => {
-      expect(alertSpy).toHaveBeenCalledWith('Erro ao criar conta', error.message, [{ text: 'OK' }]);
-      expect(alertSpy).toHaveBeenCalledTimes(1);
+      expect(showToaster).toHaveBeenCalledWith({ message: error.message, status: 'error' });
+      expect(showToaster).toHaveBeenCalledTimes(1);
       expect(submitButton).not.toBeDisabled();
     });
   });
