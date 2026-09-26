@@ -65,12 +65,21 @@ describe('AnimatedToaster', () => {
   });
 
   it('Should finish the animation and hide the component when close button is pressed', () => {
+    jest.useFakeTimers();
+
     makeSut();
 
     fireEvent.press(screen.getByTestId('button'));
     const animatedToaster = screen.queryByTestId('animated-toaster');
 
     act(() => jest.advanceTimersByTime(2000));
+    expect(animatedToaster).toBeOnTheScreen();
+
+    fireEvent.press(screen.getByTestId('close-button'));
+    act(() => jest.advanceTimersByTime(200));
+    expect(animatedToaster).toBeOnTheScreen();
+
+    fireEvent.press(screen.getByTestId('button'));
     expect(animatedToaster).toBeOnTheScreen();
 
     fireEvent.press(screen.getByTestId('close-button'));
