@@ -5,7 +5,7 @@ import { Alert, Text, TouchableOpacity, View } from 'react-native';
 
 import type { Login as LoginUsecase } from '@/domain/usecases';
 import { Button, Input, ScreenWrapper } from '@/presentation/components';
-import { useAuth } from '@/presentation/hooks/contexts';
+import { useAnimatedToaster, useAuth } from '@/presentation/hooks/contexts';
 import type { Validation } from '@/presentation/protocols';
 
 import { styles } from './styles';
@@ -18,6 +18,7 @@ type Props = {
 export const Login = ({ validation, loginUsecase }: Props) => {
   const navigation = useNavigation();
   const { setCurrentAccount } = useAuth();
+  const { showToaster } = useAnimatedToaster();
   const [state, setState] = useState({
     loading: false,
     email: '',
@@ -49,7 +50,7 @@ export const Login = ({ validation, loginUsecase }: Props) => {
         routes: [{ name: 'Home', params: { userId: user.id } }],
       });
     } catch (error) {
-      Alert.alert('Erro ao entrar', (error as Error).message, [{ text: 'OK' }]);
+      showToaster({ message: (error as Error).message, status: 'error' });
     } finally {
       setState((prevState) => ({ ...prevState, loading: false }));
     }

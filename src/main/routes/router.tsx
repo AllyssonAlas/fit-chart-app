@@ -5,6 +5,7 @@ import React from 'react';
 
 import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '@/main/adapters';
 import { MakeHomeScreen, MakeLoginScreen, MakeSignUpScreen } from '@/main/factories/presentation/screens';
+import { AnimatedToaster } from '@/presentation/components';
 import { AuthContext } from '@/presentation/contexts';
 
 export type RootStackParamList = {
@@ -18,15 +19,17 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export const Router = () => {
   return (
     <NavigationContainer>
-      <AuthContext.Provider
-        value={{ setCurrentAccount: setCurrentAccountAdapter, getCurrentAccount: getCurrentAccountAdapter }}
-      >
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Login" component={MakeLoginScreen} />
-          <Stack.Screen name="SignUp" component={MakeSignUpScreen} />
-          <Stack.Screen name="Home" component={MakeHomeScreen} />
-        </Stack.Navigator>
-      </AuthContext.Provider>
+      <AnimatedToaster>
+        <AuthContext.Provider
+          value={{ setCurrentAccount: setCurrentAccountAdapter, getCurrentAccount: getCurrentAccountAdapter }}
+        >
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Login" component={MakeLoginScreen} />
+            <Stack.Screen name="SignUp" component={MakeSignUpScreen} />
+            <Stack.Screen name="Home" component={MakeHomeScreen} />
+          </Stack.Navigator>
+        </AuthContext.Provider>
+      </AnimatedToaster>
     </NavigationContainer>
   );
 };
