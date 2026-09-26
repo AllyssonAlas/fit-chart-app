@@ -24,7 +24,7 @@ export const Input = ({
   ...textInputProps
 }: InputProps) => {
   const { theme } = useUnistyles();
-  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(isPasswordInput);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible((prev) => !prev);
