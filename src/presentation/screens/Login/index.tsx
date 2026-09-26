@@ -1,11 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 // biome-ignore lint/correctness/noUnusedImports: React is required for JSX
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 
 import type { Login as LoginUsecase } from '@/domain/usecases';
 import { Button, Input, ScreenWrapper } from '@/presentation/components';
-import { AuthContext } from '@/presentation/contexts';
+import { useAuth } from '@/presentation/hooks/contexts';
 import type { Validation } from '@/presentation/protocols';
 
 import { styles } from './styles';
@@ -17,7 +17,7 @@ type Props = {
 
 export const Login = ({ validation, loginUsecase }: Props) => {
   const navigation = useNavigation();
-  const { setCurrentAccount } = useContext(AuthContext);
+  const { setCurrentAccount } = useAuth();
   const [state, setState] = useState({
     loading: false,
     email: '',
